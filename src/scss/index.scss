@@ -1,0 +1,74 @@
+.indexPage{
+    width: 100%;
+    height: 100%;
+    background-color: #f0f2f5;
+    overflow-y: auto;
+    .banTop {
+        position: relative;
+    }
+    .mint-swipe-indicators {
+        bottom: 5px !important;
+    }
+    .mint-swipe-indicator {
+        opacity: 0.5 !important;
+    }
+    .mint-swipe {
+        height: 200px;
+        width: 100%;
+        img {
+            height: 200px;
+            width: 100%;
+        }
+    }
+    .serveType{
+        height: 5rem;
+        background-color: #ffffff;
+        overflow: hidden;
+        margin: 0 auto;
+        border-radius: 0.25rem;
+        color: #575c66;
+        .workList {
+            float: left;
+            width: 33.3%;
+            text-align: center;
+            font-size: 0.8125rem;
+            img {
+                width: 2rem;
+                height: 2rem;
+                margin: 0.875rem 0 0.35rem 0;
+            }
+        }
+    }
+    .hotActivate{
+        width: 100%;
+        height: 13rem;
+        background: white;
+        margin-top: 0.5rem;
+        .topTitle{
+            width: 100%;
+            height: 3rem;
+            text-align: center;
+            line-height: 3rem;
+            font-size: 1.3rem;
+        }
+        .content{
+            width: 90%;
+            margin: 0 auto;
+            .left{
+                width: 48%;
+                height: 9rem;
+                background: cadetblue;
+                float: left;
+            }
+            .right1{
+                width: 48%;
+                height: 4.2rem;
+                background: #359090;
+                float: right;
+            }
+            .right2{
+                margin-top: 0.6rem;
+            }
+        }
+    }
+}
