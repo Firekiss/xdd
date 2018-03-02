@@ -1,0 +1,146 @@
+.mint-msgbox {
+    width: 95%;
+    .mint-msgbox-header {
+        font-size: 1rem;
+        margin: 0;
+        padding: 1rem 0;
+        background: #f3f3f3;
+        text-align: center;
+        -webkit-border-radius: 0.25rem 0.25rem 0 0;
+        border-radius: 0.25rem 0.25rem 0 0;
+        height: auto;
+        border-bottom: 1px solid #dcdfe0;
+        color: #252c41;
+    }
+    .mint-msgbox-content {
+        padding: 0;
+        border-bottom:0px;
+        .mint-msgbox-message {
+            font-size: 0.9375rem;
+            line-height: 1.5rem;
+            margin: 0.75rem 1rem 1.25rem;
+            text-align: left;
+            max-height: 18rem;
+            overflow: auto;
+            color: #363e59;
+            padding: 0;
+            border: 0;
+            text-align: center;
+            p {
+                margin: 0;
+                padding: 0;
+                border: 0;
+                vertical-align: baseline;
+                font: inherit;
+                font-size: 100%;
+                margin: 0 0 10px;
+                box-sizing: border-box;
+                color: #363e59;
+                text-align: left;
+            }
+        }
+    }
+    .mint-msgbox-btns {
+        padding: 0 0.875rem 1rem;
+        height: 100%;
+        display: block;
+        .mint-msgbox-btn.mint-msgbox-confirm {
+            border: none;
+            color: white;
+            width: 60%;
+            border-radius: 0.25rem;
+            height: 2rem;
+            line-height: 2rem;
+            margin: auto;
+            background-color: #5ac0c8;
+            font-size: 100%;
+            box-sizing: border-box;
+
+        }
+        .confirmButton-2{
+            /* border: none;
+            color: white;
+            width: 46% !important;;
+            border-radius: 0.25rem;
+            height: 2rem;
+            line-height: 2rem;
+            margin: auto; */
+            background-color: #92d154 !important;
+            /* font-size: 100%;
+            box-sizing: border-box;
+            float: right; */
+        }
+        .confirmButton-4{
+            background-color: #dbcd2c !important;
+            /* margin-left: 0rem;
+            height: 2.25rem;
+            border-radius: 0.25rem;
+            border: none;
+            width: -webkit-calc(50% - 1.375rem);
+            height: 2rem;
+            line-height: 2rem;
+            font-size: 0.875rem;
+            color: white;
+            float: left;
+            width: 46%;
+            margin-bottom: 1rem; */
+        }
+        .confirmButton-sure{
+            border: none;
+            color: white;
+            width: 46% !important;;
+            border-radius: 0.25rem;
+            height: 2rem;
+            line-height: 2rem;
+            margin: auto;
+            background-color: #5ac0c8;
+            font-size: 100%;
+            box-sizing: border-box;
+            float: right;
+        }
+        .confirmButton-cancel{
+            background-color: #556a78;
+            margin-left: 0rem;
+            height: 2.25rem;
+            border-radius: 0.25rem;
+            border: none;
+            width: -webkit-calc(50% - 1.375rem);
+            height: 2rem;
+            line-height: 2rem;
+            font-size: 0.875rem;
+            color: white;
+            float: left;
+            width: 46%;
+            margin-bottom: 1rem;
+        }
+    }
+}
+.mint-indicator-wrapper{
+    z-index:20;
+}
+
+
+.definedToast{
+        position: fixed;
+        max-width: 80%;
+        box-sizing: border-box;
+        text-align: center;
+        z-index: 1000;
+        bottom: 50px;
+        left: 50%;
+        -webkit-transform: translate(-50%, 0);
+        transform: translate(-50%, 0);
+    .innerToastDiv{
+        border-radius: 5px;
+        background: rgba(0, 0, 0, 0.7);
+        color: #fff;
+        box-sizing: border-box;
+        text-align: center;
+        -webkit-transition: opacity .3s linear;
+        padding: 3px 9px;
+        margin-bottom: 10px;
+        word-wrap: break-word;
+        font-size: 0.875rem;
+
+    }
+}

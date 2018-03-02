@@ -203,6 +203,117 @@ export default {
             });
         });
     },
+//  post: function(param_url, data, redirect_url,noCover) {
+//      data.stu_token = encodeURIComponent(valueFromNativeAll.token);
+///*        if(data.hasOwnProperty("coachId")){
+//         delete data.coachId;
+//      }
+//      if(data.hasOwnProperty("employeeId")){
+//         delete data.employeeId ;
+//      }        
+//      if(data.hasOwnProperty("school_code")){
+//         delete data.school_code ;
+//      }*/
+//      if(data.studentId){
+//          delete data.studentId;
+//      }
+//      data.user_id = valueFromNativeAll.studentId;
+//      var that = this;
+//      var url = config.serverBaseUrl + param_url;
+//      var timestamp = new Date();
+//      var type = data.type_wc; // 类型 1 ： 教练 2 ： 学员
+//      data.timestamp = timestamp.getTime();
+//      if(!noCover){
+//
+//          if(indicatorTime_close){
+//              clearTimeout(indicatorTime_close);
+//          }
+//          Indicator.open({
+//              text: data.toast,
+//              spinnerType: 'fading-circle'
+//          });
+//      }
+//      /*var dataParams = new URLSearchParams();
+//      for ( var p in data ){
+//          dataParams.append(p, data[p]);
+//      }*/
+//      return new Promise(function(resolve, reject) {
+//        var timeoutTimer = setTimeout(function(){
+//            Indicator.close();
+//            Toast({
+//                message: commonToast.timeout,
+//                position: 'bottom',
+//                duration:2000
+//            });
+//            reject();
+//        }, 20000);
+//          axios({
+//              headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+//              url: url,
+//              method: 'post',
+//              data: JSON.stringify(data)
+//          }).then(function(res) {
+//              clearTimeout(timeoutTimer);
+//              clearTimeout(indicatorTime);
+//              indicatorTime_close = setTimeout(function(){
+//                  Indicator.close();
+//              },200);
+//              if(typeof res.data == 'string'){
+//                  res.data = JSON.parse(res.data);
+//              }
+//              if (res.data.code == "1008") {
+//                  tools.getNativeData().then(function (mydata) {
+//                      valueFromNativeAll.token = mydata.token;
+//                      that.post(param_url, data).then(
+//                          function (data) {
+//                              resolve(data);
+//                          }
+//                      );
+//                  });
+//              } else if (res.data.code == "1003") {
+//                  if(getTimeCount==0){
+//                      getTimeCount=1;
+//                      tools.getNativeData().then(function (mydata) {
+//                          valueFromNativeAll.token = mydata.token;
+//                          that.post(param_url, data).then(
+//                              function (data) {
+//                                  resolve(data);
+//                              }
+//                          );
+//                      });
+//                  }else{
+//                      getTimeCount=0;
+//                      goUrl('login',0,'','','',0);
+//                  }
+//              }else if (res.data.code == "1") {
+//                  resolve(res.data.data);
+//              }else {
+//                  reject(res.data);
+//              }
+//          }).catch(function(res) {
+//              clearTimeout(timeoutTimer);
+//              clearTimeout(indicatorTime);
+//              indicatorTime_close = setTimeout(function(){
+//                  Indicator.close();
+//              },200);
+//              if(netWorkStatus_bolck){
+//                  Toast({
+//                      message: commonToast["connectFail"],
+//                      position: 'bottom',
+//                      duration: 2000
+//                  });
+//                  return;
+//              }else{
+//                  Toast({
+//                      message: commonToast["timeout"],
+//                      position: 'bottom',
+//                      duration: 2000
+//                  });
+//                  reject(res.data);
+//              }
+//          });
+//      });
+//  },
 
     get:function(param_url, data,redirect_url,noCover) {
         data.stu_token = encodeURIComponent(valueFromNativeAll.token);

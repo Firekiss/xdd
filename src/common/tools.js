@@ -249,7 +249,7 @@ window.getChangeToken = function(data) {
     }
 
     //有openid说明是微信的跳转
-    var params = {};
+/*    var params = {};
     var getParamsSplit = goUrlParam.url.split("index.html?");
     if(getParamsSplit.length>1){
         var getParamsList = getParamsSplit[1].split("&");
@@ -257,16 +257,16 @@ window.getChangeToken = function(data) {
             var getParamItem = getParamsList[i].split("=");
             params[getParamItem[0]] = getParamItem[1];
         }
-    }
+    }*/
     if(Request('openid')){
-        params.openid = openid;
-        params.appId = appId;
+        goUrlParam.params.openid = openid;
+        goUrlParam.params.appId = appId;
     }
     if(goUrlParam.pushType=='replace'){
         //如果存在pushType为1,说明用replace跳转
-        goUrlParam.getThis.$router.replace({ path: "/" + goUrlParam.hashUrl, query: params });
+        goUrlParam.getThis.$router.replace({ path: "/" + goUrlParam.hashUrl, query: goUrlParam.params });
     }else{
-        goUrlParam.getThis.$router.push({ path: "/" + goUrlParam.hashUrl, query: params });
+        goUrlParam.getThis.$router.push({ path: "/" + goUrlParam.hashUrl, query: goUrlParam.params });
     }
     return;
 

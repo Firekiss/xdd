@@ -38,7 +38,7 @@
 </template>
 <script>
 
-/*import '../scss/commonStyle.scss';*/
+import '../scss/commonStyle.scss';
 import 'mint-ui/lib/style.css';
 require('swiper/dist/css/swiper.css');
 export default {

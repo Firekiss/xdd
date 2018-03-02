@@ -1,4 +1,29 @@
 <template>
+  <div class="orderIndex">
+  </div>
+</template>
+
+<script>
+    import Vue from 'vue';
+    import httpServiceUrl from '../common/httpServiceUrl';
+    import httpService from '../common/httpService';
+    import tool from '../common/tools';
+    import Loadmore from 'mint-ui/lib/loadmore';
+    import '../scss/orderIndex.scss';
+    Vue.component(Loadmore.name, Loadmore);
+    export default {
+        data() {
+            return {
+
+            }
+        },
+        mounted: function() {
+        },
+        methods: {
+        }
+
+    }
+</script><template>
   <div class="hello">
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
