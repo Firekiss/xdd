@@ -52,8 +52,7 @@
     data () {
       return {
         icons: {
-          arrowRight: require('../assets/icon_arrow.png'),
-          arrowDown: require('../assets/arrow_down_1.png')
+          arrowRight: require('../assets/icon_arrow.png')
         },
         listDown: false
       }

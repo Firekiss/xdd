@@ -1,6 +1,5 @@
 import httpService from './httpService';
 import httpServiceUrl from './httpServiceUrl';
-import commonToast from './commonToast';
 import config from '../config';
 import Vue from 'vue';
 import indicator from 'mint-ui/lib/indicator';
@@ -135,7 +134,7 @@ var definedToast = function(getParam) {
             }
         }
     }
-    if(isSame){ 
+    if(isSame){
         return;
     }
     this.innerToastDiv=document.createElement("div");
@@ -284,7 +283,7 @@ export default {
                 break;
         }
     },
-    
+
     getNativeData: function(isFromEmp) {
         if (!window.valueFromNativeAll) {
             window.valueFromNativeAll={};
@@ -292,7 +291,7 @@ export default {
         window.valueFromNativeAll.serverBaseUrl=config.serverBaseUrl;//接口调用统一路径
         window.valueFromNativeAll.html5BaseUrl=config.html5BaseUrl;//h5页面跳转路径
         console.log(Request('openid'));
-        
+
             //有openid说明是微信访问，调取接口获取公共参数
             var type_wc = 2;//1 ：教练    2 ： 学员
             var getUrl = httpServiceUrl.getMwStudentData;//获取学员信息接口
