@@ -1,0 +1,122 @@
+@import "base/var";
+
+.user-info {
+  box-sizing: border-box;
+  padding-top: 0.5rem;
+  background-color: $bgColor;
+  height: 100%;
+
+  .user-base-info{
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    padding: 1.0rem;
+    background-color: $white;
+
+    .avatar-wrapper{
+      width: 3.4rem;
+      height: 3.4rem;
+      border-radius: 50%;
+      border: 1px solid $borderColor;
+      overflow: hidden;
+    }
+
+    .user-info-brief{
+      display: flex;
+      flex-direction: column;
+      margin-left: 1.0rem;
+
+      .user-name{
+        margin-top: 0.6rem;
+        font-size: 1.0rem;
+        font-weight: bold;
+        color: $fontColor;
+      }
+
+      .user-detail-btn {
+        margin-top: 0.2rem;
+        font-size: 0.8rem;
+        color: #353535;
+      }
+    }
+  }
+
+  .user-asset{
+    display: flex;
+    width: 100%;
+    background-color: $white;
+
+    .balance{
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0.8rem 0;
+
+      .balance-val{
+        font-size: 0.8rem;
+        font-weight: bold;
+      }
+
+      .balance-name{
+        margin-top: 0.2rem;
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+  .invite{
+    width: 100%;
+    height: 3.3rem;
+    padding: 1.0rem 0;
+  }
+
+  .user-handle-list{
+    background-color: $white;
+
+    .list-item{
+      justify-content: space-between;
+      height: 2.4rem;
+      box-sizing: border-box;
+      margin: 0 1.0rem;
+
+      .item-icon{
+        display: block;
+        width: 1.0rem;
+        height: 1.0rem;
+
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+
+      .item-name{
+        margin-left: 0.4rem;
+        font-size: 0.8rem;
+      }
+
+      .item-lever{
+        display: block;
+        position: relative;
+        margin-right: 0.5rem;
+        font-size: 0.8rem;
+      }
+
+      .item-arrow{
+        display: block;
+        position: relative;
+        width: 0.8rem;
+        height: 0.8rem;
+
+        img{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}

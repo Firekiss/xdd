@@ -12,6 +12,7 @@ const Index = r => require.ensure([], () => r(require('./components/Index')), 'I
 const RegisterLogin = r => require.ensure([], () => r(require('./components/RegisterLogin')), 'RegisterLogin');
 const StuCertification = r => require.ensure([], () => r(require('./components/StuCertification')), 'StuCertification');
 const OrderIndex = r => require.ensure([], () => r(require('./components/OrderIndex')), 'OrderIndex');
+const UserInfo = r => require.ensure([], () => r(require('./components/UserInfo')), 'OrderIndex');
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -28,6 +29,7 @@ const router = new VueRouter({
             { path: 'registerLogin',component: RegisterLogin }, //注册的第一个页面
             { path: 'stuCertification',component: StuCertification },//学生认证页面
             { path: 'orderIndex',component: OrderIndex },//学生认证页面
+            { path: 'userInfo',component: UserInfo },// 用户信息
         ],
         beforeEnter: (to, from, next) => {
             if (!window.valueFromNativeAll) {
