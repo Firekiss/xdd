@@ -15,7 +15,7 @@
                    <img src="../assets/stu_indexTab2.png" alt="">
                 </div>
             </div>
-            <div class="subItem" @click="changeItem('orderPage')">
+            <div class="subItem" @click="changeItem('orderIndex')">
                 <div v-if="nowTabIndex!=2&&(nowTabIndex==1||nowTabIndex==3)" class="tabIndexClass">
                    <img src="../assets/subjectTab.png" alt="">
                 </div>
@@ -62,37 +62,32 @@ export default {
         methods: {
             fetchData() {
                 this.urlHash = window.location.hash;
-                if(window.location.href.toLowerCase().indexOf('openid') != -1){
                     this.showBottom = true;
                     this.magicHeight = 'partHeight';
                     if(this.urlHash.indexOf('index') == -1 
-                        && this.urlHash.indexOf('orderPage') == -1
+                        && this.urlHash.indexOf('orderIndex') == -1
                         && this.urlHash.indexOf('mySelf') == -1){
-
                         this.showBottom = false;
                         this.magicHeight = 'wholeHeight';
                     }
                     if(this.urlHash.indexOf('index')> -1){
                         this.nowTabIndex = 1;
-                    }else if(this.urlHash.indexOf('orderPage')> -1){
+                    }else if(this.urlHash.indexOf('orderIndex')> -1){
                         this.nowTabIndex = 2;
                     }else if(this.urlHash.indexOf('mySelf')> -1){
                         this.nowTabIndex = 3;
                     }
-                }
             },
             preDefalut:function (events) {
                 return;
             },
             changeItem: function(hashName) {
-                /*var pushUrl= valueFromNativeAll.html5BaseUrl + "/index.html";
                 var getParams = {
-                    url:pushUrl,
                     hashUrl:hashName,
                     getThis:this,
                     pushType:'replace'//说明是replace跳转
                 }
-                goUrl(getParams);*/
+                goUrl(getParams);
                 //this.$router.replace({ path: goUrlParam.hashUrl, query: params});
             }
         },

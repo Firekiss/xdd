@@ -40,34 +40,6 @@ const router = new VueRouter({
                     //出现公共错误页面提示刷新，重新获取native
                     alert("main.js getNativeData error");
                 });
-                window.valueFromNativeAll = {
-                      address : "Yurun University",
-                      avatarurl : "",
-                      cityCode: "",
-                      cityName :"南京市",
-                      classType :"",
-                      coachId: "",
-                      gps: "",
-                      html5BaseUrl :"localhost:8081",
-                      html5Flag: 0,
-                      "html_version":3,
-                      isBackUpdateMessage :"",
-                      isLogin : true,
-                      isSelectCity :0,
-                      nickName :"动态普通班测试",
-                      osVersion: "10.2",
-                      phoneNo :"",
-                      schoolCode: "",
-                      schoolId: "",
-                      schoolName: "",
-                      schoolUrl: "https://tmainapp.duolunxc.com/mobileRest",
-                      studentId : "",
-                      studentName: "",
-                      subjectType: "",
-                      token :"hTna8VVj27OA%252Br0Kx9kxRA%253D%253D",
-                      version :"2.2.2"
-                  }
-                next();
             } else {
                 next();
             }
