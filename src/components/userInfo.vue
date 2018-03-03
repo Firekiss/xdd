@@ -25,7 +25,7 @@
     </div>
     <div class="invite"></div>
     <div class="user-handle-list">
-      <div class="list-item border-bottom-1px flex-mid">
+      <div class="list-item border-bottom-1px flex-mid" @click="goTeamManage">
         <div class="list-item-left flex">
           <span class="item-icon">
             <img :src="icons.team">
@@ -57,7 +57,7 @@
           </span>
         </div>
       </div>
-      <div class="list-item border-bottom-1px flex-mid">
+      <div class="list-item border-bottom-1px flex-mid" @click="goFeedBack">
         <div class="list-item-left flex">
           <span class="item-icon">
             <img :src="icons.option">
@@ -73,7 +73,7 @@
           </span>
         </div>
       </div>
-      <div class="list-item flex-mid">
+      <div class="list-item flex-mid" @click="goSettings">
         <div class="list-item-left flex">
           <span class="item-icon">
             <img :src="icons.set">
@@ -95,6 +95,8 @@
 
 <script>
   import '@/scss/userInfo.scss'
+  import tool from '../common/tools';
+
   export default {
     name: "user-info",
     data () {
@@ -106,6 +108,29 @@
           set: require('../assets/userInfo/set_icon@2x.png')
         },
         arrow: require('../assets/icon_arrow.png')
+      }
+    },
+    methods: {
+      goTeamManage () {
+        let goUrlParam = {
+          "hashUrl": 'teamManage',
+          "getThis": this
+        };
+        goUrl(goUrlParam);
+      },
+      goFeedBack () {
+        let goUrlParam = {
+          "hashUrl": 'feedBack',
+          "getThis": this
+        };
+        goUrl(goUrlParam);
+      },
+      goSettings () {
+        let goUrlParam = {
+          "hashUrl": 'settings',
+          "getThis": this
+        };
+        goUrl(goUrlParam);
       }
     }
   }

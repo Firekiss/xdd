@@ -1,0 +1,46 @@
+@import "base/var";
+
+.settings{
+  height: 100%;
+  box-sizing: border-box;
+  padding-top: 0.5rem;
+  background-color: $bgColor;
+
+  .settings-list{
+    background-color: $white;
+
+    .list-item{
+      justify-content: space-between;
+      height: 2.4rem;
+      box-sizing: border-box;
+      margin: 0 1.0rem;
+
+      .item-name{
+        font-size: 0.8rem;
+      }
+
+      .item-arrow{
+        display: block;
+        position: relative;
+        width: 0.8rem;
+        height: 0.8rem;
+
+        img{
+          position: absolute;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+
+  .login-out{
+    height: 2.5rem;
+    margin-top: 2.5rem;
+    background-color: $white;
+    font-size: 1.0rem;
+    color: #F52828;
+  }
+}

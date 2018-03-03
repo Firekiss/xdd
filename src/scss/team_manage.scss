@@ -1,0 +1,84 @@
+@import "base/var";
+
+.team-manage{
+  box-sizing: border-box;
+  height: 100%;
+  padding-top: 0.5rem;
+  background-color: $bgColor;
+
+  .total{
+    height: 2.5rem;
+    line-height: 2.5rem;
+    font-size: 1.0rem;
+
+    .total-num{
+      margin-left: 1.0rem;
+    }
+  }
+
+  .team-type-list{
+    .team-type-item{
+      box-sizing: border-box;
+      padding: 0 1.0rem;
+      background-color: $white;
+
+      .team-type-head{
+        justify-content: space-between;
+        height: 2.5rem;
+        font-size: 1.0rem;
+
+        .team-type-num{
+          margin-right: 0.5rem;
+        }
+
+        .team-type-arrow{
+          display: block;
+          position: relative;
+          width: 0.8rem;
+          height: 0.8rem;
+          transition: transform 0.2s;
+
+          img{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+          }
+        }
+
+        .team-type-arrow-down{
+          transform: rotate(90deg);
+        }
+      }
+    }
+  }
+
+  .team-list{
+    .team-list-item{
+      height: 4.0rem;
+
+      .avator{
+        width: 3.0rem;
+        height: 3.0rem;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 1px solid $borderColor;
+      }
+
+      .list-item-info{
+        margin-left: 0.5rem;
+
+        .user-base-info{
+          font-size: 1.0rem;
+          color: $fontColor;
+        }
+
+        .user-focus{
+          font-size: 0.6rem;
+          color: #666666;
+        }
+      }
+    }
+  }
+}

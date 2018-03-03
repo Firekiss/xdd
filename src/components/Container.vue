@@ -65,7 +65,7 @@ export default {
                     this.showBottom = true;
                     this.magicHeight = 'partHeight';
                     if(this.urlHash.indexOf('index') == -1
-                        && this.urlHash.indexOf('orderPage') == -1
+                        && this.urlHash.indexOf('orderIndex') == -1
                         && this.urlHash.indexOf('userInfo') == -1){
                         this.showBottom = false;
                         this.magicHeight = 'wholeHeight';

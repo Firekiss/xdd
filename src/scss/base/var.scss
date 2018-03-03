@@ -1,5 +1,6 @@
 // 基础样式设置
 
+$projectGreen: #18D0A6;
 $borderColor: #e6e6e6;
 $bgColor: #f4f4f4;
 $white: #ffffff;
@@ -12,6 +13,12 @@ $fontColor: #272727;
 .flex-mid{
   display: flex;
   align-items: center;
+}
+
+.flex-centers{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /*手机端实现真正的一像素边框*/
