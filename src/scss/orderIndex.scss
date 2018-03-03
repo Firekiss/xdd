@@ -2,6 +2,7 @@
     width: 100%;
     height: 100%;
     background-color: #f0f0f0;
+    font-size: 0.85rem;
 	.tab-row {
       height: 2.75rem;
       width: 100%;
@@ -30,8 +31,8 @@
           margin: auto;
         }
         .onfocusColor{
-          color: #18d0a6;
           border-bottom: solid 1px;
+          color:#18d0a6;
         }
       }
     }
@@ -43,12 +44,12 @@
         width: 100%;
         .orderItem{
             height: 10rem;
-            background: darkcyan;
+            background: white;
             padding: 0.5rem;
+            margin-top: 0.5rem;
             .line1{
                 width: 100%;
                 height: 2.5rem;
-                background: silver;
                 line-height: 2.5rem;
                 .span1{
 
@@ -63,9 +64,10 @@
             }
             .line2{
                 width: 100%;
-                height: 5rem;
-                background: #8f90b9;
-                line-height: 5rem;
+                display: flex;
+                position: relative;
+                border-top: 1px solid #e6e6e6;
+                border-bottom: 1px solid #e6e6e6;
                 .vertical1{
                     float: left;
                     height: 4rem;
@@ -73,9 +75,41 @@
                     margin: 0.5rem;
                     border-radius: 0.25rem;
                 }
+                .vertical2{
+                    float: left;
+                    margin: auto 0;
+                    .time{
+
+                    }
+                    .address{
+                        color:#999999;
+                    }
+                }
+                .vertical3{
+                    color:#999999;
+                    position: absolute;
+                    right: 0rem;
+                    margin-top: 1.5rem;
+                }
             }
             .line3{
-
+                margin-top: 0.5rem;
+                .moneyCom{
+                    float: left;
+                }
+                .moneyColor{
+                    color:#f52828
+                }
+                .tabRight{
+                    float:right;
+                    .butRight{
+                        right: 3rem;
+                        height: 1rem;
+                        border: 1px solid;
+                        float:left;
+                        border-radius: 4px;
+                    }
+                }
             }
         }
     }

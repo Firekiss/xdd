@@ -14,10 +14,21 @@
                 </div>
                 <div class="line2">
                     <img class="vertical1" src="../assets/orderPic@2x.png">
-                    <div class="vertical2"></div>
-                    <div class="vertical3"></div>
+                    <div class="vertical2">
+                        <div class="time">下单时间：2014-08-12 12:00</div>
+                        <div class="address">送至：宿舍</div>
+                    </div>
+                    <div class="vertical3">
+                        x2
+                    </div>
                 </div>
                 <div class="line3">
+                    <div class="moneyCom">实付 </div>
+                    <div class="moneyCom moneyColor">￥16.00 </div>
+                    <div class="tabRight">
+                        <div class="butRight" style="margin-right: 0.5rem;">申请售后</div>
+                        <div class="butRight">申请售后2</div>
+                    </div>
                     
                 </div>
             </div>

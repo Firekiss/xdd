@@ -36,22 +36,6 @@ var openid = Request("openid") == "" ? "doron_test_openid" : Request("openid");
 
 var appId = Request("appId") == "" ? "doron_test_appId" : Request("appId");
 
-window.ostMessage = function() {
-    var json = { "action": "get", "isBackNeedRefresh": "", "url": "" };
-    deviceType = Request("deviceType") == "" ? "pc" : Request("deviceType"); //手机系统类型：android，IOS,根据native传过来的deviceType，来调用不同的native方法
-    switch (deviceType.toLowerCase()) {
-        case "ios":
-            window.webkit.messageHandlers.oAction.postMessage(json); // 调用ios的 Native定义的方法
-            break;
-        case "android":
-            json = "{\"action\": \"get\", \"isBackNeedRefresh\": \"\", \"url\": \"\"}";
-            window.oAction.postMessage(json); // 调用android  的 Native定义的方法
-            break;
-        case "pc":
-            console.log("此处PC端测试用");
-            break;
-    }
-};
 
 window.printlog = function(logstring) {
     var jsonOpenUrl = {
@@ -204,25 +188,6 @@ window.getNetChange = function(data) {
             duration: 2000
         });
     }
-    /*  var showMsg="";
-      switch(data.netWorkStatus){
-          case 0:
-              showMsg = "网络已断开";
-              break;
-          case 1:
-              showMsg = "";//已切换至Wi-Fi
-              break;
-          case 2:
-              showMsg = "";//已切换至4G
-              break;
-      }
-      if(showMsg!=""){
-          Toast({
-              message: showMsg,
-              position: 'bottom',
-              duration: 2000
-          });
-      }*/
 };
 //监测token变化
 window.getChangeToken = function(data) {
@@ -241,23 +206,12 @@ window.getChangeToken = function(data) {
 //backFunction   安卓物理键返回所掉的方法
 //window.goUrl = function(action, isBackNeedRefresh, url, hashUrl, title, needShowTitleBar, backPageNum, refreshIndex, webViewForbiddenScroll) {
 
-    window.goUrl = function(goUrlParam, isFromBind){
+window.goUrl = function(goUrlParam, isFromBind){
     //如果是直接跳网页，那么直接跳转
     if(!goUrlParam.hashUrl){
         window.location.href = goUrlParam.url;
         return;
     }
-
-    //有openid说明是微信的跳转
-/*    var params = {};
-    var getParamsSplit = goUrlParam.url.split("index.html?");
-    if(getParamsSplit.length>1){
-        var getParamsList = getParamsSplit[1].split("&");
-        for(var i=0;i<getParamsList.length;i++){
-            var getParamItem = getParamsList[i].split("=");
-            params[getParamItem[0]] = getParamItem[1];
-        }
-    }*/
     if(Request('openid')){
         goUrlParam.params.openid = openid;
         goUrlParam.params.appId = appId;
@@ -267,69 +221,6 @@ window.getChangeToken = function(data) {
         goUrlParam.getThis.$router.replace({ path: "/" + goUrlParam.hashUrl, query: goUrlParam.params });
     }else{
         goUrlParam.getThis.$router.push({ path: "/" + goUrlParam.hashUrl, query: goUrlParam.params });
-    }
-    return;
-
-    //每次推屏前都判断网络情况
-
-    if(localStorage.getItem("netWorkStatus_bolck")=="true"){
-        Toast({
-            message: commonToast["connectFail"],
-            position: 'bottom',
-            duration: 2000
-        });
-        return;
-    }
-    //页面跳转加上版本号
-    var html_version = window.html_version;
-    if (goUrlParam.url&&goUrlParam.url.indexOf("?") > -1) {
-        goUrlParam.url = goUrlParam.url + "&deviceType=" + deviceType + "&htmlVersion=" + html_version + "#/" + goUrlParam.hashUrl;
-    } else {
-        goUrlParam.url = goUrlParam.url + "?deviceType=" + deviceType + "&htmlVersion=" + html_version + "#/" + goUrlParam.hashUrl;
-    }
-    var jsonOpenUrl = {
-        "action": goUrlParam.action!=undefined?goUrlParam.action:"",
-        "isBackNeedRefresh": goUrlParam.isBackNeedRefresh!=undefined?goUrlParam.isBackNeedRefresh:"",
-        "url": goUrlParam.url!=undefined?goUrlParam.url:"",
-        "title": goUrlParam.title!=undefined?goUrlParam.title:"",
-        "needShowTitleBar": goUrlParam.needShowTitleBar!=undefined?goUrlParam.needShowTitleBar:"",
-        "backPageNum": goUrlParam.backPageNum!=undefined?goUrlParam.backPageNum:"",
-        "isRefreshPageIndexDic": goUrlParam.isRefreshPageIndexDic!=undefined?goUrlParam.isRefreshPageIndexDic:"",
-        "webViewForbiddenScroll": goUrlParam.webViewForbiddenScroll!=undefined?goUrlParam.webViewForbiddenScroll:"",
-        "backFunction":goUrlParam.backFunction!=undefined?goUrlParam.backFunction:""
-    };
-    switch (deviceType.toLowerCase()) {
-        case "ios":
-            window.webkit.messageHandlers.oAction.postMessage(jsonOpenUrl); // 调用ios的 Native定义的方法
-            break;
-        case "android":
-           /* if (jsonOpenUrl.backPageNum) {
-                jsonOpenUrl = "{" +
-                    "\"action\": \"" + jsonOpenUrl.action + "\"," +
-                    "\"isBackNeedRefresh\":\"" + jsonOpenUrl.isBackNeedRefresh + "\"," +
-                    "\"url\":\"" + jsonOpenUrl.url + "\"," +
-                    "\"title\":\"" + jsonOpenUrl.title + "\"," +
-                    "\"needShowTitleBar\":\"" + jsonOpenUrl.needShowTitleBar + "\"," +
-                    "\"backPageNum\":\"" + jsonOpenUrl.backPageNum + "\"," +
-                    "\"isRefreshPageIndexDic\":\"" + jsonOpenUrl.isRefreshPageIndexDic + "\"," +
-                    "\"androidBackKeyFunction\":\"" + jsonOpenUrl.androidBackKeyFunction + "\"" +
-                    "}";
-            } else {
-                jsonOpenUrl = "{" +
-                    "\"action\": \"" + jsonOpenUrl.action + "\"," +
-                    "\"isBackNeedRefresh\":\"" + jsonOpenUrl.isBackNeedRefresh + "\"," +
-                    "\"url\":\"" + jsonOpenUrl.url + "\"," +
-                    "\"title\":\"" + jsonOpenUrl.title + "\"," +
-                    "\"needShowTitleBar\":\"" + jsonOpenUrl.needShowTitleBar + "\"," +
-                    "\"isRefreshPageIndexDic\":\"" + jsonOpenUrl.isRefreshPageIndexDic + "\"," +
-                    "\"androidBackKeyFunction\":\"" + jsonOpenUrl.androidBackKeyFunction + "\"" +
-                    "}";
-            }*/
-            window.oAction.postMessage(JSON.stringify(jsonOpenUrl)); // 调用android  的 Native定义的方法
-            break;
-        case "pc":
-            window.open(jsonOpenUrl.url);
-            break;
     }
 };
 
@@ -401,7 +292,7 @@ export default {
         window.valueFromNativeAll.serverBaseUrl=config.serverBaseUrl;//接口调用统一路径
         window.valueFromNativeAll.html5BaseUrl=config.html5BaseUrl;//h5页面跳转路径
         console.log(Request('openid'));
-        if(Request('openid')){
+        
             //有openid说明是微信访问，调取接口获取公共参数
             var type_wc = 2;//1 ：教练    2 ： 学员
             var getUrl = httpServiceUrl.getMwStudentData;//获取学员信息接口
@@ -449,72 +340,6 @@ export default {
                     reject(data);
                 });
             });
-            return;
-        }
-        self.ostMessage();
-        return new Promise(function(resolve, reject) {
-            window.callBack = function(para) {
-               /* if (para && !para.schoolUrl) {
-                    para.schoolUrl = "https://testmainapp.duolunxc.com";
-                    //para.schoolUrl = "https://mainapp.duolunxc.com";
-                    para.html5BaseUrl = "https://testmainapp.duolunxc.com/emp_2";
-                    //para.html5BaseUrl = "https://mainapp.duolunxc.com/emp";
-                }*/
-                if (!window.version && 　para.native.version)
-                    window.version = para.native.version;
-                if (!window.html_version && para.native.html_version)
-                    window.html_version = para.native.html_version;
-
-                    console.log("native返回的参数：");
-                    console.log(JSON.stringify(para));
-                    window.valueFromNativeAll = {
-                        address: para.native.address,
-                        avatarurl: "",
-                        photoUrl:"",
-                        cityCode: para.native.cityCode,
-                        cityName: para.native.cityName,
-                        classType: "",
-                        gps: para.native.gps,
-                        html5BaseUrl: para.native.html5BaseUrl,
-                        isLogin: para.native.isLogin,
-                        isSelectCity: para.native.isSelectCity,
-                        nickName: "",
-                        osVersion: para.native.osVersion,
-                        phoneNo: "",
-                        schoolCode: "",
-                        schoolId: "",
-                        schoolName: "",
-                        schoolUrl: "",
-                        studentId: "",
-                        studentName: "",
-                        subjectType: "",
-                        token: para.native.token,
-                        version: para.native.version,
-                        flowType:""
-                    }
-                    if (para.native.isLogin == 1) {
-                    	
-                        window.valueFromNativeAll.avatarurl = para.body.avatarData;
-                        window.valueFromNativeAll.photoUrl = para.body.photoUrl;
-                        window.valueFromNativeAll.classType = para.body.classType;
-                        window.valueFromNativeAll.nickName = para.body.nickName;
-                        window.valueFromNativeAll.phoneNo = para.head.phoneNo; //后台返回的是head
-                        window.valueFromNativeAll.schoolCode = para.body.schoolCode;
-                        window.valueFromNativeAll.schoolId = para.body.schoolId;
-                        window.valueFromNativeAll.schoolName = para.body.schoolName;
-                        window.valueFromNativeAll.schoolUrl = para.body.schoolUrl;
-                        window.valueFromNativeAll.studentId = para.body.stuId;
-                        window.valueFromNativeAll.studentName = para.body.name;
-                        window.valueFromNativeAll.subjectType = para.body.subjectType==undefined?"":para.body.subjectType;
-                        window.valueFromNativeAll.flowType = para.body.flowType;
-                    }
-                localStorage.setItem('valueFromNativeAll', JSON.stringify(window.valueFromNativeAll));
-                resolve(window.valueFromNativeAll);
-                setTimeout(function() {
-                    //reject();
-                }, 2000);
-            };
-        });
     },
     getCommonToastVal: function(getCode, getVal) {
         var replaceVal = getCode.split("{}");
