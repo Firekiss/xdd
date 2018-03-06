@@ -1,0 +1,195 @@
+@import "base/var";
+
+.order-detail{
+  height: 100%;
+  padding-top: 0.5rem;
+  background-color: $bgColor;
+
+  .base-info-wrapper{
+    padding: 0 1.0rem;
+    background-color: $white;
+
+    .user-info{
+      height: 4.5rem;
+      justify-content: space-between;
+
+      .user-info-wrapper{
+        .icon-car{
+          width: 1.2rem;
+          height: 0.8rem;
+          margin-top: 0.4rem;
+          margin-right: 0.5rem;
+        }
+
+        .icon-address{
+          width: 0.8rem;
+          height: 1.0rem;
+          margin-top: 0.3rem;
+          margin-right: 0.9rem;
+        }
+
+        .user-info-section{
+          .user-location{
+            font-size: 1.0rem;
+            font-weight: bold;
+          }
+
+          .user-base-info{
+            margin-top: 0.2rem;
+            font-size: 0.8rem;
+            color: #666666;
+          }
+        }
+      }
+
+      .arrow-icon{
+        width: 0.8rem;
+        height: 0.9rem;
+      }
+    }
+  }
+
+  .order-survey{
+    margin-top: 0.5rem;
+    padding: 0 1.0rem;
+    background-color: $white;
+  }
+
+  .survey-line{
+    height: 2.5rem;
+    justify-content: space-between;
+
+    .survey-name,
+    .survey-val{
+      font-size: 0.8rem;
+    }
+
+    .survey-line-right{
+      .reduce-money{
+        margin-right: 0.4rem;
+        font-size: 0.8rem;
+        color: $projectRed;
+      }
+
+      .arrow-icon{
+        width: 0.7rem;
+        height: 0.7rem;
+        margin-right: -0.2rem;
+      }
+    }
+  }
+
+  .survey-line.only-right{
+    flex-direction: row-reverse;
+
+    .total{
+      margin-right: 0.5rem;
+      font-size: 0.7rem;
+    }
+
+    .reduce-money{
+      margin-right: 0;
+    }
+  }
+
+  .remark{
+    margin-top: 0.5rem;
+    padding: 0 1.0rem;
+    background-color: $white;
+
+    .no-remark{
+      margin-right: 0.4rem;
+      font-size: 0.8rem;
+      color: #999999;
+    }
+  }
+
+  .order-info{
+    margin-top: 0.5rem;
+    background-color: $white;
+
+    .order-info-item{
+      padding-bottom: 0.5rem;
+      &:first-child{
+        padding-top: 0.5rem;
+      }
+
+      .order-info-name{
+        margin-left: 1.0rem;
+        font-size: 0.8rem;
+        color: #999999;
+      }
+
+      .order-info-val{
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .logisticsList-wrapper{
+    padding: 1.5rem 0 2.5rem 1.0rem;
+    max-height: 60%;
+    overflow-y: scroll;
+    background-color: $white;
+
+    .logisticsList-item{
+      padding-bottom: 0.9rem;
+
+      .time{
+        font-size: 0.7rem;
+        color: #999999;
+      }
+
+      .circle{
+        position: relative;
+        width: 0.3rem;
+        height: 0.3rem;
+        margin: 0 0.5rem;
+        background-color: #E3E3E3;
+        border-radius: 50%;
+
+        &:after{
+          content: '';
+          position: absolute;
+          left: 0.13rem;
+          top: 0.4rem;
+          width: 1px;
+          height: 1.5rem;
+          background-color: #E3E3E3;
+        }
+      }
+
+      .detail{
+        font-size: 0.8rem;
+        color: $fontColor;
+      }
+    }
+
+    .logisticsList-item:last-child{
+      .circle{
+        position: relative;
+        width: 0.3rem;
+        height: 0.3rem;
+        margin: 0 0.5rem;
+        margin-top: 0.1rem;
+        background-color: $projectGreen;
+        border-radius: 50%;
+        z-index: 99;
+
+        &:after{
+          content: '';
+          position: absolute;
+          width: 0.40rem;
+          height: 0.40rem;
+          left: -0.1rem;
+          top: -0.1rem;
+          border: 1px solid $projectGreen;
+          background-color: transparent;
+          z-index: 98;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
+}

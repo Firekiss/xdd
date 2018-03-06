@@ -6,8 +6,10 @@ axios.defaults.timeout = 20000; // 接口超时配置
 axios.defaults.baseURL = config.serverBaseUrl; // baseUrl设置
 
 axios.interceptors.response.use(response => {
-  if (response.success === true) {
-    return response.data
+  // 返回的res数据
+  let data = response.data;
+  if (data.success === true) {
+    return data;
   }
 }, err => {
   return Promise.reject(err)
@@ -41,7 +43,7 @@ export default {
    * @returns {Promise<any>}
    */
   post (url, data = {}) {
-    return  new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       axios.post(url, data)
         .then(response => {
           resolve(response.data)

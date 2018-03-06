@@ -1,0 +1,151 @@
+@import "base/var";
+
+.submit-order{
+  height: 100%;
+  padding-top: 0.5rem;
+  background-color: $bgColor;
+
+  .user-info{
+    height: 4.5rem;
+    padding: 0 1.0rem;
+    background-color: $white;;
+    justify-content: space-between;
+
+    .user-info-section{
+      .user-location{
+        font-size: 1.0rem;
+        font-weight: bold;
+      }
+
+      .user-base-info{
+        font-size: 0.8rem;
+        color: #666666;
+      }
+    }
+
+    .arrow-icon{
+      width: 0.8rem;
+      height: 1.0rem;
+    }
+  }
+
+  .order-survey{
+    margin-top: 0.5rem;
+    padding: 0 1.0rem;
+    background-color: $white;
+  }
+
+  .survey-line{
+    height: 2.5rem;
+    justify-content: space-between;
+
+    .survey-name,
+    .survey-val{
+      font-size: 0.8rem;
+    }
+
+    .survey-line-right{
+      .reduce-money{
+        margin-right: 0.4rem;
+        font-size: 0.8rem;
+        color: $projectRed;
+      }
+
+      .arrow-icon{
+        width: 0.7rem;
+        height: 0.7rem;
+        margin-right: -0.2rem;
+      }
+    }
+  }
+
+  .survey-line.only-right{
+    flex-direction: row-reverse;
+
+    .total{
+      margin-right: 0.5rem;
+      font-size: 0.7rem;
+    }
+
+    .reduce-money{
+      margin-right: 0;
+    }
+  }
+
+  .remark{
+    margin-top: 0.5rem;
+    padding: 0 1.0rem;
+    background-color: $white;
+
+    .no-remark{
+      margin-right: 0.4rem;
+      font-size: 0.8rem;
+      color: #999999;
+    }
+  }
+
+  .total-cart{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+    background-color: $white;
+
+    .total-money-section{
+      flex: 1;
+      justify-content: space-between;
+      padding: 0 1.0rem;
+
+      .reduce-section{
+        font-size: 0.8rem;
+      }
+    }
+
+    .total-bar{
+
+      .title{
+        margin-left: 1.0rem;
+        font-size: 0.8rem;
+      }
+
+      .money{
+        margin-left: 0.5rem;
+        font-size: 1.0rem;
+        color: #F52828;
+      }
+    }
+
+    .order-btn{
+      width: 6.0rem;
+      height: 2.5rem;
+      background-color: $projectGreen;
+      font-size: 1.0rem;
+      color: $white;
+    }
+  }
+
+  .ticket-list{
+    min-height: 12.0rem;
+    padding: 0 1.0rem;
+
+    .ticket-item{
+      height: 3.0rem;
+      justify-content: space-between;
+
+      .ticket-name{
+        font-size: 0.8rem;
+      }
+
+      .check{
+        width: 0.9rem;
+        height: 0.9rem;
+
+        img{
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,116 +1,118 @@
-.orderIndex{
+@import "base/var";
+
+.orderIndex {
+  width: 100%;
+  height: 100%;
+  background-color: #f0f0f0;
+  font-size: 0.85rem;
+  .tab-row {
+    height: 2.2rem;
     width: 100%;
-    height: 100%;
-    background-color: #f0f0f0;
-    font-size: 0.85rem;
-	.tab-row {
-      height: 2.75rem;
-      width: 100%;
-      display: -webkit-box;
-      display: -webkit-flex;
-      display: -moz-box;
-      display: -ms-flexbox;
-      display: flex;
-      position: fixed;
-      top: 0px;
-      line-height: 2.75rem;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: fixed;
+    top: 0px;
+    line-height: 2.2rem;
+    background: white;
+    z-index: 99;
+    .myTab-item {
+      width: 20%;
+      text-align: center;
+      position: relative;
+      font-size: 0.8rem;
+      .textCon {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        width: 77%;
+        margin: auto;
+      }
+      .onfocusColor {
+        border-bottom: solid 1px;
+        color: #18d0a6;
+      }
+    }
+  }
+  .orderLists {
+    position: absolute;
+    height: -webkit-calc(100% - 2.2rem);
+    top: 2.2rem;
+    display: block;
+    width: 100%;
+    .orderItem {
+      height: 10rem;
       background: white;
-      z-index: 99;
-      .myTab-item {
-        width: 20%;
-        text-align: center;
-        position: relative;
-        font-size: 0.95rem;
-        .textCon{
-          position: absolute;
-          top: 0;
-          bottom: 0;
-          right: 0;
-          left: 0;
-          width: 77%;
-          margin: auto;
+      padding: 0 1.0rem;
+      margin-top: 0.5rem;
+      .line1 {
+        width: 100%;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        .span1 {
+
         }
-        .onfocusColor{
-          border-bottom: solid 1px;
-          color:#18d0a6;
+        .span2 {
+
+        }
+        .span3 {
+          float: right;
+          color: #f52828;
+        }
+      }
+      .line2 {
+        width: 100%;
+        display: flex;
+        position: relative;
+        border-top: 1px solid #e6e6e6;
+        border-bottom: 1px solid #e6e6e6;
+        .vertical1 {
+          float: left;
+          height: 4rem;
+          width: 4rem;
+          margin: 0.5rem;
+          border-radius: 0.25rem;
+        }
+        .vertical2 {
+          float: left;
+          margin: auto 0;
+          .time {
+
+          }
+          .address {
+            color: #999999;
+          }
+        }
+        .vertical3 {
+          color: #999999;
+          position: absolute;
+          right: 0rem;
+          margin-top: 1.5rem;
+        }
+      }
+      .line3 {
+        margin-top: 0.5rem;
+        .moneyCom {
+          float: left;
+        }
+        .moneyColor {
+          color: #f52828
+        }
+        .tabRight {
+          float: right;
+          .butRight {
+            right: 3rem;
+            height: 1rem;
+            border: 1px solid;
+            float: left;
+            border-radius: 4px;
+          }
         }
       }
     }
-    .orderLists{
-        position: absolute;
-        height: -webkit-calc(100% - 2.75rem);
-        top: 2.75rem;
-        display: block;
-        width: 100%;
-        .orderItem{
-            height: 10rem;
-            background: white;
-            padding: 0.5rem;
-            margin-top: 0.5rem;
-            .line1{
-                width: 100%;
-                height: 2.5rem;
-                line-height: 2.5rem;
-                .span1{
-
-                }
-                .span2{
-
-                }
-                .span3{
-                      float: right;
-                      color: #f52828;
-                }
-            }
-            .line2{
-                width: 100%;
-                display: flex;
-                position: relative;
-                border-top: 1px solid #e6e6e6;
-                border-bottom: 1px solid #e6e6e6;
-                .vertical1{
-                    float: left;
-                    height: 4rem;
-                    width: 4rem;
-                    margin: 0.5rem;
-                    border-radius: 0.25rem;
-                }
-                .vertical2{
-                    float: left;
-                    margin: auto 0;
-                    .time{
-
-                    }
-                    .address{
-                        color:#999999;
-                    }
-                }
-                .vertical3{
-                    color:#999999;
-                    position: absolute;
-                    right: 0rem;
-                    margin-top: 1.5rem;
-                }
-            }
-            .line3{
-                margin-top: 0.5rem;
-                .moneyCom{
-                    float: left;
-                }
-                .moneyColor{
-                    color:#f52828
-                }
-                .tabRight{
-                    float:right;
-                    .butRight{
-                        right: 3rem;
-                        height: 1rem;
-                        border: 1px solid;
-                        float:left;
-                        border-radius: 4px;
-                    }
-                }
-            }
-        }
-    }
+  }
 }

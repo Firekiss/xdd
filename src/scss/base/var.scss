@@ -1,6 +1,7 @@
 // 基础样式设置
 
 $projectGreen: #18D0A6;
+$projectRed: #F52828;
 $borderColor: #e6e6e6;
 $bgColor: #f4f4f4;
 $white: #ffffff;
@@ -19,6 +20,10 @@ $fontColor: #272727;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.box {
+  box-sizing: border-box;
 }
 
 /*手机端实现真正的一像素边框*/

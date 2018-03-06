@@ -15,6 +15,9 @@ const UserInfo = r => require.ensure([], () => r(require('./components/userInfo'
 const TeamManage = r => require.ensure([], () => r(require('./components/teamManage')), 'teamManage');
 const FeedBack = r => require.ensure([], () => r(require('./components/feedBack')), 'feedBack');
 const Settings = r => require.ensure([], () => r(require('./components/settings')), 'settings');
+const OrderImmediately = r => require.ensure([], () => r(require('./components/orderImmediately')), 'orderImmediately');
+const SubmitOrder = r => require.ensure([], () => r(require('./components/submitOrder')), 'submitOrder');
+const OrderDetail = r => require.ensure([], () => r(require('./components/orderDetail')), 'orderDetail');
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -35,6 +38,9 @@ const router = new VueRouter({
             { path: 'teamManage',component: TeamManage },// 团队管理
             { path: 'feedBack',component: FeedBack },// 意见反馈
             { path: 'settings',component: Settings },// 用户设置
+            { path: 'orderImmediately',component: OrderImmediately },// 立即下单
+            { path: 'submitOrder',component: SubmitOrder },// 提交订单
+            { path: 'orderDetail',component: OrderDetail },// 订单详情
         ],
         beforeEnter: (to, from, next) => {
             // if (!window.valueFromNativeAll) {
