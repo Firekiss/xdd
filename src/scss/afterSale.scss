@@ -1,0 +1,71 @@
+@import "base/var";
+
+.after-sale{
+  height: 100%;
+  padding-top: 0.5rem;
+  background-color: $bgColor;
+
+  .after-sale-content{
+    padding: 0 0.5rem;
+    background-color: $white;
+
+    .order-info{
+      flex-direction: column;
+      justify-content: center;
+      height: 4.0rem;
+
+      .order-num{
+        margin: 0.25rem 0;
+        font-size: 0.8rem;
+      }
+
+      .order-time{
+        margin: 0.25rem 0;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .reason-section{
+    padding-bottom: 1.5rem;
+
+    .title{
+      margin: 0.5rem 0;
+      font-size: 0.8rem;
+      font-weight: normal;
+    }
+
+    .reason-area{
+      width: 100%;
+      height: 6.0rem;
+      padding: 0.5rem;
+      background-color: #F7F7F7;
+      border: none;
+      border-radius: 0;
+    }
+
+    .num-count{
+      justify-content: flex-end;
+      height: 2.0rem;
+      margin-top: -0.3rem;
+      background-color: #F7F7F7;
+      font-size: 0.7rem;
+      color: #D7D7D7;
+
+      .num{
+        margin-right: 0.5rem;
+      }
+    }
+  }
+
+  .submit-btn{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+    background-color: $projectGreen;
+    font-size: 1.0rem;
+    color: $white;
+  }
+}

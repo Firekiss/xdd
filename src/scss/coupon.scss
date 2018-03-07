@@ -1,0 +1,65 @@
+@import "base/var";
+
+.coupon{
+  height: 100%;
+  background-color: $bgColor;
+  overflow: auto;
+
+  .coupon-item{
+    justify-content: space-between;
+    width: 90%;
+    height: 4.5rem;
+    margin: 0.5rem auto;
+    padding: 0 1.0rem;
+    border-radius: 5px;
+    overflow: hidden;
+    color: $white;
+    background-size: cover;
+    background-position: 50% 50%;
+
+    .coupon-val-name{
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+
+      .money{
+        font-size: 1.5rem;
+      }
+    }
+
+    .valid-time{
+      font-size: 0.7rem;
+    }
+
+    .use{
+      font-size: 0.7rem;
+    }
+  }
+
+  .used-coupon{
+    background-image: url("../assets/coupon/used_bg@2x.png");
+  }
+
+  .use-coupon{
+    background-image: url("../assets/coupon/use_bg@2x.png");
+    .use{
+      position: relative;
+      &:after{
+        content: '';
+        position: absolute;
+        top: 0.3rem;
+        right: -0.6rem;
+        display: block;
+        width: 0.4rem;
+        height: 0.4rem;
+        border: 1px solid $white;
+        border-left: none;
+        border-bottom: none;
+        transform: rotate(45deg);
+      }
+    }
+  }
+
+  .pass-coupon{
+    background-image: url("../assets/coupon/pass_bg@2x.png");
+  }
+}

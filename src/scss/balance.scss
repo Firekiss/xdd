@@ -1,0 +1,33 @@
+@import "base/var";
+
+.balance{
+  height: 100%;
+  padding-top: 4.5rem;
+  background-color: $white;
+
+  .title{
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    color: $fontColor;
+  }
+
+  .balance-num{
+    width: 100%;
+    margin: 1.0rem auto 3.0rem;
+    text-align: center;
+    font-size: 1.85rem;
+    font-weight: bold;
+    letter-spacing: 4px;
+    color: $fontColor;
+  }
+
+  .next-btn{
+    width: 80%;
+    height: 2.5rem;
+    margin: 3.0rem auto 0;
+    border-radius: 4px;
+    background-color: $projectGreen;
+    color: $white;
+  }
+}

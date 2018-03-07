@@ -75,7 +75,8 @@
       :title="payTypeSheet.title"
       :visible="payTypeSheet.visible"
       :close="closePaySheet"
-      :maskClick="paySheetClick">
+      :maskClick="paySheetClick"
+      @do="dadasd">
       <div class="ticket-list box">
         <div class="ticket-item border-bottom-1px flex-mid" @click="ticketToggle">
           <span class="ticket-name">微信支付</span>

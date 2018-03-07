@@ -1,0 +1,46 @@
+@import "base/var";
+
+.recharge{
+  height: 100%;
+  padding: 3.0rem 2% 0;
+  background-color: $white;
+
+  .choose-title{
+    font-size: 0.8rem;
+  }
+
+  .moneys{
+    flex-wrap: wrap;
+
+    .money-item{
+      justify-content: center;
+      width: 31%;
+      height: 3.0rem;
+      margin: 2%;
+      margin-left: 0;
+      border: 1px solid #C5C5C5;
+      color: #666666;
+      font-size: 1.0rem;
+      border-radius: 2px;
+
+      &:nth-child(3n){
+        margin-right: 0;
+      }
+
+      &.active{
+        border-color: #00DCAA;
+        background-color: #E5FBF6;
+        color: #00DCAA;
+      }
+    }
+  }
+
+  .next-btn{
+    width: 80%;
+    height: 2.5rem;
+    margin: 3.0rem auto 0;
+    border-radius: 4px;
+    background-color: $projectGreen;
+    color: $white;
+  }
+}

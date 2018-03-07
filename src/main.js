@@ -18,6 +18,12 @@ const Settings = r => require.ensure([], () => r(require('./components/settings'
 const OrderImmediately = r => require.ensure([], () => r(require('./components/orderImmediately')), 'orderImmediately');
 const SubmitOrder = r => require.ensure([], () => r(require('./components/submitOrder')), 'submitOrder');
 const OrderDetail = r => require.ensure([], () => r(require('./components/orderDetail')), 'orderDetail');
+const AfterSale = r => require.ensure([], () => r(require('./components/afterSale')), 'afterSale');
+const Evaluate = r => require.ensure([], () => r(require('./components/evaluate')), 'evaluate');
+const Recharge = r => require.ensure([], () => r(require('./components/recharge')), 'recharge');
+const Balance = r => require.ensure([], () => r(require('./components/balance')), 'balance');
+const ExpenseHistory = r => require.ensure([], () => r(require('./components/expenseHistory')), 'expenseHistory');
+const Coupon = r => require.ensure([], () => r(require('./components/coupon')), 'coupon');
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -41,6 +47,12 @@ const router = new VueRouter({
             { path: 'orderImmediately',component: OrderImmediately },// 立即下单
             { path: 'submitOrder',component: SubmitOrder },// 提交订单
             { path: 'orderDetail',component: OrderDetail },// 订单详情
+            { path: 'afterSale',component: AfterSale },// 售后
+            { path: 'evaluate',component: Evaluate },// 评价
+            { path: 'recharge',component: Recharge },// 充值
+            { path: 'balance',component: Balance },// 余额
+            { path: 'expenseHistory',component: ExpenseHistory },// 消费记录
+            { path: 'coupon',component: Coupon },// 卡券
         ],
         beforeEnter: (to, from, next) => {
             // if (!window.valueFromNativeAll) {

@@ -1,0 +1,73 @@
+@import "base/var";
+
+.expenseHistory{
+  height: 100%;
+  background-color: $bgColor;
+
+  .mint-tab-item-label{
+    font-size: 0.8rem;
+  }
+
+  .mint-tab-item{
+    height: 2.0rem;
+    padding: 0;
+  }
+
+  .mint-tab-item-label{
+    line-height: 2.0rem;
+  }
+
+  .mint-tab-item.is-selected{
+    position: relative;
+    border-bottom: none;
+
+    .mint-tab-item-label{
+      color: $projectGreen;
+    }
+  }
+
+  .is-selected:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 1.5rem;
+    height: 1px;
+    background-color: $projectGreen;
+    bottom: 0;
+    left: 50%;
+    margin-left: -0.75rem;
+  }
+
+  .mint-tab-container{
+    margin-top: 0.5rem;
+    background-color: $white;
+
+    .history-item{
+      justify-content: space-between;
+      height: 3.6rem;
+      padding: 0 1.0rem;
+
+      .history-info{
+        flex-direction: column;
+        justify-content: center;
+
+        .type-name{
+          margin-bottom: 0.5rem;
+          font-size: 0.85rem;
+          color: $fontColor;
+          font-weight: bold;
+        }
+
+        .time{
+          font-size: 0.7rem;
+          color: #666666;
+        }
+      }
+    }
+
+    .expense-money{
+      font-size: 0.9rem;
+      font-weight: bold;
+    }
+  }
+}
