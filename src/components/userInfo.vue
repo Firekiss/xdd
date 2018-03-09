@@ -90,6 +90,90 @@
         </div>
       </div>
     </div>
+
+
+    <div class="user-handle-list">
+      <div class="list-item border-bottom-1px flex-mid" @click="goTeamManage">
+        <div class="list-item-left flex">
+          <span class="item-icon">
+            <img src="../assets/userInfo/wallet_icon@2x.png">
+          </span>
+          <span class="item-name">
+            我的钱包
+          </span>
+        </div>
+        <div class="list-item-right flex-mid">
+          <span class="item-lever"></span>
+          <span class="item-arrow">
+            <img :src="arrow">
+          </span>
+        </div>
+      </div>
+      <div class="list-item border-bottom-1px flex-mid" @click="goFeedBack">
+        <div class="list-item-left flex">
+          <span class="item-icon">
+            <img src="../assets/userInfo/appraise_icon@2x.png">
+          </span>
+          <span class="item-name">
+            我的评价
+          </span>
+        </div>
+        <div class="list-item-right flex-mid">
+          <span class="item-lever"></span>
+          <span class="item-arrow">
+            <img :src="arrow">
+          </span>
+        </div>
+      </div>
+      <div class="list-item border-bottom-1px flex-mid">
+        <div class="list-item-left flex">
+          <span class="item-icon">
+            <img src="../assets/userInfo/lever_icon@2x.png">
+          </span>
+          <span class="item-name">
+            我的等级
+          </span>
+        </div>
+        <div class="list-item-right flex-mid">
+          <span class="item-lever">初级</span>
+          <span class="item-arrow">
+            <img :src="arrow">
+          </span>
+        </div>
+      </div>
+      <div class="list-item border-bottom-1px flex-mid" @click="goSettings">
+        <div class="list-item-left flex">
+          <span class="item-icon">
+            <img src="../assets/userInfo/send_icon@2x.png">
+          </span>
+          <span class="item-name">
+            下级派单员
+          </span>
+        </div>
+        <div class="list-item-right flex-mid">
+          <span class="item-lever"></span>
+          <span class="item-arrow">
+            <img :src="arrow">
+          </span>
+        </div>
+      </div>
+      <div class="list-item flex-mid" @click="goSettings">
+        <div class="list-item-left flex">
+          <span class="item-icon">
+            <img src="../assets/userInfo/set_icon@2x.png">
+          </span>
+          <span class="item-name">
+            设置
+          </span>
+        </div>
+        <div class="list-item-right flex-mid">
+          <span class="item-lever"></span>
+          <span class="item-arrow">
+            <img :src="arrow">
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 

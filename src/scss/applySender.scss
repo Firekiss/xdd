@@ -1,0 +1,60 @@
+@import "base/var";
+
+.apply-sender{
+  height: 100%;
+  padding-top: 0.5rem;
+  background-color: $bgColor;
+
+  .user-info{
+    background-color: $white;
+    padding: 0 1.0rem;
+
+    .list-item{
+      justify-content: space-between;
+      height: 2.5rem;
+
+      .label{
+        font-size: 0.8rem;
+
+        .must{
+          color: $projectRed;
+        }
+      }
+
+      .info-input{
+        border: none;
+        outline: none;
+        text-align: right;
+        flex: 1;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  .level-select{
+    margin-top: 0.5rem;
+    background-color: $white;
+
+    .mint-radio-input:checked + .mint-radio-core{
+      background-image: url("../assets/checked@2x.png");
+      background-size: cover;
+      background-color: transparent;
+      border-color: $projectGreen;
+
+      &:after{
+        background-color: transparent;
+      }
+    }
+  }
+
+  .submit-btn{
+    position: absolute;
+    width: 100%;
+    height: 2.5rem;
+    left: 0;
+    bottom: 0;
+    background-color: $projectGreen;
+    font-size: 1.0rem;
+    color: $white;
+  }
+}

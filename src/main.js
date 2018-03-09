@@ -24,6 +24,13 @@ const Recharge = r => require.ensure([], () => r(require('./components/recharge'
 const Balance = r => require.ensure([], () => r(require('./components/balance')), 'balance');
 const ExpenseHistory = r => require.ensure([], () => r(require('./components/expenseHistory')), 'expenseHistory');
 const Coupon = r => require.ensure([], () => r(require('./components/coupon')), 'coupon');
+const PersonInfo = r => require.ensure([], () => r(require('./components/personInfo')), 'personInfo');
+const SetPassword = r => require.ensure([], () => r(require('./components/setPassword')), 'setPassword');
+const ApplySender = r => require.ensure([], () => r(require('./components/applySender')), 'applySender');
+const RobOrder = r => require.ensure([], () => r(require('./components/robOrder')), 'robOrder');
+const MyOrder = r => require.ensure([], () => r(require('./components/myOrder')), 'myOrder');
+const MyEvaluate = r => require.ensure([], () => r(require('./components/myEvaluate')), 'myEvaluate');
+const Withdraw = r => require.ensure([], () => r(require('./components/withdraw')), 'withdraw');
 
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -53,6 +60,13 @@ const router = new VueRouter({
             { path: 'balance',component: Balance },// 余额
             { path: 'expenseHistory',component: ExpenseHistory },// 消费记录
             { path: 'coupon',component: Coupon },// 卡券
+            { path: 'personInfo',component: PersonInfo },// 个人信息
+            { path: 'setPassword',component: SetPassword },// 设置密码
+            { path: 'applySender',component: ApplySender },// 申请成为派单员
+            { path: 'robOrder',component: RobOrder },// 抢单
+            { path: 'myOrder',component: MyOrder },// 我的订单
+            { path: 'myEvaluate',component: MyEvaluate },// 我的评价
+            { path: 'withdraw',component: Withdraw },// 提现
         ],
         beforeEnter: (to, from, next) => {
             // if (!window.valueFromNativeAll) {

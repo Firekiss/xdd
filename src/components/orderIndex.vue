@@ -13,7 +13,7 @@
           <span class="span3">配送中</span>
         </div>
         <div class="line2 flex-mid border-bottom-1px">
-          <img class="vertical1" src="../assets/orderPic@2x.png">
+          <img class="vertical1" src="../assets/order_wash_shoe@2x.png">
           <div class="vertical2">
             <div class="time">下单时间：2014-08-12 12:00</div>
             <div class="address">送至：宿舍</div>

@@ -1,0 +1,26 @@
+@import 'base/var';
+
+.person-info{
+  height: 100%;
+  padding-top: 0.5rem;
+  background-color: $bgColor;
+
+  .info-list{
+    padding: 0 1.0rem;
+    background-color: $white;
+
+    .list-item{
+      justify-content: space-between;
+      height: 2.5rem;
+
+      .label{
+        font-size: 0.8rem;
+      }
+
+      .content{
+        font-size: 0.8rem;
+        color: #666666;
+      }
+    }
+  }
+}

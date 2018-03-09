@@ -1,0 +1,124 @@
+@import "base/var";
+
+.rob-order{
+  height: 100%;
+  background-color: $bgColor;
+
+  .mint-tab-item-label{
+    font-size: 0.8rem;
+  }
+
+  .mint-tab-item{
+    height: 2.0rem;
+    padding: 0;
+  }
+
+  .mint-tab-item-label{
+    line-height: 2.0rem;
+  }
+
+  .mint-tab-item.is-selected{
+    position: relative;
+    border-bottom: none;
+
+    .mint-tab-item-label{
+      color: $projectGreen;
+    }
+  }
+
+  .is-selected:after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 1.5rem;
+    height: 1px;
+    background-color: $projectGreen;
+    bottom: 0;
+    left: 50%;
+    margin-left: -0.75rem;
+  }
+
+  .mint-tab-container{
+    font-size: 0.8rem;
+
+    .orderItem {
+      background: $white;
+      padding: 0 1.0rem;
+      margin: 0.5rem 0;
+
+      .line1 {
+        width: 100%;
+        height: 2.5rem;
+        line-height: 2.5rem;
+        .span1 {
+
+        }
+        .span2 {
+
+        }
+        .span3 {
+          float: right;
+          color: #f52828;
+        }
+      }
+      .line2 {
+        width: 100%;
+        height: 5.0rem;
+        position: relative;
+
+        .vertical1 {
+          height: 3.2rem;
+          width: 3.2rem;
+          margin: 1rem;
+          margin-left: 0;
+          border-radius: 50%;
+        }
+        .vertical2 {
+          float: left;
+          margin: auto 0;
+          .time {
+            font-size: 0.8rem;
+          }
+          .address {
+            margin-top: 0.5rem;
+            font-size: 0.7rem;
+            color: #999999;
+          }
+        }
+        .vertical3 {
+          position: absolute;
+          right: 0rem;
+          top: 1.3rem;
+          font-size: 0.8rem;
+          color: #999999;
+        }
+      }
+      .line3 {
+        height: 3.0rem;
+        justify-content: space-between;
+
+        .moneyColor {
+          color: #f52828
+        }
+        .tabRight {
+          .butRight {
+            justify-content: center;
+            width: 4.0rem;
+            height: 1.5rem;
+            border: 1px solid $fontColor;
+            border-radius: 4px;
+
+            &:last-child{
+              margin-left: 0.5rem;
+            }
+          }
+
+          .butRight.red-btn{
+            border-color: $projectRed;
+            color: $projectRed;
+          }
+        }
+      }
+    }
+  }
+}

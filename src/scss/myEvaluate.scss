@@ -1,0 +1,39 @@
+@import "base/var";
+
+.my-evaluate{
+  height: 100%;
+  background-color: $bgColor;
+  overflow: auto;
+
+  .evaluate-item{
+    margin: 0.25rem 0;
+    padding: 0 1.0rem;
+    background-color: $white;
+    font-size: 0.8rem;
+
+    .order-info{
+      justify-content: space-between;
+      padding: 0.5rem 0;
+    }
+
+    .stars{
+      .star-unselected{
+        display: block;
+        width: 0.9rem;
+        height: 0.8rem;
+        margin-right: 0.2rem;
+        background-image: url("../assets/star_unselected@2x.png");
+        background-size: cover;
+      }
+
+      .star-unselected.star-selected{
+        background-image: url("../assets/star_selected@2x.png");
+      }
+    }
+
+    .evaluates{
+      padding: 0 0 1.0rem;
+      font-size: 0.8rem;
+    }
+  }
+}
