@@ -44,12 +44,22 @@ export default {
    */
   post (url, data = {}) {
     return new Promise((resolve, reject) => {
-      axios.post(url, data)
-        .then(response => {
-          resolve(response.data)
-        }, err => {
-          reject(err)
-        })
+      // axios.post(url, data)
+      //   .then(response => {
+      //     resolve(response.data)
+      //   }, err => {
+      //     reject(err)
+      //   })
+      axios({
+          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+          url: url,
+          method: 'post',
+          data: JSON.stringify(data)
+      }).then(function(res) {
+          resolve(res.data);
+      }).catch(function(data){
+          reject(data);
+      })
     })
   }
 }

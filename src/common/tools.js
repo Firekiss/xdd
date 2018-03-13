@@ -284,57 +284,19 @@ export default {
         }
     },
 
-    getNativeData: function(isFromEmp) {
-        if (!window.valueFromNativeAll) {
-            window.valueFromNativeAll={};
+    getUserData: function(isFromEmp) {
+        if (!window.getUserData) {
+            window.getUserData={};
         }
-        window.valueFromNativeAll.serverBaseUrl=config.serverBaseUrl;//接口调用统一路径
-        window.valueFromNativeAll.html5BaseUrl=config.html5BaseUrl;//h5页面跳转路径
         console.log(Request('openid'));
-
-            //有openid说明是微信访问，调取接口获取公共参数
-            var type_wc = 2;//1 ：教练    2 ： 学员
-            var getUrl = httpServiceUrl.getMwStudentData;//获取学员信息接口
-            if(isFromEmp){
-                getUrl = httpServiceUrl.getMwCoachData;//获取教练信息接口
-                type_wc = 1;
-            }
+            var getUrl = httpServiceUrl.login;//获取学员信息接口
             var params = {
-                openid: Request('openid'),
-                type_wc: type_wc,
-                needBind: 0
+                openid: Request('openid')
             };
-            window.valueFromNativeAll.type_wc = type_wc;
             return new Promise(function(resolve, reject) {
-                httpService.get(getUrl, params).then(function(data) {
+                httpService.post(getUrl, params).then(function(data) {
                         console.log(JSON.stringify(data));
-                        //window.valueFromNativeAll.gps = data.gps ? data.gps : "32.064735,118.802891";//gps后台不返回。由首页提供
-                        window.valueFromNativeAll.schoolId = data.schoolId ? data.schoolId : Request('schoolId');
-                        window.valueFromNativeAll.schoolCode = data.schoolCode;
-                        window.valueFromNativeAll.studentId = data.studentId;
-                        window.valueFromNativeAll.address = data.address;
-                        window.valueFromNativeAll.phoneNo = data.phoneNo;
-                        window.valueFromNativeAll.subjectType = data.subjectType;
-                        window.valueFromNativeAll.cityCode = data.cityCode;
-                        window.valueFromNativeAll.studentName = data.studentName;
-                        window.valueFromNativeAll.avatarurl = data.avatarurl;
-                        window.valueFromNativeAll.schoolName = data.schoolName;
-                        window.valueFromNativeAll.isLogin = data.isBind;
-                        window.valueFromNativeAll.nickName = data.nickName;
-                        window.valueFromNativeAll.classType = data.classType;
-                        window.valueFromNativeAll.cardType = data.cardType;
-                        window.valueFromNativeAll.studentCardNo = data.studentCardNo;
-                        window.valueFromNativeAll.cardNo = data.cardNo;
-                        window.valueFromNativeAll.email = data.email;
-                        window.valueFromNativeAll.address = data.address;
-                        window.valueFromNativeAll.birthday = data.birthday;
-                        window.valueFromNativeAll.sex = data.sex;
-                        window.valueFromNativeAll.userId = data.userId;
-                        window.valueFromNativeAll.type_wc = type_wc;
-                        window.valueFromNativeAll.flowType = data.flowType;
-                        window.valueFromNativeAll.timeStemp = new Date().getTime();
-                        localStorage.setItem('valueFromNativeAll', JSON.stringify(window.valueFromNativeAll));
-                        resolve(window.valueFromNativeAll);
+                        resolve(window.getUserData);
                 }).catch(function(data){
                     reject(data);
                 });
