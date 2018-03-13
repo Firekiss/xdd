@@ -14,6 +14,7 @@
       <div class="serveType flex-mid">
         <div class="workList"
           v-for="(item, $index) in workList"
+          @click="goGoodDetail($index + 1)"
           :key="$index">
           <img :src="item.imgSrc">
           <div class="work-name"><span>{{item.title}}</span></div>
@@ -85,13 +86,27 @@
     methods: {
       //下拉刷新
       indexRefresh: function () {
-
+        this.queryDoorImageList();
       },
       queryDoorImageList () {
         httpService.get(httpServiceUrl.doorImageList).then(res => {
           this.topImages = res.topItems || [];
           this.activities = res.activityItems || [];
+          this.$refs.loadmore.onTopLoaded();
+        }).catch(err => {
+          Toast(err);
+          this.$refs.loadmore.onTopLoaded();
         })
+      },
+      goGoodDetail (typeNum) {
+        let goUrlParam = {
+          "hashUrl": 'orderImmediately',
+          "getThis": this,
+          'params': {
+            typeNum: typeNum
+          }
+        };
+        goUrl(goUrlParam);
       }
     }
 
