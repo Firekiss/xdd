@@ -69,19 +69,19 @@ const router = new VueRouter({
             { path: 'withdraw',component: Withdraw },// 提现
         ],
         beforeEnter: (to, from, next) => {
-            // if (!window.valueFromNativeAll) {
-            //     //调用native方法，本地调试注释
-            //     tools.getNativeData().then(function(data) {
-            //         window.valueFromNativeAll = data;
-            //         //alert(JSON.stringify(window.valueFromNativeAll))
-            //         next();
-            //     }, function() {
-            //         //出现公共错误页面提示刷新，重新获取native
-            //         alert("main.js getNativeData error");
-            //     });
-            // } else {
-            //     next();
-            // }
+            if (!window.valueFromUserAll) {
+                //调用native方法，本地调试注释
+                tools.getUserData().then(function(data) {
+                    window.valueFromUserAll = data;
+                    //alert(JSON.stringify(window.valueFromUserAll))
+                    next();
+                }, function() {
+                    //出现公共错误页面提示刷新，重新获取native
+                    //alert("main.js getNativeData error");
+                });
+            } else {
+                next();
+            }
             next()
         }
     }]
