@@ -11,9 +11,11 @@ axios.interceptors.response.use(response => {
   let data = response.data;
   if (data.success === true) {
     return data;
+  } else {
+    return Promise.reject(data.msg);
   }
 }, err => {
-  return Promise.reject(err)
+  return Promise.reject(err);
 });
 
 export default {

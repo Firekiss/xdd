@@ -6,6 +6,7 @@ import Container from './components/Container'
 import httpService from './common/httpService'
 import tools from './common/tools'
 import config from './config'
+
 const HelloWorld = r => require.ensure([], () => r(require('./components/HelloWorld')), 'HelloWorld');
 const Index = r => require.ensure([], () => r(require('./components/Index')), 'Index');
 const RegisterLogin = r => require.ensure([], () => r(require('./components/RegisterLogin')), 'RegisterLogin');
@@ -34,83 +35,87 @@ const Withdraw = r => require.ensure([], () => r(require('./components/withdraw'
 
 Vue.use(VueRouter);
 const router = new VueRouter({
-    routes: [{
-        path: '/',
-        redirect: '/index',
-        component: Container,
-        children: [
-            // 首页
-            { path: 'helloWorld', component: HelloWorld },
-            { path: 'hello', component: require('./components/Hello') },
-            { path: 'home', component: require('./components/home') },
-            { path: 'index', component: Index }, //首页
-            { path: 'registerLogin',component: RegisterLogin }, //注册的第一个页面
-            { path: 'stuCertification',component: StuCertification },//学生认证页面
-            { path: 'orderIndex',component: OrderIndex },//学生认证页面
-            { path: 'userInfo',component: UserInfo },// 用户信息
-            { path: 'teamManage',component: TeamManage },// 团队管理
-            { path: 'feedBack',component: FeedBack },// 意见反馈
-            { path: 'settings',component: Settings },// 用户设置
-            { path: 'orderImmediately',component: OrderImmediately },// 立即下单
-            { path: 'submitOrder',component: SubmitOrder },// 提交订单
-            { path: 'orderDetail',component: OrderDetail },// 订单详情
-            { path: 'afterSale',component: AfterSale },// 售后
-            { path: 'evaluate',component: Evaluate },// 评价
-            { path: 'recharge',component: Recharge },// 充值
-            { path: 'balance',component: Balance },// 余额
-            { path: 'expenseHistory',component: ExpenseHistory },// 消费记录
-            { path: 'coupon',component: Coupon },// 卡券
-            { path: 'personInfo',component: PersonInfo },// 个人信息
-            { path: 'setPassword',component: SetPassword },// 设置密码
-            { path: 'applySender',component: ApplySender },// 申请成为派单员
-            { path: 'robOrder',component: RobOrder },// 抢单
-            { path: 'myOrder',component: MyOrder },// 我的订单
-            { path: 'myEvaluate',component: MyEvaluate },// 我的评价
-            { path: 'withdraw',component: Withdraw },// 提现
-        ],
-        beforeEnter: (to, from, next) => {
-            if (!window.valueFromUserAll) {
-                tools.getUserData().then(function(data) {
-                    window.valueFromUserAll = data;
-                    next()
-                }, function() {
-                    //出现公共错误页面提示刷新，重新获取native
-                    // alert("main.js getNativeData error");
-                    next({
-                      path: '/registerLogin',
-                      replace: true
-                    })
-                });
-            } else {
-                next();
-            }
-            next()
-        }
-    }]
+  routes: [{
+    path: '/',
+    redirect: '/index',
+    component: Container,
+    children: [
+      // 首页
+      {path: 'helloWorld', component: HelloWorld},
+      {path: 'hello', component: require('./components/Hello')},
+      {path: 'home', component: require('./components/home')},
+      {path: 'index', component: Index}, //首页
+      {path: 'registerLogin', component: RegisterLogin}, //注册的第一个页面
+      {path: 'stuCertification', component: StuCertification},//学生认证页面
+      {path: 'orderIndex', component: OrderIndex},//学生认证页面
+      {path: 'userInfo', component: UserInfo},// 用户信息
+      {path: 'teamManage', component: TeamManage},// 团队管理
+      {path: 'feedBack', component: FeedBack},// 意见反馈
+      {path: 'settings', component: Settings},// 用户设置
+      {path: 'orderImmediately', component: OrderImmediately},// 立即下单
+      {path: 'submitOrder', component: SubmitOrder},// 提交订单
+      {path: 'orderDetail', component: OrderDetail},// 订单详情
+      {path: 'afterSale', component: AfterSale},// 售后
+      {path: 'evaluate', component: Evaluate},// 评价
+      {path: 'recharge', component: Recharge},// 充值
+      {path: 'balance', component: Balance},// 余额
+      {path: 'expenseHistory', component: ExpenseHistory},// 消费记录
+      {path: 'coupon', component: Coupon},// 卡券
+      {path: 'personInfo', component: PersonInfo},// 个人信息
+      {path: 'setPassword', component: SetPassword},// 设置密码
+      {path: 'applySender', component: ApplySender},// 申请成为派单员
+      {path: 'robOrder', component: RobOrder},// 抢单
+      {path: 'myOrder', component: MyOrder},// 我的订单
+      {path: 'myEvaluate', component: MyEvaluate},// 我的评价
+      {path: 'withdraw', component: Withdraw},// 提现
+    ],
+    beforeEnter: (to, from, next) => {
+      // 如果没有微信用户信息
+      if (!window.wxUserData) {
+        // 获取用户信息
+        tools.getUserData().then(function (data) {
+          // 如果当前用户已经注册过了
+          // 将用户信息挂载到全局属性上面
+          window.wxUserData = data;
+          // 跳转
+          next();
+        }, function () {
+          // 如果用户尚未注册则跳转到注册页面
+          next({
+            path: '/registerLogin',
+            replace: true
+          })
+        });
+      } else {
+        next();
+      }
+      next();
+    }
+  }]
 });
 
 window.autoHideTime = 2000;
 window.bus = new Vue();
 
 router.afterEach(route => {
-    document.body.scrollTop = 0;
+  document.body.scrollTop = 0;
 });
 
 //window.bus = new Vue();
-Vue.filter('formatName', function(name, subLength) {
-    if (!subLength) {
-        subLength = 5; //防止不传
-    }
-    if (name.length > subLength) {
-        return name.slice(0, subLength) + "...";
-    } else {
-        return name;
-    }
+Vue.filter('formatName', function (name, subLength) {
+  if (!subLength) {
+    subLength = 5; //防止不传
+  }
+  if (name.length > subLength) {
+    return name.slice(0, subLength) + "...";
+  } else {
+    return name;
+  }
 });
 new Vue({
-    el: '#app',
-    router,
-    render: h => h(App)
+  el: '#app',
+  router,
+  render: h => h(App)
 });
 
 /*window.preventTouch2 = function() {
