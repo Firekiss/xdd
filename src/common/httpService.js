@@ -4,6 +4,7 @@ import axios from 'axios';
 
 axios.defaults.timeout = 20000; // 接口超时配置
 axios.defaults.baseURL = config.serverBaseUrl; // baseUrl设置
+axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 
 axios.interceptors.response.use(response => {
   // 返回的res数据
@@ -44,22 +45,12 @@ export default {
    */
   post (url, data = {}) {
     return new Promise((resolve, reject) => {
-      // axios.post(url, data)
-      //   .then(response => {
-      //     resolve(response.data)
-      //   }, err => {
-      //     reject(err)
-      //   })
-      axios({
-          headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-          url: url,
-          method: 'post',
-          data: JSON.stringify(data)
-      }).then(function(res) {
-          resolve(res.data);
-      }).catch(function(data){
-          reject(data);
-      })
+      axios.post(url, data)
+        .then(response => {
+          resolve(response.data)
+        }, err => {
+          reject(err)
+        })
     })
   }
 }

@@ -294,7 +294,7 @@ export default {
                 openid: Request('openid')
             };
             return new Promise(function(resolve, reject) {
-                httpService.post(getUrl, params).then(function(data) {
+                httpService.get(getUrl, params).then(function(data) {
                         console.log(JSON.stringify(data));
                         resolve(window.getUserData);
                 }).catch(function(data){

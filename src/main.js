@@ -70,14 +70,16 @@ const router = new VueRouter({
         ],
         beforeEnter: (to, from, next) => {
             if (!window.valueFromUserAll) {
-                //调用native方法，本地调试注释
                 tools.getUserData().then(function(data) {
                     window.valueFromUserAll = data;
-                    //alert(JSON.stringify(window.valueFromUserAll))
-                    next();
+                    next()
                 }, function() {
                     //出现公共错误页面提示刷新，重新获取native
-                    //alert("main.js getNativeData error");
+                    // alert("main.js getNativeData error");
+                    next({
+                      path: '/registerLogin',
+                      replace: true
+                    })
                 });
             } else {
                 next();
