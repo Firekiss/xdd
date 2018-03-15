@@ -11,7 +11,7 @@
       <!--<img src="../assets/icon_arrow.png" class="arrow-icon">-->
     </div>
     <div class="order-survey">
-      <div class="survey-line flex-mid">
+      <div class="survey-line flex-mid border-bottom-1px">
         <span class="survey-name">衣服数量</span>
         <span class="survey-val">{{washNumber}}</span>
       </div>
@@ -48,7 +48,7 @@
     <div class="total-cart flex-mid">
       <div class="total-money-section flex box">
         <div class="reduce-section">
-          <span>已优惠¥10</span>
+          <span>已优惠¥{{ticketMoney}}</span>
         </div>
         <div class="total-bar flex-mid">
           <span class="title">合计</span>
