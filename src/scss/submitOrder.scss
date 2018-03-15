@@ -51,10 +51,22 @@
         color: $projectRed;
       }
 
+      .reduce-money.no-red{
+        margin-right: 0;
+        color: $fontColor;
+      }
+
       .arrow-icon{
         width: 0.7rem;
         height: 0.7rem;
         margin-right: -0.2rem;
+      }
+
+      input{
+        border:none;
+        outline: none;
+        text-align: right;
+        font-size: 0.8rem;
       }
     }
   }

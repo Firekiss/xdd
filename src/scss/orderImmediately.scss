@@ -99,5 +99,9 @@
       font-size: 1.0rem;
       color: $white;
     }
+
+    .order-btn.disable{
+      background-color: #e6e6e6;
+    }
   }
 }

@@ -30,7 +30,10 @@
         <span class="title">合计</span>
         <span class="money">¥{{totalMoney}}</span>
       </div>
-      <span class="order-btn flex-centers">立即下单</span>
+      <span
+        class="order-btn flex-centers"
+        :class="{'disable': washNumber === 0}"
+        @click="goOrder">立即下单</span>
     </div>
   </div>
 </template>
@@ -74,6 +77,21 @@
       // 增加一个衣服数量
       addWashNum () {
         this.washNumber++;
+      },
+      // 点击下单
+      goOrder () {
+        if (this.washNumber > 0) {
+          let goUrlParam = {
+            "hashUrl": 'submitOrder',
+            "getThis": this,
+            'params': {
+              washNumber: this.washNumber,
+              price: this.goodDetail.price,
+              goodType: this.typeNum
+            }
+          };
+          goUrl(goUrlParam);
+        }
       }
     }
   }
