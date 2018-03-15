@@ -26,6 +26,9 @@ export default {
    * @returns {Promise<any>}
    */
   get (url, params = {}) {
+    if(window.wxUserData&&window.wxUserData.user_id){
+       params.user_id=wxUserData.user_id;
+    }
     return new Promise ((resolve, reject) => {
       axios.get(url, {
         params: params

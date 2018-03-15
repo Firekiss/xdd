@@ -96,14 +96,37 @@
         });
       },
       goNext: function () {
-        var goUrlParam = {
-          "hashUrl": 'stuCertification',
-          "params": {
-            aa: "1333"
-          },
-          "getThis": this
+        var self = this;
+        if (!this.telephoneNo) {
+          Toast('手机号码不能为空！');
+          return;
+        }
+        if (!this.telephoneNo.match(this.phoneNumPatten)) {
+          Toast('手机号码输入不正确！');
+          return;
+        }
+        if (!this.checkCode) {
+          Toast('验证码不能为空');
+          return;
+        }
+        var firstRegisterUrl = httpServiceUrl.firstRegister;
+        var firstRegisterParams = {
+            telephone:this.telephoneNo,
+            code:this.checkCode
         };
-        goUrl(goUrlParam);
+        httpService.get(firstRegisterUrl,firstRegisterParams).then(function(){
+            var goUrlParam = {
+                "hashUrl": 'stuCertification',
+                "params": {},
+                "getThis": self
+            };
+            goUrl(goUrlParam);
+        }).catch(function(){
+            if (data && (data.msg || data.message)) {
+              Toast(data.msg || data.message);
+            }
+        });
+        
       },
     }
 

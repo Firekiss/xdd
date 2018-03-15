@@ -87,7 +87,17 @@
       return {
         selected: '1'
       }
-    }
+    },
+    mounted: function () {
+      this.initOrderList();
+    },
+    methods: {
+      initOrderList:function(){
+        
+
+      },
+    },
+    
   }
 </script>
 
