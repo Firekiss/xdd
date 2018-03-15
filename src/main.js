@@ -68,34 +68,34 @@ const router = new VueRouter({
       {path: 'myOrder', component: MyOrder},// 我的订单
       {path: 'myEvaluate', component: MyEvaluate},// 我的评价
       {path: 'withdraw', component: Withdraw},// 提现
-    ],
-    beforeEnter: (to, from, next) => {
-      // 如果没有微信用户信息
-      if (!window.wxUserData) {
-        // 获取用户信息
-        tools.getUserData().then(function (data) {
-          // 如果当前用户已经注册过了
-          // 将用户信息挂载到全局属性上面
-          window.wxUserData = data;
-          // 跳转
-          next();
-        }, function () {
-          // 如果用户尚未注册则跳转到注册页面
-          next({
-            path: '/registerLogin',
-            replace: true
-          })
-        });
-      } else {
-        next();
-      }
-      next();
-    }
+    ]
   }]
 });
 
 window.autoHideTime = 2000;
 window.bus = new Vue();
+
+router.beforeEach((to, from, next) => {
+  // 如果没有微信用户信息
+  if (!window.wxUserData && to.path !== '/registerLogin') {
+    // 获取用户信息
+    tools.getUserData().then(function (data) {
+      // 如果当前用户已经注册过了
+      // 将用户信息挂载到全局属性上面
+      window.wxUserData = data;
+      // 跳转
+      next();
+    }, function () {
+      // 如果用户尚未注册则跳转到注册页面
+      next({
+        path: '/registerLogin',
+        replace: true
+      })
+    });
+  } else {
+    next();
+  }
+});
 
 router.afterEach(route => {
   document.body.scrollTop = 0;
