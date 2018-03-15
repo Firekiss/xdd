@@ -286,8 +286,8 @@ export default {
 
   getUserData: function () {
     // let openid = Request('openid');
-    let openid = '13951751486';
-    // let openid = '18013872740';
+    // let openid = '13951751486';
+    let openid = '18013872740';
     //获取学员信息接口
     let getUrl = httpServiceUrl.login;
     let params = {openid};

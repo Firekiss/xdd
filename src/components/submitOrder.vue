@@ -2,43 +2,46 @@
   <div class="submit-order box">
     <div class="user-info flex-mid box">
       <div class="user-info-section">
-        <span class="user-location">紫金学院A4-208</span>
+        <span class="user-location">{{wxUserData.school_name}}</span>
         <div class="user-base-info">
-          <span class="user-name">苏(女士)</span>
-          <span class="user-tell">173****6650</span>
+          <span class="user-name">{{wxUserData.user_name}}</span>
+          <span class="user-tell">{{wxUserData.telephone.substr(0, 3) + '****' + wxUserData.telephone.substr(7, 4)}}</span>
         </div>
       </div>
-      <img src="../assets/icon_arrow.png" class="arrow-icon">
+      <!--<img src="../assets/icon_arrow.png" class="arrow-icon">-->
     </div>
     <div class="order-survey">
       <div class="survey-line flex-mid">
         <span class="survey-name">衣服数量</span>
-        <span class="survey-val">2</span>
+        <span class="survey-val">{{washNumber}}</span>
       </div>
       <div class="survey-line flex-mid border-bottom-1px">
         <span class="survey-name">洗衣袋数量</span>
-        <span class="survey-val">2</span>
+        <span class="survey-val">1</span>
       </div>
       <div class="survey-line flex-mid border-bottom-1px"
         @click="showTicketSheet">
         <span class="survey-name">商家卡券</span>
-        <div class="survey-line-right flex-mid">
-          <span class="reduce-money">- ¥10.00</span>
+        <div class="survey-line-right flex-mid" v-if="ticketList.length">
+          <span class="reduce-money" v-if="ticketMoney > 0">- ¥{{ticketMoney}}</span>
+          <span class="reduce-money no-red" v-if="ticketMoney === 0">请选择优惠券</span>
           <img src="../assets/icon_arrow.png" class="arrow-icon">
+        </div>
+        <div class="survey-line-right flex-mid" v-else>
+          <span class="reduce-money no-red">暂无优惠券</span>
         </div>
       </div>
       <div class="survey-line flex only-right border-bottom-1px">
         <div class="survey-line-right flex-mid">
           <span class="total">小计</span>
-          <span class="reduce-money">¥14.00</span>
+          <span class="reduce-money">¥{{realityMoney}}</span>
         </div>
       </div>
     </div>
     <div class="remark survey-line flex-mid">
       <span class="survey-name">备注</span>
       <div class="survey-line-right flex-mid">
-        <span class="no-remark">暂无备注</span>
-        <img src="../assets/icon_arrow.png" class="arrow-icon">
+        <input type="text" placeholder="暂无备注" v-model="mark">
       </div>
     </div>
 
@@ -49,10 +52,10 @@
         </div>
         <div class="total-bar flex-mid">
           <span class="title">合计</span>
-          <span class="money">¥14.00</span>
+          <span class="money">¥{{realityMoney}}</span>
         </div>
       </div>
-      <span class="order-btn flex-centers" @click.stop="showPaySheet">立即下单</span>
+      <span class="order-btn flex-centers" @click.stop="createOrder">立即下单</span>
     </div>
 
     <!--使用卡券遮罩选择-->
@@ -62,9 +65,11 @@
       :close="closeTicketSheet"
       :maskClick="ticketSheetClick">
         <div class="ticket-list box">
-          <div class="ticket-item border-bottom-1px flex-mid" @click="ticketToggle">
-            <span class="ticket-name">¥10.00 洗衣代金券</span>
-            <span class="check" v-if="!ticketChecked"><img src="../assets/check@2x.png"></span>
+          <div class="ticket-item border-bottom-1px flex-mid"
+               v-for="(ticket, $index) in ticketList"
+               @click="ticketToggle($index)">
+            <span class="ticket-name">¥{{ticket.couple_value}} 洗衣代金券</span>
+            <span class="check" v-if="!ticket.ticketChecked"><img src="../assets/check@2x.png"></span>
             <span class="check" v-else><img src="../assets/checked@2x.png"></span>
           </div>
         </div>
@@ -75,8 +80,7 @@
       :title="payTypeSheet.title"
       :visible="payTypeSheet.visible"
       :close="closePaySheet"
-      :maskClick="paySheetClick"
-      @do="dadasd">
+      :maskClick="paySheetClick">
       <div class="ticket-list box">
         <div class="ticket-item border-bottom-1px flex-mid" @click="ticketToggle">
           <span class="ticket-name">微信支付</span>
@@ -94,8 +98,11 @@
 </template>
 
 <script>
+  import httpServiceUrl from '../common/httpServiceUrl';
+  import httpService from '../common/httpService';
   import '@/scss/submitOrder.scss'
-  import widgetMaskSheet from './widget/widgetMaskSheet'
+  import widgetMaskSheet from './widget/widgetMaskSheet';
+
   export default {
     name: "submit-order",
     components: {
@@ -111,12 +118,57 @@
           visible: false,
           title: '选择支付方式'
         },
-        ticketChecked: false
+        ticketChecked: false,
+        wxUserData: window.wxUserData,
+        washNumber: Number(Request('washNumber')),
+        price: Request('price'),
+        goodType: Number(Request('goodType')),
+        ticketMoney: 0,
+        ticketList: [],
+        selectedTicket: {},
+        mark: ''
       }
     },
+    computed:{
+      realityMoney () {
+        let money = this.washNumber * this.price - this.ticketMoney;
+        return money > 0 ? money : 0
+      }
+    },
+    mounted () {
+      // 获取当前用户未使用且未过期的优惠券列表
+      this.getUserCoupleList();
+    },
     methods: {
+      getUserCoupleList () {
+        httpService.get(httpServiceUrl.userCoupleList, {
+          user_id: this.wxUserData.user_id,
+          type: 1
+        }).then(res => {
+          this.ticketList = res.userCoupleItems;
+        })
+      },
+      // 点击立即下单
+      createOrder () {
+        let params = {
+          user_id: this.wxUserData.user_id,
+          good_type: this.goodType,
+          good_num: this.washNumber,
+          mark: this.mark
+        };
+
+        if (this.ticketMoney > 0) {
+          params.couple_id = this.selectedTicket.couple_id;
+        }
+
+        httpService.get(httpServiceUrl.addOrder, params).then(res => {
+
+        })
+      },
+      // 点击显示优惠券弹窗
       showTicketSheet () {
-        this.ticketUseSheet.visible = true;
+        (this.ticketList.length) &&
+        (this.ticketUseSheet.visible = true);
       },
       closeTicketSheet () {
         this.ticketUseSheet.visible = false;
@@ -124,8 +176,16 @@
       ticketSheetClick () {
         this.ticketUseSheet.visible = false;
       },
-      ticketToggle () {
-        this.ticketChecked = !this.ticketChecked;
+      // 选中一张优惠券的操作
+      ticketToggle (index) {
+        this.ticketList.forEach((ticket, i) => {
+          ticket.ticketChecked = false;
+          this.$set(this.ticketList, i, ticket);
+        });
+        this.ticketList[index].ticketChecked = true;
+        this.ticketMoney = this.ticketList[index].couple_value;
+        this.selectedTicket = this.ticketList[index];
+        this.$set(this.ticketList, index, this.ticketList[index]);
       },
       showPaySheet () {
         this.payTypeSheet.visible = true;

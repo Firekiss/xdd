@@ -49,13 +49,18 @@ export default {
    * @returns {Promise<any>}
    */
   post (url, data = {}) {
+    console.log(data);
     return new Promise((resolve, reject) => {
-      axios.post(url, data)
-        .then(response => {
-          resolve(response.data)
-        }, err => {
-          reject(err)
-        })
+      axios({
+        method: 'post',
+        url: url,
+        data: data
+      })
+      .then(response => {
+        resolve(response.data)
+      }, err => {
+        reject(err)
+      })
     })
   }
 }
