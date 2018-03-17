@@ -213,9 +213,9 @@ window.goUrl = function (goUrlParam, isFromBind) {
     window.location.href = goUrlParam.url;
     return;
   }
-  if (Request('openid')) {
-    goUrlParam.params.openid = openid;
-    goUrlParam.params.appId = appId;
+  if (window.openid||Request(openid)) {
+     goUrlParam.params.openid = window.openid?window.openid:Request(openid);
+    //goUrlParam.params.appId = window.appId;
   }
   if (goUrlParam.pushType == 'replace') {
     //如果存在pushType为1,说明用replace跳转
@@ -287,10 +287,12 @@ export default {
   getUserData: function () {
     // let openid = Request('openid');
     // let openid = '13951751486';
-    let openid = '18013872740';
+    //let openid = window.openid;
     //获取学员信息接口
     let getUrl = httpServiceUrl.login;
-    let params = {openid};
+    let params = {
+      
+    };
 
     return new Promise(function (resolve, reject) {
       httpService.get(getUrl, params).then(function (data) {

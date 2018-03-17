@@ -6,4 +6,5 @@ export default {
   personalById:'/CloseCenter/closeUser/personalById.action',//用户个人信息
   userCoupleList: '/CloseCenter/closeUser/userCoupleList.action?', // 获取用户优惠券列表
   addOrder: '/CloseCenter/closeUser/addOrder.action', // 用户提交订单接口
+  weChatOpenId:'/CloseCenter/closeUser/weChatOpenId.action',//获取openid
 }

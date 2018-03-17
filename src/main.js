@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import App from './App'
 import Container from './components/Container'
 import httpService from './common/httpService'
+import httpServiceUrl from './common/httpServiceUrl'
 import tools from './common/tools'
 import config from './config'
 
@@ -77,6 +78,33 @@ window.bus = new Vue();
 
 router.beforeEach((to, from, next) => {
   // 如果没有微信用户信息
+  //var code = Request('code');
+  console.log(window.location.href);
+  var getCode = "";
+  var getParams = window.location.href.split('#/')[0].split("index.html?")[1];
+  if(getParams){
+    var getNewUrl = window.location.href+"?"+getParams;
+     getCode = Request('code');
+  }
+  if(!getCode||getCode==undefined){
+      //重定向获取code
+      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+  }else if(!window.openid){
+      window.openid = "";
+      var getOpenid =  httpServiceUrl.weChatOpenId;
+      var params = {
+        code:getCode,
+      }
+      httpService.get(getOpenid, params).then(function (data) {
+        window.openid = data.openid;
+        alert('openid='+window.openid);
+        if(!data.openid){
+          alert("openid为空");
+        }
+      }).catch(function (data) {
+        alert("openid获取失败");
+      });
+  }
   if (!window.wxUserData && to.path !== '/registerLogin') {
     // 获取用户信息
     tools.getUserData().then(function (data) {
