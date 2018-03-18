@@ -213,7 +213,11 @@ window.goUrl = function (goUrlParam, isFromBind) {
     window.location.href = goUrlParam.url;
     return;
   }
+  if(!goUrlParam.params){
+     goUrlParam.params = {};
+  }
   if (window.openid||Request(openid)) {
+    console.log(window.openid);
      goUrlParam.params.openid = window.openid?window.openid:Request(openid);
     //goUrlParam.params.appId = window.appId;
   }
