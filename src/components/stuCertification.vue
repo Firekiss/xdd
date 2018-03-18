@@ -321,7 +321,8 @@
       submitRegister () {
         let params = {
           openid: window.openid,
-          telephone: Request('telephone')
+          telephone: Request('telephone'),
+          user_image_url: window.user_image_url
         };
 
         if (!this.stuParams.name) {
