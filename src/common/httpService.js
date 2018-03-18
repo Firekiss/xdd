@@ -13,7 +13,7 @@ axios.interceptors.response.use(response => {
   if (data.success === true) {
     return data;
   } else {
-    return Promise.reject(data.msg);
+    return Promise.reject(data);
   }
 }, err => {
   return Promise.reject(err);

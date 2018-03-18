@@ -289,15 +289,12 @@ export default {
   },
 
   getUserData: function () {
-    // let openid = Request('openid');
-    // let openid = '13951751486';
-    //let openid = window.openid;
     //获取学员信息接口
     let getUrl = httpServiceUrl.login;
     let params = {
-      
+      openid: window.openid
     };
-
+    console.log(params, '请求用户信息参数')
     return new Promise(function (resolve, reject) {
       httpService.get(getUrl, params).then(function (data) {
         resolve(window.wxUserData = data);

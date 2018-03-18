@@ -83,6 +83,9 @@
         .confirm-btn{
           position: absolute;
           right: 1.0rem;
+          top: 0;
+          height: 2.5rem;
+          line-height: 2.5rem;
           color: $projectGreen;
         }
       }

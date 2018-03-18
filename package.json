@@ -17,6 +17,7 @@
     "exif": "^0.6.0",
     "mint-ui": "^2.1.0",
     "qs": "^6.5.1",
+    "vconsole": "^3.1.0",
     "vue": "^2.2.6",
     "vue-awesome-swiper": "^2.4.0",
     "vue-router": "^2.3.1"
@@ -54,6 +55,7 @@
     "shelljs": "^0.7.6",
     "url-loader": "^0.5.8",
     "url-search-params": "^0.6.1",
+    "vconsole": "^3.1.0",
     "vue-loader": "^11.3.4",
     "vue-resource": "^1.0.3",
     "vue-style-loader": "^2.0.5",

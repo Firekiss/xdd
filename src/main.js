@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import VConsole from 'vconsole'
 
 import App from './App'
 import Container from './components/Container'
@@ -35,6 +36,8 @@ const MyEvaluate = r => require.ensure([], () => r(require('./components/myEvalu
 const Withdraw = r => require.ensure([], () => r(require('./components/withdraw')), 'withdraw');
 
 Vue.use(VueRouter);
+new VConsole(); // 移动端日志打印工具
+
 const router = new VueRouter({
   routes: [{
     path: '/',
@@ -76,58 +79,82 @@ const router = new VueRouter({
 window.autoHideTime = 2000;
 window.bus = new Vue();
 
-router.beforeEach((to, from, next) => {
-  // 如果没有微信用户信息
-  //var code = Request('code');
-  console.log(window.location.href);
-  var getCode = "";
-  var getParams = window.location.href.split('#/')[0].split("index.html?")[1];
-  if(getParams){
-    var getNewUrl = window.location.href+"?"+getParams;
-     getCode = Request('code');
+
+// 获取微信重定向地址中的code值
+function getWxCode() {
+  let codeReg = /\?\S*code=(\S*)&/;
+  let href = window.location.href;
+  return href.match(codeReg)[1];
+}
+
+// 获取openid
+function getOpenid(code) {
+  if (!code) {
+    //重定向获取code
+    console.error('没有获取到code, 进行路由重定向');
+    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
   }
+
+  if (!window.openid) {
+    let params = {
+      code
+    };
+
+    // 返回获取openid的promise对象
+    return httpService.get(httpServiceUrl.weChatOpenId, params).then(res => {
+      window.openid = res.openid;
+      window.user_image_url = data.user_image_url;
+
+      if (window.openid) {
+        console.info('当前用户openid >>>>', window.openid)
+      } else {
+        console.error('用户openid为空')
+      }
+    }).catch(err => {
+      Toast(err.msg)
+    })
+  }
+}
+
+
+
+router.beforeEach((to, from, next) => {
+
   window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
-  // getCode = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
+  // code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
-  // if(!getCode||getCode==undefined){
-  //     //重定向获取code
-  //     window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-  // }else if(!window.openid){
-  //     window.openid = "";
-  //     var getOpenid =  httpServiceUrl.weChatOpenId;
-  //     var params = {
-  //       code:getCode,
-  //     }
-  //     httpService.get(getOpenid, params).then(function (data) {
-  //       window.openid = data.openid;
-  //       window.user_image_url = data.user_image_url;
-  //       alert('openid='+window.openid);
-  //       if(!data.openid){
-  //         alert("openid为空");
-  //       }
-  //     }).catch(function (data) {
-  //       alert("openid获取失败");
-  //     });
-  // }
-
-  if (!window.wxUserData && (to.path !== '/registerLogin' && to.path !== '/stuCertification')) {
-    // 获取用户信息
-    tools.getUserData().then(function (data) {
-      // 如果当前用户已经注册过了
-      // 将用户信息挂载到全局属性上面
-      window.wxUserData = data;
-      // 跳转
-      next();
-    }, function () {
-      // 如果用户尚未注册则跳转到注册页面
-      next({
-        path: '/registerLogin',
-        replace: true
-      })
-    });
+  if (!window.openid) {
+    let code = getWxCode();
+    getOpenid(code).then(() => {
+      guard();
+    })
   } else {
-    console.log(222)
-    next();
+    guard();
+  }
+
+  function guard() {
+    if (!window.wxUserData && (to.path !== '/registerLogin' && to.path !== '/stuCertification')) {
+      // 获取用户信息
+      console.log('开始获取用户信息')
+      tools.getUserData().then(function (data) {
+        // 如果当前用户已经注册过了
+        // 将用户信息挂载到全局属性上面
+        console.log('用户信息 >>', data);
+        window.wxUserData = data;
+        // 跳转
+        next();
+      }, function () {
+        console.log('用户尚未注册，跳转注册页');
+        // 如果用户尚未注册则跳转到注册页面
+        next({
+          path: '/registerLogin',
+          replace: true
+        })
+      });
+    } else {
+      console.log('存在用户信息, 自然跳转');
+      next();
+    }
   }
 });
 
