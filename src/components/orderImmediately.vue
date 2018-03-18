@@ -87,7 +87,7 @@
             'params': {
               washNumber: this.washNumber,
               price: this.goodDetail.price,
-              goodType: this.typeNum
+                goodType: this.typeNum
             }
           };
           goUrl(goUrlParam);

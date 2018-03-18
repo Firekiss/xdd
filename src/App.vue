@@ -72,4 +72,8 @@
         transform-origin: 0 0;
       }
     }
+
+    input::-webkit-input-placeholder{
+      color: #999;
+    }
 </style>

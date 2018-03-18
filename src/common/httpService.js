@@ -1,6 +1,7 @@
 import config from '../config';
 import tools from './tools';
 import axios from 'axios';
+import qs from 'qs'
 
 axios.defaults.timeout = 20000; // 接口超时配置
 axios.defaults.baseURL = config.serverBaseUrl; // baseUrl设置
@@ -54,7 +55,7 @@ export default {
       axios({
         method: 'post',
         url: url,
-        data: data
+        data: qs.stringify(data)
       })
       .then(response => {
         resolve(response.data)

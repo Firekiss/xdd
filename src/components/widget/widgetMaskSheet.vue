@@ -7,6 +7,7 @@
              class="close-btn"
              @click.stop="close">
         <span>{{title}}</span>
+        <span v-if="showConfirm" class="confirm-btn" @click="confirm">确定</span>
       </div>
       <slot></slot>
     </div>
@@ -25,11 +26,19 @@
         type: String,
         default: '请选择'
       },
+      showConfirm: {
+        type: Boolean,
+        default: false
+      },
       close: {
         type: Function,
         default: function () {}
       },
       maskClick: {
+        type: Function,
+        default: function () {}
+      },
+      confirm: {
         type: Function,
         default: function () {}
       }
@@ -69,6 +78,12 @@
           top: 0.7rem;
           width: 0.8rem;
           height: 0.8rem;
+        }
+
+        .confirm-btn{
+          position: absolute;
+          right: 1.0rem;
+          color: $projectGreen;
         }
       }
     }
