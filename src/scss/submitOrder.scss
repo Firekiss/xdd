@@ -160,4 +160,51 @@
       }
     }
   }
+  .wholeCover2 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: black;
+    opacity: .6;
+    width: 100%;
+    height: 100%;
+    z-index: 10; 
+  }
+  .popSureBackMoney{
+      width: 80%;
+      height: 8rem;
+      overflow: auto;
+      margin: auto;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      display: table;
+      border-radius: 5px;
+      background-color: #ffffff;
+      z-index:20;
+      .topMsg{
+            height: 2rem;
+            text-align: center;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+      }
+      .doubleBotton2{
+          width: 92%;
+          height: 2.2rem;
+          margin-top: 1rem;
+          margin: auto;
+          color: white;
+          text-align: center;
+          line-height: 2.2rem;
+          .sureBotton_pay{
+                width: 47%;
+                height: 100%;
+                background: #ff394a;
+                border-radius: 4px;
+                margin: auto;
+          }
+      }
+  }
 }

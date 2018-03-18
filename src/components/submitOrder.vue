@@ -1,5 +1,7 @@
 <template>
   <div class="submit-order box">
+    <!-- 弹出框蒙层 -->
+    <div class="wholeCover2" @touchmove.prevent v-if="payWeixin_resultPop"></div>
     <div class="user-info flex-mid box">
       <div class="user-info-section">
         <span class="user-location">{{wxUserData.school_name}}</span>
@@ -96,6 +98,17 @@
         </div>
       </div>
     </widget-mask-sheet>
+
+            <!-- 返回支付结果弹出框 -->
+    <div class="popSureBackMoney" v-if="payWeixin_resultPop">
+        <div class="topMsg">
+            {{payWeixinMsg}}
+        </div>
+        <div class="doubleBotton2">
+            <div class="sureBotton_pay" @click="afterPayWeiXin()">确认</div>
+        </div>
+    </div>
+
   </div>
 </template>
 
@@ -129,7 +142,12 @@
         ticketMoney: 0,
         ticketList: [],
         selectedTicket: {},
-        mark: ''
+        mark: '',
+        getOrderNum:'',//订单号
+        payWeixin_resultPop:0,//是否展示支付弹框
+        payWeixinMsg:'',//支付结果信息
+        payWeixin_result:'',//支付结果
+        
       }
     },
     computed:{
@@ -166,6 +184,7 @@
 
         httpService.get(httpServiceUrl.addOrder, params).then(res => {
           // 用户提交订单成功后
+          this.getOrderNum=res.order_num;
           this.showPaySheet()
         })
       },
@@ -205,12 +224,73 @@
         this.payType = payType;
       },
       confirmToPay () {
+        var self = this;
         if (this.payType === 'wxPay') {
+          console.log(this.getOrderNum);
           console.log('选择微信支付');
+          var settle_accounts_url = httpServiceUrl.createWxOrder; //生成订单接口
+          var pay_params = {
+              order_num:this.getOrderNum
+          };
+          httpService.get(settle_accounts_url, pay_params).then(function(data) {
+              //生成订单后立即支付
+              self.closePaySheet();
+              console.log(JSON.stringify(data));
+              WeixinJSBridge.invoke('getBrandWCPayRequest', {
+                  "appId": data.paySign.appId,
+                  "timeStamp": data.paySign.timeStamp,
+                  "nonceStr": data.paySign.nonceStr,
+                  "package": data.paySign.package,
+                  "signType": data.paySign.signType,
+                  "paySign": data.paySign.paySign
+              }, function(res) {
+                  if (res.err_msg == "get_brand_wcpay_request:ok") {
+                      //self.comfirm('支付成功', self.remove);
+                      self.payWeixinMsg = "支付成功";
+                      Indicator.open();
+                      self.payWeixin_result = 1;
+                      setTimeout(function(argument) {
+                          Indicator.close();
+                          self.payWeixin_resultPop = 1;//展示支付结果弹出框
+                      },2000)
+                  } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                      self.payWeixinMsg = "取消支付";
+                      self.payWeixin_result = 2;
+                      self.payWeixin_resultPop = 1;//展示支付结果弹出框
+                  } else {
+                      self.payWeixinMsg = "支付失败";
+                      self.payWeixin_result = 3;
+                      self.payWeixin_resultPop = 1;//展示支付结果弹出框
+                  }
+
+              });
+          }).catch(function(data) {
+              if(data&&(data.msg||data.message)){
+                  Toast(data.msg||data.message);
+              }
+              
+          })
         } else {
           console.log('选择余额支付');
         }
-      }
+      },
+
+      //点击支付结果的确认框
+      afterPayWeiXin:function(){
+          this.payWeixinMsg = "";
+          this.payWeixin_resultPop = 0;//支付结果弹出框消失
+          if(this.payWeixin_result==1){
+              //支付成功
+              //处理返回刷新
+              //window.history.go(-1);
+               var getParams = {
+                hashUrl: 'orderIndex',
+                getThis: this
+              };
+              goUrl(getParams);
+          }
+          this.payWeixin_result = 0;//支付结果重置
+      },
     }
   }
 </script>

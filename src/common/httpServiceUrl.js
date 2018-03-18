@@ -11,4 +11,5 @@ export default {
   houseList: '/CloseCenter/closePublic/houseListBySchoolId.action?', // 查询学校宿舍列表接口
   weChatOpenId:'/CloseCenter/closeUser/weChatOpenId.action',//获取openid
   secRegister: '/CloseCenter/closeUser/secRegister.action', //注册第二步接口
+  createWxOrder:'/CloseCenter/closeUser/user/wx.action',//生成订单接口
 }
