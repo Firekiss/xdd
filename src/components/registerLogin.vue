@@ -117,16 +117,18 @@
         httpService.get(firstRegisterUrl,firstRegisterParams).then(function(){
             var goUrlParam = {
                 "hashUrl": 'stuCertification',
-                "params": {},
+                "params": {
+                  telephone: self.telephoneNo
+                },
                 "getThis": self
             };
             goUrl(goUrlParam);
-        }).catch(function(){
+        }).catch(function(data){
             if (data && (data.msg || data.message)) {
               Toast(data.msg || data.message);
             }
         });
-        
+
       },
     }
 

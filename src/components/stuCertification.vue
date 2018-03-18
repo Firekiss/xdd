@@ -29,12 +29,14 @@
       </div>
       <div class="commonLine border-bottom-1px">
         <span class="span1">所在年级</span>
+        <span class="mustFlow">*</span>
         <span class="span2">
           <input type="text" placeholder="请选择您的所在年级" class="input-row" v-model="stuParams.grade">
         </span>
       </div>
       <div class="commonLine border-bottom-1px">
         <span class="span1">所属专业</span>
+        <span class="mustFlow">*</span>
         <span class="span2">
           <input type="text" placeholder="请选择您的所属专业" class="input-row" v-model="stuParams.professional">
         </span>
@@ -51,7 +53,7 @@
             <input type="text" placeholder="宿舍号" class="input-row" v-model="stuParams.addressNum">
         </span>
       </div>
-      <div class="nextBut">完成</div>
+      <div class="nextBut" @click="submitRegister">完成</div>
 
       <!-- 地区选择组件 -->
       <widget-mask-sheet
@@ -76,15 +78,15 @@
       </widget-mask-sheet>
 
       <!-- 学校宿舍选择组件 -->
-      <!--<widget-mask-sheet-->
-        <!--:visible="houseSheet.visible"-->
-        <!--:title="houseSheet.title"-->
-        <!--:showConfirm="houseSheet.showConfirm"-->
-        <!--:close="closeHouseSheet"-->
-        <!--:maskClick="houseSheetMaskClick"-->
-        <!--:confirm="houseSheetConfirm">-->
-        <!--<mt-picker :slots="houseSlots" value-key="school_name" @change="onHouseValuesChange"></mt-picker>-->
-      <!--</widget-mask-sheet>-->
+      <widget-mask-sheet
+        :visible="houseSheet.visible"
+        :title="houseSheet.title"
+        :showConfirm="houseSheet.showConfirm"
+        :close="closeHouseSheet"
+        :maskClick="houseSheetMaskClick"
+        :confirm="houseSheetConfirm">
+        <mt-picker :slots="houseSlots" value-key="house_num" @change="onHouseValuesChange"></mt-picker>
+      </widget-mask-sheet>
 
     </div>
   </div>
@@ -210,6 +212,7 @@
       changeCity (cityId) {
         return this.queryAreaList(3, cityId)
       },
+      // 查询区域内的学校列表
       querySchoolList () {
         let params = {
           province: this.curCityValues[0].name,
@@ -217,10 +220,17 @@
           area: this.curCityValues[2].name,
         };
         httpService.post(httpServiceUrl.schoolList, params).then(res => {
-          this.schoolSlots[0].values = [{
-            "school_id":1,
-            "school_name":"南京理工大学紫金学院"
-          }]
+          this.schoolSlots[0].values = res.schoolItems;
+          this.curSchoolValues = res.schoolItems[0];
+        })
+      },
+      // 查询学校内的宿舍楼列表
+      queryHouseList () {
+        let params = {
+          school_id: this.curSchoolValues.school_id
+        };
+        httpService.post(httpServiceUrl.houseList, params).then(res => {
+          this.houseSlots[0].values = res.houseItems;
         })
       },
       showAreaSheet () {
@@ -285,7 +295,72 @@
       },
       // 显示宿舍楼选择列表
       showHouseSheet () {
-        this.houseSheet.visible = true
+        if (this.stuParams.school) {
+          this.houseSheet.visible = true;
+          this.queryHouseList()
+        } else {
+          Toast('请先选择你所在的学校')
+        }
+      },
+      closeHouseSheet () {
+        this.houseSheet.visible = false
+      },
+      houseSheetMaskClick () {
+        this.houseSheet.visible = false
+      },
+      // 确认选择
+      houseSheetConfirm () {
+        this.houseSheet.visible = false;
+        this.stuParams.addressDetail = this.curHouseValues.house_num;
+      },
+      // 所选宿舍楼发生改变的回调函数
+      onHouseValuesChange (picker, values) {
+        this.curHouseValues = values[0]
+      },
+      // 点击完成提交注册
+      submitRegister () {
+        let params = {
+          openid: window.openid,
+          telephone: Request('telephone')
+        };
+
+        if (!this.stuParams.name) {
+          Toast('请填写姓名');
+          return
+        } else {
+          params.user_name = this.stuParams.name;
+        }
+        if (!this.stuParams.addressDetail) {
+          Toast('请填写详细地址');
+          return
+        } else {
+          params.house_id = this.curHouseValues.house_id;
+        }
+
+        if (!this.stuParams.grade) {
+          Toast('请填写所在年级');
+          return
+        } else {
+          params.grade_num = this.stuParams.grade;
+        }
+
+        if (!this.stuParams.professional) {
+          Toast('请填写专业');
+          return
+        } else {
+          params.major = this.stuParams.professional
+        }
+
+        if (!this.stuParams.addressNum) {
+          Toast('请填写宿舍号');
+          return
+        } else {
+          params.room_num = this.stuParams.addressNum;
+        }
+
+        httpService.post(httpServiceUrl.secRegister, params).then(res => {
+          console.log(res)
+        })
       }
     }
 

@@ -86,26 +86,31 @@ router.beforeEach((to, from, next) => {
     var getNewUrl = window.location.href+"?"+getParams;
      getCode = Request('code');
   }
-  if(!getCode||getCode==undefined){
-      //重定向获取code
-      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
-  }else if(!window.openid){
-      window.openid = "";
-      var getOpenid =  httpServiceUrl.weChatOpenId;
-      var params = {
-        code:getCode,
-      }
-      httpService.get(getOpenid, params).then(function (data) {
-        window.openid = data.openid;
-        alert('openid='+window.openid);
-        if(!data.openid){
-          alert("openid为空");
-        }
-      }).catch(function (data) {
-        alert("openid获取失败");
-      });
-  }
-  if (!window.wxUserData && to.path !== '/registerLogin') {
+  window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
+  // getCode = '001nFi7g2m6xlC01Te9g2oww7g2nFi7u';
+
+  // if(!getCode||getCode==undefined){
+  //     //重定向获取code
+  //     window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+  // }else if(!window.openid){
+  //     window.openid = "";
+  //     var getOpenid =  httpServiceUrl.weChatOpenId;
+  //     var params = {
+  //       code:getCode,
+  //     }
+  //     httpService.get(getOpenid, params).then(function (data) {
+  //       window.openid = data.openid;
+  //       window.
+  //       alert('openid='+window.openid);
+  //       if(!data.openid){
+  //         alert("openid为空");
+  //       }
+  //     }).catch(function (data) {
+  //       alert("openid获取失败");
+  //     });
+  // }
+
+  if (!window.wxUserData && (to.path !== '/registerLogin' && to.path !== '/stuCertification')) {
     // 获取用户信息
     tools.getUserData().then(function (data) {
       // 如果当前用户已经注册过了
@@ -121,6 +126,7 @@ router.beforeEach((to, from, next) => {
       })
     });
   } else {
+    console.log(222)
     next();
   }
 });
