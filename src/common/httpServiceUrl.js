@@ -9,4 +9,5 @@ export default {
   areaList: '/CloseCenter/closePublic/areaList.action?', // 查询省市区接口
   schoolList: '/CloseCenter/closePublic/schoolListByArea.action?', // 查询学校列表接口
   houseList: '/CloseCenter/closePublic/houseListBySchoolId.action?', // 查询学校宿舍列表接口
+  weChatOpenId:'/CloseCenter/closeUser/weChatOpenId.action',//获取openid
 }

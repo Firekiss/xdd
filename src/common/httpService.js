@@ -30,6 +30,9 @@ export default {
     if(window.wxUserData&&window.wxUserData.user_id){
        params.user_id=wxUserData.user_id;
     }
+    if(window.openid){
+      params.openid = window.openid;
+    }
     return new Promise ((resolve, reject) => {
       axios.get(url, {
         params: params
