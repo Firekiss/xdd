@@ -79,17 +79,19 @@
     <widget-mask-sheet
       :title="payTypeSheet.title"
       :visible="payTypeSheet.visible"
+      :showConfirm="payTypeSheet.showConfirm"
+      :confirm="confirmToPay"
       :close="closePaySheet"
       :maskClick="paySheetClick">
       <div class="ticket-list box">
-        <div class="ticket-item border-bottom-1px flex-mid" @click="ticketToggle">
+        <div class="ticket-item border-bottom-1px flex-mid" @click="selectPayType('wxPay')">
           <span class="ticket-name">微信支付</span>
-          <span class="check" v-if="!ticketChecked"><img src="../assets/check@2x.png"></span>
+          <span class="check" v-if="!(payType === 'wxPay')"><img src="../assets/check@2x.png"></span>
           <span class="check" v-else><img src="../assets/checked@2x.png"></span>
         </div>
-        <div class="ticket-item border-bottom-1px flex-mid" @click="ticketToggle">
+        <div class="ticket-item border-bottom-1px flex-mid" @click="selectPayType('balance')">
           <span class="ticket-name">余额支付</span>
-          <span class="check" v-if="!ticketChecked"><img src="../assets/check@2x.png"></span>
+          <span class="check" v-if="!(payType === 'balance')"><img src="../assets/check@2x.png"></span>
           <span class="check" v-else><img src="../assets/checked@2x.png"></span>
         </div>
       </div>
@@ -116,9 +118,10 @@
         },
         payTypeSheet: {
           visible: false,
-          title: '选择支付方式'
+          title: '选择支付方式',
+          showConfirm: true
         },
-        ticketChecked: false,
+        payType: 'wxPay',
         wxUserData: window.wxUserData,
         washNumber: Number(Request('washNumber')),
         price: Request('price'),
@@ -162,7 +165,8 @@
         }
 
         httpService.get(httpServiceUrl.addOrder, params).then(res => {
-
+          // 用户提交订单成功后
+          this.showPaySheet()
         })
       },
       // 点击显示优惠券弹窗
@@ -195,6 +199,17 @@
       },
       paySheetClick () {
         this.payTypeSheet.visible = false;
+      },
+      // 点击切换支付方式
+      selectPayType (payType) {
+        this.payType = payType;
+      },
+      confirmToPay () {
+        if (this.payType === 'wxPay') {
+          console.log('选择微信支付');
+        } else {
+          console.log('选择余额支付');
+        }
       }
     }
   }

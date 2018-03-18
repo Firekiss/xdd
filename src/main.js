@@ -87,7 +87,7 @@ router.beforeEach((to, from, next) => {
      getCode = Request('code');
   }
   window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
-  // getCode = '001nFi7g2m6xlC01Te9g2oww7g2nFi7u';
+  // getCode = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
   // if(!getCode||getCode==undefined){
   //     //重定向获取code
@@ -100,7 +100,7 @@ router.beforeEach((to, from, next) => {
   //     }
   //     httpService.get(getOpenid, params).then(function (data) {
   //       window.openid = data.openid;
-  //       window.
+  //       window.user_image_url = data.user_image_url;
   //       alert('openid='+window.openid);
   //       if(!data.openid){
   //         alert("openid为空");
