@@ -120,7 +120,7 @@ function getOpenid(code) {
 
 router.beforeEach((to, from, next) => {
 
-  window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
+  // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
   // code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
   if (!window.openid) {
