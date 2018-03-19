@@ -82,9 +82,10 @@ window.bus = new Vue();
 
 // 获取微信重定向地址中的code值
 function getWxCode() {
-  let codeReg = /\?\S*code=(\S*)&/;
+  let codeReg = /\?\S*code=(\S*)(?:&)?/;
   let href = window.location.href;
-  return href.match(codeReg)[1];
+  let matches = href.match(codeReg);
+  return matches ? matches[1] : '';
 }
 
 // 获取openid
@@ -121,7 +122,7 @@ function getOpenid(code) {
 router.beforeEach((to, from, next) => {
 
   // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
-  // code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
+  // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
   if (!window.openid) {
     let code = getWxCode();
@@ -135,7 +136,7 @@ router.beforeEach((to, from, next) => {
   function guard() {
     if (!window.wxUserData && (to.path !== '/registerLogin' && to.path !== '/stuCertification')) {
       // 获取用户信息
-      console.log('开始获取用户信息')
+      console.log('开始获取用户信息');
       tools.getUserData().then(function (data) {
         // 如果当前用户已经注册过了
         // 将用户信息挂载到全局属性上面
