@@ -51,7 +51,7 @@ const router = new VueRouter({
       {path: 'index', component: Index}, //首页
       {path: 'registerLogin', component: RegisterLogin}, //注册的第一个页面
       {path: 'stuCertification', component: StuCertification},//学生认证页面
-      {path: 'orderIndex', component: OrderIndex},//学生认证页面
+      {path: 'orderIndex', component: OrderIndex},//用户订单列表首页
       {path: 'userInfo', component: UserInfo},// 用户信息
       {path: 'teamManage', component: TeamManage},// 团队管理
       {path: 'feedBack', component: FeedBack},// 意见反馈
@@ -123,6 +123,7 @@ router.beforeEach((to, from, next) => {
 
   //window.openid = '18013872740';
   // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
+  //window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok';
   // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
   if (!window.openid) {
