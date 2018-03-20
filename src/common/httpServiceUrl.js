@@ -12,4 +12,6 @@ export default {
   weChatOpenId:'/CloseCenter/closeUser/weChatOpenId.action',//获取openid
   secRegister: '/CloseCenter/closeUser/secRegister.action', //注册第二步接口
   createWxOrder:'/CloseCenter/closeUser/user/wx.action',//生成订单接口
+  orderList:'/CloseCenter/closeUser/orderList.action',//用户订单列表接口
+  orderDetail:'/CloseCenter/closeUser/orderDetail.action',//订单详情接口
 }

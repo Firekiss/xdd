@@ -17,10 +17,10 @@
         <div class="user-info-wrapper flex">
           <img class="icon-address" src="../assets/orderSubmit/address_icon@2x.png">
           <div class="user-info-section">
-            <span class="user-location">紫金学院A4-208</span>
+            <span class="user-location">{{orderDetail.school_name}}{{orderDetail.room_num}}{{orderDetail.house_num}}</span>
             <div class="user-base-info">
-              <span class="user-name">苏(女士)</span>
-              <span class="user-tell">173****6650</span>
+              <span class="user-name">{{orderDetail.user_name}}</span>
+              <span class="user-tell">{{orderDetail.telephone}}</span>
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
     <div class="order-survey">
       <div class="survey-line flex-mid">
         <span class="survey-name">衣服数量</span>
-        <span class="survey-val">2</span>
+        <span class="survey-val">{{orderDetail.good_num}}</span>
       </div>
       <div class="survey-line flex-mid border-bottom-1px">
         <span class="survey-name">洗衣袋数量</span>
@@ -52,7 +52,8 @@
     <div class="remark survey-line flex-mid">
       <span class="survey-name">备注</span>
       <div class="survey-line-right flex-mid">
-        <span class="no-remark">暂无备注</span>
+        <span class="no-remark" v-if="!orderDetail.mark">暂无备注</span>
+        <span class="no-remark" v-if="orderDetail.mark">{{orderDetail.mark}}</span>
         <img src="../assets/icon_arrow.png" class="arrow-icon">
       </div>
     </div>
@@ -60,7 +61,7 @@
     <div class="order-info">
       <div class="order-info-item">
         <label class="order-info-name">订单编号：</label>
-        <span class="order-info-val">1498652314589</span>
+        <span class="order-info-val">{{orderDetail.order_num}}</span>
       </div>
       <div class="order-info-item">
         <label class="order-info-name">下单时间：</label>
@@ -141,7 +142,9 @@
 
 <script>
   import '@/scss/orderDetail.scss'
-  import widgetMaskSheet from './widget/widgetMaskSheet'
+  import widgetMaskSheet from './widget/widgetMaskSheet';
+  import httpServiceUrl from '../common/httpServiceUrl';
+  import httpService from '../common/httpService';
   export default {
     name: "order-detail",
     components: {
@@ -152,10 +155,51 @@
         logisticsSheet: {
           visible: false,
           title: '物流跟踪'
-        }
+        },
+        order_id:Request('order_id'),
+        orderDetailUrl:httpServiceUrl.orderDetail,
+        orderDetailParam:{
+           order_id:Request('order_id')
+        },
+        orderDetail:{
+            "school_name":"南京理工大学紫金学院",
+            "good_type":1,
+            "couple_value":"5",
+            "mark":"æ¨¡ç³",
+            "house_num":"503",
+            "order_status":0,
+            "couple_status":1,
+            "user_name":"菜菜 ",
+            "pay_type":0,
+            "processItems":[
+                {
+                    "content":"派单员上门收衣",
+                    "process_time":"2018.03.15"
+                }
+            ],
+            "order_num":"201803152331578671015519",
+            "create_time":"2018-March-15 23:03",
+            "good_num":1,
+            "room_num":"C6",
+            "telephone":"18013872740",
+            "true_price":0
+        },//详情
       }
     },
+    mounted: function () {
+      this.initData();
+    },
     methods: {
+      initData:function(){
+          httpService.get(this.orderDetailUrl,this.orderDetailParam).then(function(data){
+            console.log(JSON.stringify(data));
+            self.orderDetail = data;
+            //this.$refs.loadmore.onTopLoaded();
+         }).catch(function(data){
+            
+            //this.$refs.loadmore.onTopLoaded();
+         })
+      },
       showLogisticsSheet () {
         this.logisticsSheet.visible = true;
       },
