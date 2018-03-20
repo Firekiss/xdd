@@ -121,6 +121,7 @@ function getOpenid(code) {
 
 router.beforeEach((to, from, next) => {
 
+  //window.openid = '18013872740';
   // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
   // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 

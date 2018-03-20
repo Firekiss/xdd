@@ -1,7 +1,11 @@
 @import "base/var";
 
 .coupon{
-  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  bottom: 0;
   background-color: $bgColor;
   overflow: auto;
 
