@@ -1,48 +1,26 @@
 <template>
   <div class="coupon">
-    <widget-pagescroll></widget-pagescroll>
-    <!--<div class="coupon-item flex-mid box use-coupon">-->
-      <!--<div class="coupon-info">-->
-        <!--<div class="coupon-val-name">-->
-          <!--<span class="val">¥<span class="money">6</span>元 </span>-->
-          <!--<span class="coupon-name">洗衣抵用券</span>-->
-        <!--</div>-->
-        <!--<div class="valid-time">-->
-          <!--<span>2018.01.20 - 2018.02.20</span>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="use">-->
-        <!--<span class="use-name">立即使用</span>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="coupon-item flex-mid box pass-coupon">-->
-      <!--<div class="coupon-info">-->
-        <!--<div class="coupon-val-name">-->
-          <!--<span class="val">¥<span class="money">6</span>元 </span>-->
-          <!--<span class="coupon-name">洗衣抵用券</span>-->
-        <!--</div>-->
-        <!--<div class="valid-time">-->
-          <!--<span>2018.01.20 - 2018.02.20</span>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="use">-->
-        <!--<span class="use-name">已使用</span>-->
-      <!--</div>-->
-    <!--</div>-->
-    <!--<div class="coupon-item flex-mid box used-coupon">-->
-      <!--<div class="coupon-info">-->
-        <!--<div class="coupon-val-name">-->
-          <!--<span class="val">¥<span class="money">6</span>元 </span>-->
-          <!--<span class="coupon-name">洗衣抵用券</span>-->
-        <!--</div>-->
-        <!--<div class="valid-time">-->
-          <!--<span>2018.01.20 - 2018.02.20</span>-->
-        <!--</div>-->
-      <!--</div>-->
-      <!--<div class="use">-->
-        <!--<span class="use-name">已过期</span>-->
-      <!--</div>-->
-    <!--</div>-->
+    <div class="wrapper">
+      <div class="coupon-item flex-mid box use-coupon"
+        :class="{'pass-coupon': coupon.is_timed === 1, 'used-coupon': coupon.is_used === 1}"
+        v-for="coupon in coupleList"
+        :key="coupon.couple_id">
+        <div class="coupon-info">
+          <div class="coupon-val-name">
+            <span class="val">¥<span class="money">{{coupon.couple_value}}</span>元 </span>
+            <span class="coupon-name">洗衣抵用券</span>
+          </div>
+          <div class="valid-time">
+            <span>{{coupon.start_time}} - {{coupon.end_time}}</span>
+          </div>
+        </div>
+        <div class="use">
+          <span class="use-name" v-if="coupon.is_timed === 0 && coupon.is_used === 0">立即使用</span>
+          <span class="use-name" v-if="coupon.is_used === 0">已使用</span>
+          <span class="use-name" v-if="coupon.is_timed === 0">已过期</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,21 +28,20 @@
   import '@/scss/coupon.scss';
   import httpService from "../common/httpService";
   import httpServiceUrl from "../common/httpServiceUrl";
-  import widgetPagescroll from './widget/widgetPagescroll.vue';
+  import '../common/iscroll';
 
   export default {
     name: "coupon",
-    components: {
-      widgetPagescroll
-    },
     data () {
       return {
         // 优惠券列表
         coupleList: [],
+        scroller: {}
       }
     },
     mounted () {
-
+      this.getCouponList();
+      this.scroller = new IScroll('.coupon');
     },
     methods: {
       // 获取优惠券列表
@@ -74,6 +51,12 @@
           type: 2
         }).then(res => {
           this.coupleList = res.userCoupleItems;
+          // 渲染数据后刷新模拟滚动
+          this.$nextTick(() => {
+            this.scroller.refresh();
+          })
+        }).catch(err => {
+          Toast(err.msg);
         })
       },
 

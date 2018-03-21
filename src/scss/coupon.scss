@@ -7,7 +7,14 @@
   width: 100%;
   bottom: 0;
   background-color: $bgColor;
-  overflow: auto;
+  overflow: hidden;
+
+  .wrapper{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    top: 0;
+  }
 
   .coupon-item{
     justify-content: space-between;
@@ -39,10 +46,6 @@
     }
   }
 
-  .used-coupon{
-    background-image: url("../assets/coupon/used_bg@2x.png");
-  }
-
   .use-coupon{
     background-image: url("../assets/coupon/use_bg@2x.png");
     .use{
@@ -61,6 +64,10 @@
         transform: rotate(45deg);
       }
     }
+  }
+
+  .used-coupon{
+    background-image: url("../assets/coupon/used_bg@2x.png");
   }
 
   .pass-coupon{

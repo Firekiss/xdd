@@ -42,7 +42,6 @@
     mounted: function () {
     },
     methods: {
-
       //清空手机号
       deleteNum: function () {
         this.telephoneNo = ""
@@ -72,18 +71,18 @@
           countNum -= 1;
           self.countDown = countNum;
         }, 1000);
-        var getVerifyUrl = httpServiceUrl.sendCheckCode;
+        var getVerifyUrl = httpServiceUrl.getCode;
         var getVerifyParams = {
-          phoneNoString: this.telephoneNo
+          telephone: this.telephoneNo,
+          type: 1
         };
-        //this.getVerifyCode(getVerifyUrl, getVerifyParams);
+        this.getVerifyCode(getVerifyUrl, getVerifyParams);
       },
 
       //调用获取验证码的接口
       getVerifyCode: function (url, params) {
         var self = this;
-        httpService.get(url, params).then(function (data) {
-          console.log("发送验证成功");
+        httpService.post(url, params).then(function (data) {
           Toast("验证码已发送成功，请注意查收!");
         }).catch(function (data) {
           if (data && (data.msg || data.message)) {
