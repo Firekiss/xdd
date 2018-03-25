@@ -37,7 +37,7 @@
   </div>
 </template>
 <script>
-
+  import '../scss/base/var.scss';
   import '../scss/commonStyle.scss';
   import 'mint-ui/lib/style.css';
 
@@ -122,6 +122,7 @@
     bottom: 0px;
     z-index: 1;
     background-color: #ffffff;
+    border: 1px solid #ebebeb;
   }
 
   .subItem {
