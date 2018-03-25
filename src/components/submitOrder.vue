@@ -113,184 +113,195 @@
 </template>
 
 <script>
-  import httpServiceUrl from '../common/httpServiceUrl';
-  import httpService from '../common/httpService';
-  import '@/scss/submitOrder.scss'
-  import widgetMaskSheet from './widget/widgetMaskSheet';
+import httpServiceUrl from "../common/httpServiceUrl";
+import httpService from "../common/httpService";
+import "@/scss/submitOrder.scss";
+import widgetMaskSheet from "./widget/widgetMaskSheet";
 
-  export default {
-    name: "submit-order",
-    components: {
-      widgetMaskSheet
-    },
-    data () {
-      return {
-        ticketUseSheet: {
-          visible: false,
-          title: '使用卡券'
-        },
-        payTypeSheet: {
-          visible: false,
-          title: '选择支付方式',
-          showConfirm: true
-        },
-        payType: 'wxPay',
-        wxUserData: window.wxUserData,
-        washNumber: Number(Request('washNumber')),
-        price: Request('price'),
-        goodType: Number(Request('goodType')),
-        ticketMoney: 0,
-        ticketList: [],
-        selectedTicket: {},
-        mark: '',
-        getOrderNum:'',//订单号
-        payWeixin_resultPop:0,//是否展示支付弹框
-        payWeixinMsg:'',//支付结果信息
-        payWeixin_result:'',//支付结果
-        
-      }
-    },
-    computed:{
-      realityMoney () {
-        let money = this.washNumber * this.price - this.ticketMoney;
-        return money > 0 ? money : 0
-      }
-    },
-    mounted () {
-      // 获取当前用户未使用且未过期的优惠券列表
-      this.getUserCoupleList();
-    },
-    methods: {
-      getUserCoupleList () {
-        httpService.get(httpServiceUrl.userCoupleList, {
+export default {
+  name: "submit-order",
+  components: {
+    widgetMaskSheet
+  },
+  data() {
+    return {
+      ticketUseSheet: {
+        visible: false,
+        title: "使用卡券"
+      },
+      payTypeSheet: {
+        visible: false,
+        title: "选择支付方式",
+        showConfirm: true
+      },
+      payType: "wxPay",
+      wxUserData: window.wxUserData,
+      washNumber: Number(Request("washNumber")),
+      price: Request("price"),
+      goodType: Number(Request("goodType")),
+      ticketMoney: 0,
+      ticketList: [],
+      selectedTicket: {},
+      mark: "",
+      getOrderNum: "", //订单号
+      payWeixin_resultPop: 0, //是否展示支付弹框
+      payWeixinMsg: "", //支付结果信息
+      payWeixin_result: "" //支付结果
+    };
+  },
+  computed: {
+    realityMoney() {
+      let money = this.washNumber * this.price - this.ticketMoney;
+      return money > 0 ? money : 0;
+    }
+  },
+  mounted() {
+    // 获取当前用户未使用且未过期的优惠券列表
+    this.getUserCoupleList();
+  },
+  methods: {
+    getUserCoupleList() {
+      httpService
+        .get(httpServiceUrl.userCoupleList, {
           user_id: this.wxUserData.user_id,
           type: 1
-        }).then(res => {
+        })
+        .then(res => {
           this.ticketList = res.userCoupleItems;
-        })
-      },
-      // 点击立即下单
-      createOrder () {
-        let params = {
-          user_id: this.wxUserData.user_id,
-          good_type: this.goodType,
-          good_num: this.washNumber,
-          mark: this.mark
-        };
-
-        if (this.ticketMoney > 0) {
-          params.couple_id = this.selectedTicket.couple_id;
-        }
-
-        httpService.get(httpServiceUrl.addOrder, params).then(res => {
-          // 用户提交订单成功后
-          this.getOrderNum=res.order_num;
-          this.showPaySheet()
-        })
-      },
-      // 点击显示优惠券弹窗
-      showTicketSheet () {
-        (this.ticketList.length) &&
-        (this.ticketUseSheet.visible = true);
-      },
-      closeTicketSheet () {
-        this.ticketUseSheet.visible = false;
-      },
-      ticketSheetClick () {
-        this.ticketUseSheet.visible = false;
-      },
-      // 选中一张优惠券的操作
-      ticketToggle (index) {
-        this.ticketList.forEach((ticket, i) => {
-          ticket.ticketChecked = false;
-          this.$set(this.ticketList, i, ticket);
         });
-        this.ticketList[index].ticketChecked = true;
-        this.ticketMoney = this.ticketList[index].couple_value;
-        this.selectedTicket = this.ticketList[index];
-        this.$set(this.ticketList, index, this.ticketList[index]);
-      },
-      showPaySheet () {
-        this.payTypeSheet.visible = true;
-      },
-      closePaySheet () {
-        this.payTypeSheet.visible = false;
-      },
-      paySheetClick () {
-        this.payTypeSheet.visible = false;
-      },
-      // 点击切换支付方式
-      selectPayType (payType) {
-        this.payType = payType;
-      },
-      confirmToPay () {
-        var self = this;
-        if (this.payType === 'wxPay') {
-          console.log(this.getOrderNum);
-          console.log('选择微信支付');
-          var settle_accounts_url = httpServiceUrl.createWxOrder; //生成订单接口
-          var pay_params = {
-              order_num:this.getOrderNum
-          };
-          httpService.get(settle_accounts_url, pay_params).then(function(data) {
-              //生成订单后立即支付
-              self.closePaySheet();
-              console.log(JSON.stringify(data));
-              WeixinJSBridge.invoke('getBrandWCPayRequest', {
-                  "appId": data.paySign.appId,
-                  "timeStamp": data.paySign.timeStamp,
-                  "nonceStr": data.paySign.nonceStr,
-                  "package": data.paySign.package,
-                  "signType": data.paySign.signType,
-                  "paySign": data.paySign.paySign
-              }, function(res) {
-                  if (res.err_msg == "get_brand_wcpay_request:ok") {
-                      //self.comfirm('支付成功', self.remove);
-                      self.payWeixinMsg = "支付成功";
-                      Indicator.open();
-                      self.payWeixin_result = 1;
-                      setTimeout(function(argument) {
-                          Indicator.close();
-                          self.payWeixin_resultPop = 1;//展示支付结果弹出框
-                      },2000)
-                  } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
-                      self.payWeixinMsg = "取消支付";
-                      self.payWeixin_result = 2;
-                      self.payWeixin_resultPop = 1;//展示支付结果弹出框
-                  } else {
-                      self.payWeixinMsg = "支付失败";
-                      self.payWeixin_result = 3;
-                      self.payWeixin_resultPop = 1;//展示支付结果弹出框
-                  }
+    },
+    // 点击立即下单
+    createOrder() {
+      let params = {
+        user_id: this.wxUserData.user_id,
+        good_type: this.goodType,
+        good_num: this.washNumber,
+        mark: this.mark
+      };
 
-              });
-          }).catch(function(data) {
-              if(data&&(data.msg||data.message)){
-                  Toast(data.msg||data.message);
+      if (this.ticketMoney > 0) {
+        params.couple_id = this.selectedTicket.couple_id;
+      }
+
+      httpService.get(httpServiceUrl.addOrder, params).then(res => {
+        // 用户提交订单成功后
+        this.getOrderNum = res.order_num;
+        this.showPaySheet();
+      });
+    },
+    // 点击显示优惠券弹窗
+    showTicketSheet() {
+      this.ticketList.length && (this.ticketUseSheet.visible = true);
+    },
+    closeTicketSheet() {
+      this.ticketUseSheet.visible = false;
+    },
+    ticketSheetClick() {
+      this.ticketUseSheet.visible = false;
+    },
+    // 选中一张优惠券的操作
+    ticketToggle(index) {
+      this.ticketList.forEach((ticket, i) => {
+        ticket.ticketChecked = false;
+        this.$set(this.ticketList, i, ticket);
+      });
+      this.ticketList[index].ticketChecked = true;
+      this.ticketMoney = this.ticketList[index].couple_value;
+      this.selectedTicket = this.ticketList[index];
+      this.$set(this.ticketList, index, this.ticketList[index]);
+    },
+    showPaySheet() {
+      this.payTypeSheet.visible = true;
+    },
+    closePaySheet() {
+      this.payTypeSheet.visible = false;
+    },
+    paySheetClick() {
+      this.payTypeSheet.visible = false;
+    },
+    // 点击切换支付方式
+    selectPayType(payType) {
+      this.payType = payType;
+    },
+    confirmToPay() {
+      var self = this;
+      if (this.payType === "wxPay") {
+        console.log("选择微信支付");
+        var settle_accounts_url = httpServiceUrl.createWxOrder; //生成订单接口
+        var pay_params = {
+          order_num: this.getOrderNum
+        };
+        httpService
+          .get(settle_accounts_url, pay_params)
+          .then(function(data) {
+            //生成订单后立即支付
+            self.closePaySheet();
+            WeixinJSBridge.invoke(
+              "getBrandWCPayRequest",
+              {
+                appId: data.paySign.appId,
+                timeStamp: data.paySign.timeStamp,
+                nonceStr: data.paySign.nonceStr,
+                package: data.paySign.package,
+                signType: data.paySign.signType,
+                paySign: data.paySign.paySign
+              },
+              function(res) {
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                  //self.comfirm('支付成功', self.remove);
+                  self.payWeixinMsg = "支付成功";
+                  Indicator.open();
+                  self.payWeixin_result = 1;
+                  setTimeout(function(argument) {
+                    Indicator.close();
+                    self.payWeixin_resultPop = 1; //展示支付结果弹出框
+                  }, 2000);
+                } else if (res.err_msg == "get_brand_wcpay_request:cancel") {
+                  self.payWeixinMsg = "取消支付";
+                  self.payWeixin_result = 2;
+                  self.payWeixin_resultPop = 1; //展示支付结果弹出框
+                } else {
+                  self.payWeixinMsg = "支付失败";
+                  self.payWeixin_result = 3;
+                  self.payWeixin_resultPop = 1; //展示支付结果弹出框
+                }
               }
-              
+            );
           })
-        } else {
-          console.log('选择余额支付');
-        }
-      },
+          .catch(function(data) {
+            if (data && (data.msg || data.message)) {
+              Toast(data.msg || data.message);
+            }
+          });
+      } else {
+        console.log("选择余额支付");
+        httpService.post(httpServiceUrl.payOrder, {
+          user_id: window.wxUserData.user_id,
+          order_num: this.getOrderNum
+        }).then(res => {
 
-      //点击支付结果的确认框
-      afterPayWeiXin:function(){
-          this.payWeixinMsg = "";
-          this.payWeixin_resultPop = 0;//支付结果弹出框消失
-          if(this.payWeixin_result==1){
-              //支付成功
-              //处理返回刷新
-              //window.history.go(-1);
-               var getParams = {
-                hashUrl: 'orderIndex',
-                getThis: this
-              };
-              goUrl(getParams);
-          }
-          this.payWeixin_result = 0;//支付结果重置
-      },
+        }).catch(err => {
+          Toast(err.msg || '余额支付失败');
+        });
+      }
+    },
+
+    //点击支付结果的确认框
+    afterPayWeiXin: function() {
+      this.payWeixinMsg = "";
+      this.payWeixin_resultPop = 0; //支付结果弹出框消失
+      if (this.payWeixin_result == 1) {
+        //支付成功
+        //处理返回刷新
+        //window.history.go(-1);
+        var getParams = {
+          hashUrl: "orderIndex",
+          getThis: this
+        };
+        goUrl(getParams);
+      }
+      this.payWeixin_result = 0; //支付结果重置
     }
   }
+};
 </script>

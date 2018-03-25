@@ -82,7 +82,7 @@ window.bus = new Vue();
 
 // 获取微信重定向地址中的code值
 function getWxCode() {
-  let codeReg = /\?\S*code=(\S*)(?:&)?/;
+  let codeReg = /\?\S*code=(\S*)(?:&)/;
   let href = window.location.href;
   let matches = href.match(codeReg);
   return matches ? matches[1] : '';
@@ -104,8 +104,8 @@ function getOpenid(code) {
     // 返回获取openid的promise对象
     return httpService.get(httpServiceUrl.weChatOpenId, params).then(res => {
       window.openid = res.openid;
-      window.user_image_url = data.user_image_url;
-
+      window.user_image_url = res.user_image_url;
+      console.log('用户头像', window.user_image_url);
       if (window.openid) {
         console.info('当前用户openid >>>>', window.openid)
       } else {
@@ -122,12 +122,13 @@ function getOpenid(code) {
 router.beforeEach((to, from, next) => {
 
   // window.openid = '18013872740';
-  // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
+  window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
   // window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok';
   // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
   if (!window.openid) {
     let code = getWxCode();
+    console.log('CODE', code);
     getOpenid(code).then(() => {
       guard();
     })
@@ -176,6 +177,7 @@ Vue.filter('formatName', function (name, subLength) {
     return name;
   }
 });
+
 new Vue({
   el: '#app',
   router,

@@ -168,6 +168,7 @@
       }
     },
     mounted: function () {
+      console.log(window.user_image_url, '头像');
       // 查询默认的省市区的数据
       this.queryAreaList(1).then(() => {
         this.areaIds[0] = this.areaList[0][0].id;
@@ -360,7 +361,14 @@
         }
 
         httpService.post(httpServiceUrl.secRegister, params).then(res => {
-          console.log(res)
+          Toast('注册成功');
+          let getParams = {
+            hashUrl: "index",
+            getThis: this
+          };
+          goUrl(getParams);
+        }).catch(err => {
+          Toast(err.mes || '注册失败')
         })
       }
     }

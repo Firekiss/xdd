@@ -8,12 +8,12 @@
     <div class="inputContent">
       <div class="text1"><span>请输入手机号</span></div>
       <div class="inputText flex border-bottom-1px">
-        <input type="text" placeholder="请输入手机号码" class="input-row" maxlength="11" v-model="telephoneNo">
+        <input type="number" placeholder="请输入手机号码" class="input-row" maxlength="11" v-model="telephoneNo">
         <img src="../assets/btn_delete.png" @click="deleteNum">
       </div>
       <div class="text1" style="margin-top: 1rem;"><span>请输入验证码</span></div>
       <div class="inputText flex border-bottom-1px">
-        <input type="text" style="width: 9rem;" placeholder="请输入验证码" class="input-row" v-model="checkCode">
+        <input type="number" style="width: 9rem;" placeholder="请输入验证码" class="input-row" v-model="checkCode">
         <div class="getCode" v-if="!sendingCode" @click="getVerify">获取验证码</div>
         <div class="getCode" v-if="sendingCode">{{countDown}}秒后重新获取</div>
       </div>

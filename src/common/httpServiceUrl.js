@@ -16,4 +16,5 @@ export default {
   orderList:'/CloseCenter/closeUser/orderList.action',//用户订单列表接口
   orderDetail:'/CloseCenter/closeUser/orderDetail.action',//订单详情接口
   getCode: '/CloseCenter/closeUser/getCode.action', // 用户注册或修改支付密码时获取验证码接口
+  payOrder: '/CloseCenter/closeUser/payOrder.action', // 余额支付订单接口
 }

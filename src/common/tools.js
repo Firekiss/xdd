@@ -294,7 +294,6 @@ export default {
     let params = {
       openid: window.openid
     };
-    console.log(params, '请求用户信息参数')
     return new Promise(function (resolve, reject) {
       httpService.get(getUrl, params).then(function (data) {
         resolve(window.wxUserData = data);
