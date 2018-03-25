@@ -18,16 +18,21 @@
       }
 
       .content{
+        flex: 1;
         font-size: 0.8rem;
         color: #666666;
         border: none;
         outline: none;
         text-align: right;
       }
+
+      .content.house-id{
+        margin-right: .5rem;
+      }
     }
   }
 
-  .confirm-btn{
+  .confirm-btn-page{
     width: 80%;
     height: 2.5rem;
     margin: 3.5rem auto 0;

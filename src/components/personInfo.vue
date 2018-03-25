@@ -11,7 +11,7 @@
       </div>
       <div class="list-item border-bottom-1px flex-mid">
         <span class="label">学校楼栋编号</span>
-        <span class="content" @click="showHouseSheet">{{getHouseById(userDetail.house_id) || "请填写用户学校楼栋编号"}}</span>
+        <span class="content house-id" @click="showHouseSheet">{{getHouseById(userDetail.house_id) || "请填写用户学校楼栋编号"}}</span>
       </div>
       <div class="list-item border-bottom-1px flex-mid">
         <span class="label">所在专业</span>
@@ -26,7 +26,7 @@
         <input type="text" class="content" v-model="userDetail.room_num" placeholder="请填写用户所在宿舍号码">
       </div>
     </div>
-    <div class="confirm-btn flex-centers" @click="updataUserInfo">
+    <div class="confirm-btn-page flex-centers" @click="updataUserInfo">
       <span>确认修改</span>
     </div>
 
