@@ -99,7 +99,7 @@
       </div>
     </widget-mask-sheet>
 
-            <!-- 返回支付结果弹出框 -->
+    <!-- 返回支付结果弹出框 -->
     <div class="popSureBackMoney" v-if="payWeixin_resultPop">
         <div class="topMsg">
             {{payWeixinMsg}}
@@ -279,6 +279,13 @@ export default {
           user_id: window.wxUserData.user_id,
           order_num: this.getOrderNum
         }).then(res => {
+          Toast("支付成功");
+          // 跳转到列表页面
+          let getParams = {
+            hashUrl: "orderIndex",
+            getThis: this
+          };
+          goUrl(getParams);
 
         }).catch(err => {
           Toast(err.msg || '余额支付失败');

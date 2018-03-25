@@ -80,12 +80,15 @@
           id_name: this.id_name,
           rub_type: this.rub_type
         }).then(res => {
-          // 申请成功返回用户中心
-          let goUrlParam = {
-            hashUrl: 'userInfo',
-            getThis: this
-          };
-          goUrl(goUrlParam)
+          // 申请成功给出管理员审核提示之后返回用户中心
+          Toast("申请成功，请等待管理员审核");
+          setTimeout(() => {
+            let goUrlParam = {
+              hashUrl: 'userInfo',
+              getThis: this
+            };
+            goUrl(goUrlParam);
+          }, 2000);
         }).catch(err => {
           Toast(err.msg);
         })

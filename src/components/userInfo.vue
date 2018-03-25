@@ -2,7 +2,7 @@
   <div class="user-info">
     <div class="user-base-info border-bottom-1px">
       <div class="avatar-wrapper">
-        <img src="userImg" v-if="userImg" class="avatar">
+        <img :src="personalInfo.user_image_url" v-if="personalInfo.user_image_url" class="avatar">
       </div>
       <div class="user-info-brief">
         <span class="user-name">{{personalInfo.user_name}}</span>
@@ -54,7 +54,7 @@
           </span>
         </div>
         <div class="list-item-right flex-mid">
-          <span class="item-lever">{{getDeliverLevel(personalInfo.deliver_type)}}</span>
+          <span class="item-lever">{{getDeliverLevel(personalInfo)}}</span>
           <span class="item-arrow">
             <img :src="arrow">
           </span>
@@ -198,7 +198,6 @@
         },
         arrow: require('../assets/icon_arrow.png'),
         wxUserData: window.wxUserData, // 用户个人信息
-        userImg: window.user_image_url, // 用户头像
         personalInfo: {}, // 用户信息
         // 优惠券列表
         coupleList: [],
@@ -234,6 +233,10 @@
       },
       // 跳转到申请成为派单员页面
       goBeSender () {
+        if (this.personalInfo.is_deliver === 0) {
+          Toast('已经发起过申请，请等待管理员审核');
+          return;
+        };
         let goUrlParam = {
           hashUrl: 'applySender',
           getThis: this
@@ -272,7 +275,11 @@
         };
         goUrl(goUrlParam);
       },
-      getDeliverLevel (deliverType) {
+      getDeliverLevel (info) {
+        if (info.is_deliver === 0) {
+          return '申请中'
+        }
+
         switch (deliverType) {
           case 0:
             return '';

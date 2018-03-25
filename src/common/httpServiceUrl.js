@@ -17,4 +17,6 @@ export default {
   orderDetail:'/CloseCenter/closeUser/orderDetail.action',//订单详情接口
   getCode: '/CloseCenter/closeUser/getCode.action', // 用户注册或修改支付密码时获取验证码接口
   payOrder: '/CloseCenter/closeUser/payOrder.action', // 余额支付订单接口
+  updateUserInfo: '/CloseCenter/closeUser/updatePerMsg.action', // 修改个人信息
+  setPayPassword: '/CloseCenter/closeUser/setYuePayPassWord.action', // 设置余额支付密码
 }
