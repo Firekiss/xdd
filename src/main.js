@@ -121,9 +121,9 @@ function getOpenid(code) {
 
 router.beforeEach((to, from, next) => {
 
-  // window.openid = '18013872740';
+  // window.openid = 'o1SGg0pvxyEdkQriGMKdl8qm95Hk';
   // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
-  // window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok';
+  // window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok'; jj
   // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
   if (!window.openid) {

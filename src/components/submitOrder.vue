@@ -36,7 +36,7 @@
       <div class="survey-line flex only-right border-bottom-1px">
         <div class="survey-line-right flex-mid">
           <span class="total">小计</span>
-          <span class="reduce-money">¥{{realityMoney}}</span>
+          <span class="reduce-money">¥{{realityMoney || truePrice}}</span>
         </div>
       </div>
     </div>
@@ -54,10 +54,11 @@
         </div>
         <div class="total-bar flex-mid">
           <span class="title">合计</span>
-          <span class="money">¥{{realityMoney}}</span>
+          <span class="money">¥{{realityMoney || truePrice}}</span>
         </div>
       </div>
-      <span class="order-btn flex-centers" @click.stop="createOrder">立即下单</span>
+      <span class="order-btn flex-centers" v-if="isNewOrder" @click.stop="createOrder">立即下单</span>
+      <span class="order-btn flex-centers" v-else @click.stop="payOrder">立即付款</span>
     </div>
 
     <!--使用卡券遮罩选择-->
@@ -117,6 +118,7 @@ import httpServiceUrl from "../common/httpServiceUrl";
 import httpService from "../common/httpService";
 import "@/scss/submitOrder.scss";
 import widgetMaskSheet from "./widget/widgetMaskSheet";
+import { MessageBox } from 'mint-ui';
 
 export default {
   name: "submit-order",
@@ -137,9 +139,15 @@ export default {
       payType: "wxPay",
       wxUserData: window.wxUserData,
       washNumber: Number(Request("washNumber")),
+      orderId: Request('orderId'),
       price: Request("price"),
       goodType: Number(Request("goodType")),
+      // 是否是需要新建订单
+      isNewOrder: false,
+      // 订单详情对象数据
+      orderDetail: {},
       ticketMoney: 0,
+      truePrice: 0,
       ticketList: [],
       selectedTicket: {},
       mark: "",
@@ -156,10 +164,18 @@ export default {
     }
   },
   mounted() {
-    // 获取当前用户未使用且未过期的优惠券列表
-    this.getUserCoupleList();
+    // 根据url中是否携带了orderId参数来判断这是否是一个新的订单
+    this.isNewOrder = this.orderId === '';
+
+    if (this.isNewOrder) {
+      // 获取当前用户未使用且未过期的优惠券列表
+      this.getUserCoupleList();
+    } else {
+      this.getOrderDetail(this.orderId);
+    }
   },
   methods: {
+    // 获取用户所有可用优惠券列表
     getUserCoupleList() {
       httpService
         .get(httpServiceUrl.userCoupleList, {
@@ -169,6 +185,22 @@ export default {
         .then(res => {
           this.ticketList = res.userCoupleItems;
         });
+    },
+    // 根据订单id获取订单详情数据
+    getOrderDetail (orderId) {
+      httpService.post(httpServiceUrl.orderDetail, {
+        order_id: orderId
+      }).then(res => {
+        this.orderDetail = res;
+        this.getOrderNum = Request('orderNum');
+        this.washNumber = res.good_num;
+        this.ticketMoney = res.couple_value;
+        this.truePrice = res.true_price;
+        this.mark = res.mark;
+        this.payTypeSheet.visible = true;
+      }).catch(err => {
+        Toast(err.msg || '获取订单详情数据失败');
+      })
     },
     // 点击立即下单
     createOrder() {
@@ -191,7 +223,9 @@ export default {
     },
     // 点击显示优惠券弹窗
     showTicketSheet() {
-      this.ticketList.length && (this.ticketUseSheet.visible = true);
+      if (this.isNewOrder) {
+        this.ticketList.length && (this.ticketUseSheet.visible = true);
+      }
     },
     closeTicketSheet() {
       this.ticketUseSheet.visible = false;
@@ -222,6 +256,11 @@ export default {
     // 点击切换支付方式
     selectPayType(payType) {
       this.payType = payType;
+    },
+    // 点击立即付款的时候
+    // 让用户选择付款方式
+    payOrder () {
+      this.payTypeSheet.visible = true;
     },
     confirmToPay() {
       var self = this;
@@ -275,20 +314,27 @@ export default {
           });
       } else {
         console.log("选择余额支付");
-        httpService.post(httpServiceUrl.payOrder, {
-          user_id: window.wxUserData.user_id,
-          order_num: this.getOrderNum
-        }).then(res => {
-          Toast("支付成功");
-          // 跳转到列表页面
-          let getParams = {
-            hashUrl: "orderIndex",
-            getThis: this
-          };
-          goUrl(getParams);
 
-        }).catch(err => {
-          Toast(err.msg || '余额支付失败');
+        MessageBox.prompt('请输入支付密码', '', {
+          inputType: 'password'
+        }).then(({ value, action }) => {
+          if (action === 'confirm') {
+            httpService.post(httpServiceUrl.payOrder, {
+              user_id: window.wxUserData.user_id,
+              order_num: this.getOrderNum,
+              pay_password: value
+            }).then(res => {
+              Toast("支付成功");
+              // 跳转到列表页面
+              let getParams = {
+                hashUrl: "orderIndex",
+                getThis: this
+              };
+              goUrl(getParams);
+            }).catch(err => {
+              Toast(err.msg || '余额支付失败');
+            });
+          }
         });
       }
     },

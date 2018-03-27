@@ -41,7 +41,7 @@
               <div class="tabRight flex-mid">
                 <div class="butRight flex-mid" v-if="item.order_status === 1 || item.order_status === 2 || item.order_status === 3"><span>申请售后</span></div>
                 <div class="butRight flex-mid" v-if="item.order_status === 2"><span>去评价</span></div>
-                <div class="butRight flex-mid red-btn" v-if="item.order_status === 0"><span>去付款</span></div>
+                <div class="butRight flex-mid red-btn" @click.stop="goToPay(item.order_id, item.order_num)" v-if="item.order_status === 0"><span>去付款</span></div>
                 <div class="butRight flex-mid red-btn" v-if="item.order_status === 1"><span>确认收货</span></div>
               </div>
             </div>
@@ -140,6 +140,19 @@ export default {
         getThis: this,
         params: {
           order_id: item.order_id
+        }
+      };
+      goUrl(getParams);
+    },
+
+    // 点击去付款跳转到付款页面准备进行付款
+    goToPay (orderId, orderNum) {
+      let getParams = {
+        hashUrl: "submitOrder",
+        getThis: this,
+        params: {
+          orderId: orderId,
+          orderNum: orderNum
         }
       };
       goUrl(getParams);

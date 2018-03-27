@@ -280,7 +280,7 @@
           return '申请中'
         }
 
-        switch (deliverType) {
+        switch (info.deliverType) {
           case 0:
             return '';
             break;
