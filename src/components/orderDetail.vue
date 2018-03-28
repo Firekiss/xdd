@@ -5,9 +5,11 @@
         <div class="user-info-wrapper flex">
           <img class="icon-car" src="../assets/orderSubmit/car_icon@2x.png">
           <div class="user-info-section">
-            <span class="user-location">已发货</span>
+            <span class="user-location">{{orderStatus}}</span>
             <div class="user-base-info">
-              <span class="user-name">2017-01-05 12:15:20</span>
+              <span class="user-name" v-if="orderDetail.processItems && orderDetail.processItems.length">
+                {{orderDetail.processItems[orderDetail.processItems.length - 1].process_time}}
+              </span>
             </div>
           </div>
         </div>
@@ -69,11 +71,11 @@
       </div>
       <div class="order-info-item">
         <label class="order-info-name">付款时间：</label>
-        <span class="order-info-val">2018-02-04 11:34</span>
+        <span class="order-info-val">{{orderDetail.pay_time || ''}}</span>
       </div>
       <div class="order-info-item">
         <label class="order-info-name">支付方式：</label>
-        <span class="order-info-val">在线支付</span>
+        <span class="order-info-val"><span v-if="orderDetail.order_status !== 0">{{payType}}</span></span>
       </div>
     </div>
 
@@ -84,55 +86,12 @@
     :maskClick="logisticsSheetClick">
       <div class="logisticsList-wrapper box">
         <div class="logisticsList">
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:19</span>
+          <div class="logisticsList-item flex-mid"
+            v-for="(item, index) in orderDetail.processItems"
+            :key="index">
+            <span class="time">{{item.process_time}}</span>
             <span class="circle"></span>
-            <span class="detail">订单已提交</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:20</span>
-            <span class="circle"></span>
-            <span class="detail">支付成功</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:22</span>
-            <span class="circle"></span>
-            <span class="detail">派单员已接单，手机号 13256892562</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:32</span>
-            <span class="circle"></span>
-            <span class="detail">已取件，待清洗</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:40</span>
-            <span class="circle"></span>
-            <span class="detail">订单已完成</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:19</span>
-            <span class="circle"></span>
-            <span class="detail">订单已提交</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:20</span>
-            <span class="circle"></span>
-            <span class="detail">支付成功</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:22</span>
-            <span class="circle"></span>
-            <span class="detail">派单员已接单，手机号 13256892562</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:32</span>
-            <span class="circle"></span>
-            <span class="detail">已取件，待清洗</span>
-          </div>
-          <div class="logisticsList-item flex-mid">
-            <span class="time">08:40</span>
-            <span class="circle"></span>
-            <span class="detail">订单已完成</span>
+            <span class="detail">{{item.content}}</span>
           </div>
         </div>
       </div>
@@ -162,6 +121,32 @@ export default {
   },
   mounted: function() {
     this.initData();
+  },
+  computed: {
+    payType () {
+      switch (this.orderDetail.pay_type) {
+        case 0:
+          return '余额支付';
+        case 1:
+          return '微信支付';
+        default:
+          return '';  
+      }
+    },
+    orderStatus () {
+      switch (this.orderDetail.order_status) {
+        case 0:
+          return '未支付';
+        case 1:
+          return '已支付,配送中';
+        case 2:
+          return '已完成，待评价';
+        case 3:
+          return '已评价';
+        case 4:
+          return '售后';    
+      }
+    }
   },
   methods: {
     initData: function() {

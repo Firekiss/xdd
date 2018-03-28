@@ -8,10 +8,12 @@
   .base-info-wrapper{
     padding: 0 1.0rem;
     background-color: $white;
+    overflow: hidden;
 
     .user-info{
       height: 4.5rem;
       justify-content: space-between;
+      background-color: $white;
 
       .user-info-wrapper{
         .icon-car{
@@ -97,7 +99,6 @@
     background-color: $white;
 
     .no-remark{
-      margin-right: 0.4rem;
       font-size: 0.8rem;
       color: #999999;
     }
