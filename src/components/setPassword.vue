@@ -28,7 +28,7 @@
           <input type="number" v-model="vals.val5" class="code-input" ref="val5" @input="foucsChange(5)">
         </div>
         <div class="code-item">
-          <input type="number" v-model="vals.val6" class="code-input" ref="val6" @input="submitChange">
+          <input type="number" v-model="vals.val6" class="code-input" ref="val6">
         </div>
       </div>
 

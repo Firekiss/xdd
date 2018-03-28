@@ -19,4 +19,5 @@ export default {
   payOrder: '/CloseCenter/closeUser/payOrder.action', // 余额支付订单接口
   updateUserInfo: '/CloseCenter/closeUser/updatePerMsg.action', // 修改个人信息
   setPayPassword: '/CloseCenter/closeUser/setYuePayPassWord.action', // 设置余额支付密码
+  confirmOrder: '/CloseCenter/closeUser/comfireOrder.action', // 用户确认订单接口
 }

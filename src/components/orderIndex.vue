@@ -8,8 +8,8 @@
     <div class="loadmore-wrapper">
       <mt-loadmore :top-method="isRefresh" ref="loadmore">
         <div class="orderLists">
-          <div v-if='orderList.length==0'>
-            无数据页
+          <div v-if='orderList.length === 0'>
+            <empty></empty>
           </div>
           <div class="orderItem" v-if='orderList.length!=0' v-for="item in orderList">
             <div class="line1 border-bottom-1px">
@@ -42,7 +42,7 @@
                 <div class="butRight flex-mid" v-if="item.order_status === 1 || item.order_status === 2 || item.order_status === 3"><span>申请售后</span></div>
                 <div class="butRight flex-mid" v-if="item.order_status === 2"><span>去评价</span></div>
                 <div class="butRight flex-mid red-btn" @click.stop="goToPay(item.order_id, item.order_num)" v-if="item.order_status === 0"><span>去付款</span></div>
-                <div class="butRight flex-mid red-btn" v-if="item.order_status === 1"><span>确认收货</span></div>
+                <div class="butRight flex-mid red-btn" @click.stop="comfireOrder(item.order_id)" v-if="item.order_status === 1"><span>确认收货</span></div>
               </div>
             </div>
           </div>
@@ -54,6 +54,7 @@
 
 <script>
 import Vue from "vue";
+import empty from "./widget/empty";
 import httpServiceUrl from "../common/httpServiceUrl";
 import httpService from "../common/httpService";
 import tool from "../common/tools";
@@ -63,6 +64,9 @@ import "../scss/orderIndex.scss";
 Vue.component(Loadmore.name, Loadmore);
 
 export default {
+  components: {
+    empty
+  },
   data() {
     return {
       scrollMode: 'touch',
@@ -131,6 +135,18 @@ export default {
     //下拉刷新
     isRefresh: function() {
       this.initData();
+    },
+
+    // 点击确认收货的发起确认收货的请求
+    comfireOrder (orderId) {
+      httpService.post(httpServiceUrl.confirmOrder, {
+        user_id: window.wxUserData.user_id,
+        order_id: orderId
+      }).then(res => {
+        Toast('确认完成订单成功');
+      }).catch(err => {
+        Toast(err.msg || '确认完成订单失败');
+      })
     },
 
     //跳转到详情页
