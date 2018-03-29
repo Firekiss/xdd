@@ -19,7 +19,7 @@
         <div class="user-info-wrapper flex">
           <img class="icon-address" src="../assets/orderSubmit/address_icon@2x.png">
           <div class="user-info-section">
-            <span class="user-location">{{orderDetail.school_name}}{{orderDetail.room_num}}{{orderDetail.house_num}}</span>
+            <span class="user-location">{{orderDetail.school_name}}{{orderDetail.house_num}}{{orderDetail.room_num}}</span>
             <div class="user-base-info">
               <span class="user-name">{{orderDetail.user_name}}</span>
               <span class="user-tell">{{orderDetail.telephone}}</span>

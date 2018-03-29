@@ -144,6 +144,8 @@ export default {
         order_id: orderId
       }).then(res => {
         Toast('确认完成订单成功');
+        // 确认订单完成之后需要重新刷新一下列表
+        this.initData();
       }).catch(err => {
         Toast(err.msg || '确认完成订单失败');
       })
