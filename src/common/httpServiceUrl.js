@@ -20,4 +20,8 @@ export default {
   updateUserInfo: '/CloseCenter/closeUser/updatePerMsg.action', // 修改个人信息
   setPayPassword: '/CloseCenter/closeUser/setYuePayPassWord.action', // 设置余额支付密码
   confirmOrder: '/CloseCenter/closeUser/comfireOrder.action', // 用户确认订单接口
+  orderComment: '/CloseCenter/closeUser/orderComment.action', // 用户评价订单
+  applyAfterSale: '/CloseCenter/closeUser/applyReturnMoney.action', // 申请售后的接口
+  robOrderList: '/CloseCenter/closeRubber/rubOrderList.action?', // 派单员抢单列表接口
+  robOrder: '/CloseCenter/closeRubber/rubOrder.action', // 派单员抢单接口
 }

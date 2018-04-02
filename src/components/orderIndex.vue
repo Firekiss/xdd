@@ -39,10 +39,11 @@
                 <span class="moneyCom moneyColor">￥{{item.true_price}}</span>
               </div>
               <div class="tabRight flex-mid">
-                <div class="butRight flex-mid" v-if="item.order_status === 1 || item.order_status === 2 || item.order_status === 3"><span>申请售后</span></div>
-                <div class="butRight flex-mid" v-if="item.order_status === 2"><span>去评价</span></div>
+                <div class="butRight flex-mid" @click.stop="afterSale(item.order_id, item.create_time, item.order_num)" v-if="item.order_status === 1 || item.order_status === 2 || item.order_status === 3"><span>申请售后</span></div>
+                <div class="butRight flex-mid" @click.stop="goComment(item.order_id)" v-if="item.order_status === 2"><span>去评价</span></div>
                 <div class="butRight flex-mid red-btn" @click.stop="goToPay(item.order_id, item.order_num)" v-if="item.order_status === 0"><span>去付款</span></div>
                 <div class="butRight flex-mid red-btn" @click.stop="comfireOrder(item.order_id)" v-if="item.order_status === 1"><span>确认收货</span></div>
+                <div class="butRight flex-mid red-btn" v-if="item.order_status === 1 && item.deliver_status  === 2"><span>扫一扫</span></div>
               </div>
             </div>
           </div>
@@ -171,6 +172,32 @@ export default {
         params: {
           orderId: orderId,
           orderNum: orderNum
+        }
+      };
+      goUrl(getParams);
+    },
+
+    // 点击评价前往评价页面进行评价
+    goComment (orderId) {
+      let getParams = {
+        hashUrl: "evaluate",
+        getThis: this,
+        params: {
+          orderId: orderId
+        }
+      };
+      goUrl(getParams);
+    },
+
+    // 点击申请售后跳转到售后页面
+    afterSale (orderId, createTime, orderNum) {
+      let getParams = {
+        hashUrl: "afterSale",
+        getThis: this,
+        params: {
+          orderId,
+          createTime: encodeURIComponent(createTime),
+          orderNum
         }
       };
       goUrl(getParams);

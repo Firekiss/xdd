@@ -20,7 +20,7 @@ export default {
 
 <style lang="scss">
 .empty{
-  margin-top: 2.22rem;
+  margin-top: 6.22rem;
   text-align: center;
 
   img{

@@ -6,7 +6,7 @@
         v-for="(level, index) in levelData"
         :key="index"
         :class="{'star-selected': level.isSelected}"
-        @click="levelChange(index)"></span>
+        @click="levelClick(index)"></span>
     </div>
   </div>
 </template>
@@ -28,6 +28,10 @@
       onlyShow: {
         type: Boolean,
         default: false
+      },
+      levelChange: {
+        type: Function,
+        default: function(){}
       }
     },
     data () {
@@ -64,10 +68,11 @@
         return levelData;
       },
       // 触摸星星的时候变化等级
-      levelChange (index) {
+      levelClick (index) {
         // 不仅仅是展示的时候触摸才有用处
         if (!this.onlyShow) {
           this.levelData = this.createLevelData(this.starNum, index + 1);
+          this.levelChange(index + 1);
         }
       }
     }

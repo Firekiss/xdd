@@ -1,7 +1,9 @@
 <template>
   <div class="coupon">
     <div class="wrapper">
+      <empty v-if="!coupleList.length"></empty>
       <div class="coupon-item flex-mid box use-coupon"
+        v-if="coupleList.length"
         :class="{'pass-coupon': coupon.is_timed === 1, 'used-coupon': coupon.is_used === 1}"
         v-for="coupon in coupleList"
         :key="coupon.couple_id">
@@ -29,9 +31,13 @@
   import httpService from "../common/httpService";
   import httpServiceUrl from "../common/httpServiceUrl";
   import '../common/iscroll';
+  import empty from './widget/empty';
 
   export default {
     name: "coupon",
+    components: {
+      empty
+    },
     data () {
       return {
         // 优惠券列表

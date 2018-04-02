@@ -5,7 +5,8 @@
       <router-view></router-view>
     </div>
 
-    <div class="bottomBar flex-mid" v-if="showBottom">
+    <!--普通用户的底部button切换开始-->
+    <div class="bottomBar flex-mid" v-if="showBottom && nowTabIndex <= 2">
       <div class="subItem" @click="changeItem('index')">
         <div class="tabIndexClass">
           <img src="../assets/home_icon_press@2x.png" v-if="nowTabIndex === 0">
@@ -34,6 +35,40 @@
         </div>
       </div>
     </div>
+    <!--普通用户的底部button切换结束-->
+
+    <!--派单员的底部button切换开始-->
+    <div class="bottomBar flex-mid" v-if="showBottom && nowTabIndex > 2">
+      <div class="subItem" @click="changeItem('robOrder')">
+        <div class="tabIndexClass">
+          <img src="../assets/scratch_icon_press@2x.png" v-if="nowTabIndex === 3">
+          <img src="../assets/scratch_icon@2x.png" v-else>
+          <div class="subItem-name" :class="{active: nowTabIndex === 3}">
+            <span>抢单</span>
+          </div>
+        </div>
+      </div>
+      <div class="subItem" @click="changeItem('myOrder')">
+        <div class="tabIndexClass">
+          <img src="../assets/order_icon_press@2x.png" v-if="nowTabIndex === 4">
+          <img src="../assets/order_icon@2x.png" v-else>
+          <div class="subItem-name" :class="{active: nowTabIndex === 4}">
+            <span>订单</span>
+          </div>
+        </div>
+      </div>
+      <div class="subItem" @click="changeItem('sendUserInfo')">
+        <div class="tabIndexClass">
+          <img src="../assets/my_icon_press@2x.png" v-if="nowTabIndex === 5">
+          <img src="../assets/my_icon@2x.png" v-else>
+          <div class="subItem-name" :class="{active: nowTabIndex === 5}">
+            <span>我的</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--派单员的底部button切换结束-->
+
   </div>
 </template>
 <script>
@@ -50,6 +85,7 @@
         magicHeight: 'wholeHeight',
         showBottom: false,
         nowTabIndex: 1,//当前展示tab页的索引
+        wxUserData: window.wxUserData,
         doron_appId: 'wxcc1bc83f7604f895',//公有云：wxf8f4ffba5ad3a93d     测试环境：wxcc1bc83f7604f895
       }
     },
@@ -61,7 +97,7 @@
     },
     methods: {
       fetchData() {
-        let showBottomPaths = ['/index','/orderIndex', '/userInfo'];
+        let showBottomPaths = ['/index','/orderIndex', '/userInfo', '/robOrder', '/myOrder', '/sendUserInfo'];
         let curPath = this.$route.path;
 
         this.nowTabIndex = showBottomPaths.indexOf(curPath);

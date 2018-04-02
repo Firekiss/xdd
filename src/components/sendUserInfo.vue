@@ -6,36 +6,23 @@
       </div>
       <div class="user-info-brief">
         <span class="user-name">{{personalInfo.user_name}}</span>
-        <span class="user-detail-btn">个人信息 ></span>
+        <div>
+          <span class="user-detail-btn">评分：4.8</span>
+          <span class="user-detail-btn">总单数：120</span>
+        </div>
       </div>
-    </div>
-    <div class="user-asset">
-      <div class="balance">
-        <span class="balance-val">{{personalInfo.user_money}}</span>
-        <span class="balance-name">余额</span>
-      </div>
-      <div class="balance" @click="goCoupleList">
-        <span class="balance-val">{{coupleList.length}}</span>
-        <span class="balance-name">卡券</span>
-      </div>
-      <div class="balance">
-        <span class="balance-val">36</span>
-        <span class="balance-name">积分</span>
-      </div>
-    </div>
-    <div class="invite">
-      <img :src="personalInfo.actUrl">
     </div>
 
-    <!-- 普通用户操作列表 -->
-    <div class="user-handle-list">
+
+    <!-- 派单员操作列表 -->
+    <div class="user-handle-list" style="margin-top: .5rem;">
       <div class="list-item border-bottom-1px flex-mid" @click="goTeamManage">
         <div class="list-item-left flex">
           <span class="item-icon">
-            <img :src="icons.team">
+            <img src="../assets/userInfo/wallet_icon@2x.png">
           </span>
-            <span class="item-name">
-            团队管理
+          <span class="item-name">
+            我的钱包
           </span>
         </div>
         <div class="list-item-right flex-mid">
@@ -45,29 +32,45 @@
           </span>
         </div>
       </div>
-      <div class="list-item border-bottom-1px flex-mid" @click="goBeSender">
+      <div class="list-item border-bottom-1px flex-mid" @click="goFeedBack">
         <div class="list-item-left flex">
           <span class="item-icon">
-            <img :src="icons.member">
+            <img src="../assets/userInfo/appraise_icon@2x.png">
           </span>
           <span class="item-name">
-            成为派单员
+            我的评价
           </span>
         </div>
         <div class="list-item-right flex-mid">
-          <span class="item-lever">{{getDeliverLevel(personalInfo)}}</span>
+          <span class="item-lever"></span>
           <span class="item-arrow">
             <img :src="arrow">
           </span>
         </div>
       </div>
-      <div class="list-item border-bottom-1px flex-mid" @click="goFeedBack">
+      <div class="list-item border-bottom-1px flex-mid">
         <div class="list-item-left flex">
           <span class="item-icon">
-            <img :src="icons.option">
+            <img src="../assets/userInfo/lever_icon@2x.png">
           </span>
           <span class="item-name">
-            意见反馈
+            我的等级
+          </span>
+        </div>
+        <div class="list-item-right flex-mid">
+          <span class="item-lever"></span>
+          <span class="item-arrow">
+            <img :src="arrow">
+          </span>
+        </div>
+      </div>
+      <div class="list-item border-bottom-1px flex-mid" @click="goSettings">
+        <div class="list-item-left flex">
+          <span class="item-icon">
+            <img src="../assets/userInfo/send_icon@2x.png">
+          </span>
+          <span class="item-name">
+            下级派单员
           </span>
         </div>
         <div class="list-item-right flex-mid">
@@ -80,7 +83,7 @@
       <div class="list-item flex-mid" @click="goSettings">
         <div class="list-item-left flex">
           <span class="item-icon">
-            <img :src="icons.set">
+            <img src="../assets/userInfo/set_icon@2x.png">
           </span>
           <span class="item-name">
             设置
@@ -94,7 +97,6 @@
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -221,3 +223,4 @@
     }
   }
 </script>
+

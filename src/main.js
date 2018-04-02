@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import VConsole from 'vconsole'
+import { MessageBox } from 'mint-ui'
 
 import App from './App'
 import Container from './components/Container'
@@ -34,6 +35,8 @@ const RobOrder = r => require.ensure([], () => r(require('./components/robOrder'
 const MyOrder = r => require.ensure([], () => r(require('./components/myOrder')), 'myOrder');
 const MyEvaluate = r => require.ensure([], () => r(require('./components/myEvaluate')), 'myEvaluate');
 const Withdraw = r => require.ensure([], () => r(require('./components/withdraw')), 'withdraw');
+const SendUserInfo = r => require.ensure([], () => r(require('./components/sendUserInfo')), 'sendUserInfo');
+
 
 Vue.use(VueRouter);
 new VConsole(); // 移动端日志打印工具
@@ -72,6 +75,7 @@ const router = new VueRouter({
       {path: 'myOrder', component: MyOrder},// 我的订单
       {path: 'myEvaluate', component: MyEvaluate},// 我的评价
       {path: 'withdraw', component: Withdraw},// 提现
+      {path: 'sendUserInfo', component: SendUserInfo},// 派单员我的信息
     ]
   }]
 });
@@ -88,12 +92,36 @@ function getWxCode() {
   return matches ? matches[1] : '';
 }
 
+// 判断当前用户是否为派单员身份
+// 如果不是派单员则退出当前的公众号
+function judgeIdentity(to, userData) {
+  return new Promise((resolve, reject) => {
+    // 当前的用户并不是派送员身份 并且需要进入派单员列表首页  则退出当前页面
+    if (userData.is_deliver === 0 && to.path === '/robOrder') {
+      MessageBox.alert('请先申请成为派单员').then(action => {
+        WeixinJSBridge.call('closeWindow');
+      });
+    } else {
+      resolve();
+    }
+  })
+}
+
 // 获取openid
 function getOpenid(code) {
   if (!code) {
     //重定向获取code
     console.error('没有获取到code, 进行路由重定向');
-    window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+
+    let url = window.location.href;
+
+    // 跳转到派单员的界面
+    if (url.indexOf('/robOrder') > -1) {
+      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html%23%2frobOrder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
+    } else {
+      // 跳转到首页
+      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+    }
   }
 
   if (!window.openid) {
@@ -104,8 +132,9 @@ function getOpenid(code) {
     // 返回获取openid的promise对象
     return httpService.get(httpServiceUrl.weChatOpenId, params).then(res => {
       window.openid = res.openid;
+      window.jsapi_ticket = res.jsapi_ticket;
       window.user_image_url = res.user_image_url;
-      console.log('用户头像', window.user_image_url);
+      console.log('window.jsapi_ticket', window.jsapi_ticket);
       if (window.openid) {
         console.info('当前用户openid >>>>', window.openid)
       } else {
@@ -123,6 +152,7 @@ router.beforeEach((to, from, next) => {
 
   // window.openid = 'o1SGg0pvxyEdkQriGMKdl8qm95Hk';
   // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
+  // window.jsapi_ticket = '';
   // window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok'; jj
   // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
@@ -143,10 +173,11 @@ router.beforeEach((to, from, next) => {
       tools.getUserData().then(function (data) {
         // 如果当前用户已经注册过了
         // 将用户信息挂载到全局属性上面
-        console.log('用户信息 >>', data);
         window.wxUserData = data;
-        // 跳转
-        next();
+        judgeIdentity(to, data).then(() => {
+          // 跳转
+          next();
+        });
       }, function () {
         console.log('用户尚未注册，跳转注册页');
         // 如果用户尚未注册则跳转到注册页面
