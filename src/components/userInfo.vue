@@ -10,7 +10,7 @@
       </div>
     </div>
     <div class="user-asset">
-      <div class="balance">
+      <div class="balance" @click.stop="balance">
         <span class="balance-val">{{personalInfo.user_money}}</span>
         <span class="balance-name">余额</span>
       </div>
@@ -159,8 +159,21 @@
           hashUrl: 'applySender',
           getThis: this
         };
-        goUrl(goUrlParam)
+        goUrl(goUrlParam);
       },
+
+      // 跳转到充值的页面
+      balance () {
+        let goUrlParam = {
+          hashUrl: 'balance',
+          getThis: this,
+          params: {
+            userMoney: this.personalInfo.user_money
+          }
+        };
+        goUrl(goUrlParam);
+      },
+
       // 跳转到优惠券列表
       goCoupleList () {
         let goUrlParam = {

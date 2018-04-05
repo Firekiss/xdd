@@ -4,10 +4,13 @@
       <span>我的余额</span>
     </div>
     <div class="balance-num">
-      <span>¥236.00</span>
+      <span>¥{{userMoney}}</span>
     </div>
-    <div class="next-btn flex-centers">
+    <div class="next-btn flex-centers" @click="goRecharge">
       <span>充值</span>
+    </div>
+    <div class="next-btn flex-centers" style="margin-top: 1.0rem;" @click="goExpenseHistory">
+      <span>消费记录</span>
     </div>
   </div>
 </template>
@@ -15,7 +18,29 @@
 <script>
   import '@/scss/balance.scss';
   export default {
-    name: "balance"
+    name: "balance",
+    data () {
+      return {
+        userMoney: Request('userMoney')
+      }
+    },
+    methods: {
+      goRecharge () {
+        let goUrlParam = {
+          hashUrl: 'recharge',
+          getThis: this
+        };
+        goUrl(goUrlParam);
+      },
+
+      goExpenseHistory () {
+        let goUrlParam = {
+          hashUrl: 'expenseHistory',
+          getThis: this
+        };
+        goUrl(goUrlParam);
+      }
+    }
   }
 </script>
 

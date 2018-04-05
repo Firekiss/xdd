@@ -38,36 +38,48 @@
     margin-left: -0.75rem;
   }
 
-  .mint-tab-container{
-    margin-top: 0.5rem;
-    background-color: $white;
+  .tab-wrapper{
+    position: absolute;
+    left: 0;
+    top: 2.6rem;
+    bottom: 0;
+    width: 100%;
+    overflow-y: scroll;
 
-    .history-item{
-      justify-content: space-between;
-      height: 3.6rem;
-      padding: 0 1.0rem;
-
-      .history-info{
-        flex-direction: column;
-        justify-content: center;
-
-        .type-name{
-          margin-bottom: 0.5rem;
-          font-size: 0.85rem;
-          color: $fontColor;
-          font-weight: bold;
-        }
-
-        .time{
-          font-size: 0.7rem;
-          color: #666666;
-        }
-      }
+    .mint-tab-container-item{
+      min-height: calc(100vh - 2.0rem);
     }
 
-    .expense-money{
-      font-size: 0.9rem;
-      font-weight: bold;
+    .mint-tab-container{
+      background-color: $white;
+
+      .history-item{
+        justify-content: space-between;
+        height: 3.6rem;
+        padding: 0 1.0rem;
+
+        .history-info{
+          flex-direction: column;
+          justify-content: center;
+
+          .type-name{
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+            color: $fontColor;
+            font-weight: bold;
+          }
+
+          .time{
+            font-size: 0.7rem;
+            color: #666666;
+          }
+        }
+      }
+
+      .expense-money{
+        font-size: 0.9rem;
+        font-weight: bold;
+      }
     }
   }
 }

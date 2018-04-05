@@ -24,4 +24,10 @@ export default {
   applyAfterSale: '/CloseCenter/closeUser/applyReturnMoney.action', // 申请售后的接口
   robOrderList: '/CloseCenter/closeRubber/rubOrderList.action?', // 派单员抢单列表接口
   robOrder: '/CloseCenter/closeRubber/rubOrder.action', // 派单员抢单接口
+  getErWeiCodeSign: '/CloseCenter/closeUser/getErWeiCodeSign.action', // 用户JSSDK注入权限验证接口
+  chargeMoneyList: '/CloseCenter/closePublic/chargeMoneyList.action?', // 充值金额列表接口
+  addChargeOrder: '/CloseCenter/closeUser/addChargeOrder.action', // 用户提交充值订单
+  chargeNotify: '/CloseCenter/closeUser/user/wx/charge.action', // 用户充值微信支付订单
+  walletList: '/CloseCenter/closeUser/walletList.action?', // 用户消费记录列表接口
+  scanBundOrder: '/CloseCenter/closeUser/scanBundOrder.action', // 订单扫描绑定衣袋接口
 }

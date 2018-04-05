@@ -7,7 +7,7 @@
 
     <!-- tab-container -->
     <div class="tab-wrapper">
-      <mt-loadmore :top-method="refresh" ref="loadmore" s>
+      <mt-loadmore :top-method="refresh" ref="loadmore">
         <mt-tab-container v-model="selected">
           <mt-tab-container-item id="1">
             <empty v-if="!robOrderList.length"></empty>

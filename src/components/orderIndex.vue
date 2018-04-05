@@ -43,7 +43,7 @@
                 <div class="butRight flex-mid" @click.stop="goComment(item.order_id)" v-if="item.order_status === 2"><span>去评价</span></div>
                 <div class="butRight flex-mid red-btn" @click.stop="goToPay(item.order_id, item.order_num)" v-if="item.order_status === 0"><span>去付款</span></div>
                 <div class="butRight flex-mid red-btn" @click.stop="comfireOrder(item.order_id)" v-if="item.order_status === 1"><span>确认收货</span></div>
-                <div class="butRight flex-mid red-btn" v-if="item.order_status === 1 && item.deliver_status  === 2"><span>扫一扫</span></div>
+                <div class="butRight flex-mid red-btn" @click.stop="scanner(item.order_id)" v-if="item.order_status === 1 && item.deliver_status  === 2"><span>扫一扫</span></div>
               </div>
             </div>
           </div>
@@ -102,7 +102,8 @@ export default {
       orderListParam: {
         type: 0
       },
-      orderList: [] //订单列表
+      orderList: [], //订单列表
+      scannerOrderId: ''
     };
   },
   mounted: function() {
@@ -131,6 +132,18 @@ export default {
         .catch(function(err) {
           Toast(err.msg || '获取数据失败');
         });
+    },
+
+    // 用户获取JSSDK注入权限验证数据对象
+    getErWeiCodeSign (jsapiTicket, url) {
+      return httpService.post(httpServiceUrl.getErWeiCodeSign, {
+        jsapi_ticket: jsapiTicket,
+        url: url
+      }).then(res => {
+        return res;
+      }).catch(err => {
+        Toast(err.msg || '获取JSSDK注入权限验证数据失败');
+      })
     },
 
     //下拉刷新
@@ -201,6 +214,59 @@ export default {
         }
       };
       goUrl(getParams);
+    },
+
+    // 点击扫一扫
+    scanner (orderId) {
+      let self = this;
+      let jsapiTicket = window.jsapi_ticket;
+      let url = window.location.href.split('#')[0];
+
+      this.scannerOrderId = orderId;
+      
+      this.getErWeiCodeSign(jsapiTicket, url).then(res => {
+        wx.config({
+          debug: false,
+          appId: 'wx950fa5385b73d05b',
+          timestamp: res.timestamp,
+          nonceStr: res.nonceStr,
+          signature: res.signature,
+          jsApiList: ['scanQRCode']
+        })
+      });
+
+      wx.ready(function() {
+        wx.scanQRCode({
+          desc: 'scanQRCode desc',
+          needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+          success: function (res) {
+            httpService.post(httpServiceUrl.scanBundOrder, {
+              user_id: window.wxUserData.user_id,
+              package_num: res.resultStr,
+              order_id: self.scannerOrderId
+            }).then(res => {
+              Toast('绑定洗衣袋成功');
+              // 重新刷新列表
+              setTimeout(() => {
+                this.initData();
+              }, 1000);
+            }).catch(err => {
+              Toast(err.msg || '绑定洗衣袋失败')
+            })
+          },
+          error: function(res){
+            if(res.errMsg.indexOf('function_not_exist') > 0){
+              alert('版本过低请升级')
+            }
+          }
+        });
+      });
+
+      wx.error(function(res){
+        // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+        console.log(res);
+      });
     }
   }
 };
