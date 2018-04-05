@@ -37,6 +37,7 @@
         countDown: 60, //倒计时时间
         sendingCode: 0, //是否正在倒计时发送验证码
         phoneNumPatten: /^1\d{10}$/, //校验手机号
+        invite_code: Request('invite_code'), // 邀请码
       }
     },
     mounted: function () {
@@ -117,7 +118,8 @@
             var goUrlParam = {
                 "hashUrl": 'stuCertification',
                 "params": {
-                  telephone: self.telephoneNo
+                  telephone: self.telephoneNo,
+                  invite_code: self.invite_code
                 },
                 "getThis": self
             };

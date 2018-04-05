@@ -30,4 +30,5 @@ export default {
   chargeNotify: '/CloseCenter/closeUser/user/wx/charge.action', // 用户充值微信支付订单
   walletList: '/CloseCenter/closeUser/walletList.action?', // 用户消费记录列表接口
   scanBundOrder: '/CloseCenter/closeUser/scanBundOrder.action', // 订单扫描绑定衣袋接口
+  rubAllOrderList: '/CloseCenter/closeRubber/rubAllOrderList.action?', // 配送员订单列表接口
 }

@@ -85,11 +85,10 @@ window.bus = new Vue();
 
 
 // 获取微信重定向地址中的code值
-function getWxCode() {
-  let codeReg = /\?\S*code=(\S*)(?:&)/;
-  let href = window.location.href;
-  let matches = href.match(codeReg);
-  return matches ? matches[1] : '';
+function getQueryString(name) {
+  var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+  var r = window.location.search.substr(1).match(reg);
+  if (r != null) return unescape(r[2]); return '';
 }
 
 // 判断当前用户是否为派单员身份
@@ -114,13 +113,14 @@ function getOpenid(code) {
     console.error('没有获取到code, 进行路由重定向');
 
     let url = window.location.href;
+    let invite_code = Request('invite_code');
 
     // 跳转到派单员的界面
     if (url.indexOf('/robOrder') > -1) {
       window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html%23%2frobOrder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
     } else {
       // 跳转到首页
-      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html?invite_code=" + invite_code + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
     }
   }
 
@@ -134,7 +134,7 @@ function getOpenid(code) {
       window.openid = res.openid;
       window.jsapi_ticket = res.jsapi_ticket;
       window.user_image_url = res.user_image_url;
-      console.log('window.jsapi_ticket', window.jsapi_ticket);
+      console.info('接口获取的jsapi_ticket', window.jsapi_ticket);
       if (window.openid) {
         console.info('当前用户openid >>>>', window.openid)
       } else {
@@ -152,12 +152,12 @@ router.beforeEach((to, from, next) => {
 
   // window.openid = 'o1SGg0pvxyEdkQriGMKdl8qm95Hk';
   // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
-  // window.jsapi_ticket = '';
-  // window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok'; jj
+  // window.jsapi_ticket = 'HoagFKDcsGMVCIY2vOjf9nSMHu4NuvPgPA-CNdV_WcGK0WzK4EQCOZ3uJU6iilxbAAEcVUyn0luUYCsNqdGU1A';
+  // window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok'; //jj
   // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
   if (!window.openid) {
-    let code = getWxCode();
+    let code = getQueryString('code');
     console.log('CODE', code);
     getOpenid(code).then(() => {
       guard();
@@ -179,11 +179,16 @@ router.beforeEach((to, from, next) => {
           next();
         });
       }, function () {
+        let invite_code = getQueryString('invite_code');
         console.log('用户尚未注册，跳转注册页');
+        console.log('邀请码 >>>', invite_code);
         // 如果用户尚未注册则跳转到注册页面
         next({
           path: '/registerLogin',
-          replace: true
+          replace: true,
+          params: {
+            invite_code
+          }
         })
       });
     } else {

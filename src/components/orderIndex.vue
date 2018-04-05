@@ -249,7 +249,7 @@ export default {
               Toast('绑定洗衣袋成功');
               // 重新刷新列表
               setTimeout(() => {
-                this.initData();
+                self.initData();
               }, 1000);
             }).catch(err => {
               Toast(err.msg || '绑定洗衣袋失败')

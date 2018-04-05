@@ -109,6 +109,7 @@
     },
     data() {
       return {
+        invite_code: Request('invite_code'),
         stuParams: {
           name: "",//姓名
           address: "",//所在地区
@@ -164,11 +165,12 @@
         areaIds: [],
         curCityValues: '',
         curSchoolValues: '',
-        curHouseValues: ''
+        curHouseValues: '',
       }
     },
     mounted: function () {
       console.log(window.user_image_url, '头像');
+      console.log('邀请码 >>>', this.invite_code);
       // 查询默认的省市区的数据
       this.queryAreaList(1).then(() => {
         this.areaIds[0] = this.areaList[0][0].id;
@@ -323,6 +325,7 @@
         let params = {
           openid: window.openid,
           telephone: Request('telephone'),
+          invite_code: this.invite_code,
           user_image_url: window.user_image_url
         };
 

@@ -133,7 +133,7 @@
     background-color: $white;
 
     .logisticsList-item{
-      padding-bottom: 0.9rem;
+      padding-bottom: 0.4rem;
 
       .time{
         font-size: 0.7rem;
@@ -160,6 +160,7 @@
       }
 
       .detail{
+        flex: 1;
         font-size: 0.8rem;
         color: $fontColor;
       }

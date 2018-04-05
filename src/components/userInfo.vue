@@ -104,6 +104,8 @@
   import httpService from "../common/httpService";
   import httpServiceUrl from "../common/httpServiceUrl";
 
+  let logo = require('../assets/logo@2x.png');
+
   export default {
     name: "user-info",
     data () {
@@ -130,6 +132,7 @@
     mounted () {
       this.getUserCoupleList();
       this.getPersonalInfo();
+      this.invite();
     },
     methods: {
       // 获取用户个人中心信息
@@ -230,6 +233,87 @@
           default:
             break;
         }
+      },
+
+
+      // 用户获取JSSDK注入权限验证数据对象
+      getErWeiCodeSign (jsapiTicket, url) {
+        return httpService.post(httpServiceUrl.getErWeiCodeSign, {
+          jsapi_ticket: jsapiTicket,
+          url: url
+        }).then(res => {
+          return res;
+        }).catch(err => {
+          Toast(err.msg || '获取JSSDK注入权限验证数据失败');
+        })
+      },
+
+      // 点击邀请其他用户
+      invite () {
+        let self = this;
+        let jsapiTicket = window.jsapi_ticket;
+        let url = window.location.href.split('#')[0];
+
+        this.getErWeiCodeSign(jsapiTicket, url).then(res => {
+          wx.config({
+            debug: false,
+            appId: 'wx950fa5385b73d05b',
+            timestamp: res.timestamp,
+            nonceStr: res.nonceStr,
+            signature: res.signature,
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage','hideMenuItems']
+          })
+        }).catch(err => {
+          Toast(err.msg || '获取微信sdk签名错误');
+        });
+
+        wx.ready(function(){
+          wx.onMenuShareTimeline({
+              title: '邀请有礼', // 分享标题
+              link: 'http://www.njtyxxkj.com/xdd/index.html#/index?invite_code=' + window.wxUserData.invite_code, // 分享链接，该链接域名必须与当前企业的可信域名一致
+              imgUrl: 'http://39.107.71.117/h5/images/logo@2x.png', // 分享图标
+              success: function () {
+                console.log('分享成功');
+                  // 用户确认分享后执行的回调函数
+                  Toast('分享成功');
+              },
+              cancel: function () {
+                  // 用户取消分享后执行的回调函数
+                  Toast('取消成功');
+              }
+          });
+
+          wx.onMenuShareAppMessage({
+              title: '邀请有礼', // 分享标题
+              desc: '邀请有礼', // 分享描述
+              link: 'http://www.njtyxxkj.com/xdd/index.html#/index?invite_code=' + window.wxUserData.invite_code, // 分享链接，该链接域名必须与当前企业的可信域名一致
+              imgUrl: 'http://39.107.71.117/h5/images/logo@2x.png', // 分享图标
+              type: '', // 分享类型,music、video或link，不填默认为link
+              dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
+              success: function () {
+                  // 用户确认分享后执行的回调函数
+                  Toast('分享成功');
+              },
+              cancel: function () {
+                  // 用户取消分享后执行的回调函数
+                  Toast('取消成功');
+              }
+          });
+
+          wx.hideMenuItems({
+            menuList: ['menuItem:share:qq',
+                        'menuItem:share:weiboApp',
+                        'menuItem:favorite',
+                        'menuItem:share:facebook',
+                        'menuItem:share:QZone'], // 要隐藏的菜单项，只能隐藏“传播类”和“保护类”按钮，所有menu项见附录3
+            success:function(res){}
+          });
+        });
+
+        wx.error(function(res){
+          // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+          console.log(res);
+        });
       }
     }
   }
