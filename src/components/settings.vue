@@ -26,9 +26,9 @@
         </div>
       </div>
     </div>
-    <div class="login-out flex-centers">
+    <!-- <div class="login-out flex-centers">
       <span>退出登录</span>
-    </div>
+    </div> -->
   </div>
 </template>
 

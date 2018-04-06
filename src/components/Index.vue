@@ -7,7 +7,9 @@
           <mt-swipe-item
             v-for="(oImg, $index) in topImages"
             :key="$index">
-            <img :src='oImg.image_url'>
+            <a :href="oImg.linked_url">
+              <img :src='oImg.image_url'>
+            </a>
           </mt-swipe-item>
         </mt-swipe>
       </div>
@@ -23,21 +25,27 @@
       <div class="hotActivate">
         <div class="topTitle">热门活动</div>
         <div class="content">
-          <div class="left">
-            <img
-              v-if="activities[0] && activities[0].image_url"
-              :src="activities[0].image_url">
-          </div>
-          <div class="right1">
-            <img
-              v-if="activities[1] && activities[1].image_url"
-              :src="activities[1].image_url">
-          </div>
-          <div class="right1 right2">
-            <img
-              v-if="activities[2] && activities[2].image_url"
-              :src="activities[2].image_url">
-          </div>
+          <a :href="activities[0] && activities[0].linked_url">
+            <div class="left">
+              <img
+                v-if="activities[0] && activities[0].image_url"
+                :src="activities[0].image_url">
+            </div>
+          </a>
+          <a :href="activities[1] && activities[1].linked_url">
+            <div class="right1">
+              <img
+                v-if="activities[1] && activities[1].image_url"
+                :src="activities[1].image_url">
+            </div>
+          </a>
+          <a :href="activities[2] && activities[2].linked_url">
+            <div class="right1 right2">
+              <img
+                v-if="activities[2] && activities[2].image_url"
+                :src="activities[2].image_url">
+            </div>
+          </a>
         </div>
       </div>
     </mt-loadmore>

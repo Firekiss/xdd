@@ -47,12 +47,6 @@ export default {
    * @returns {Promise<any>}
    */
   get (url, params = {}) {
-    if(window.wxUserData&&window.wxUserData.user_id){
-       params.user_id=wxUserData.user_id;
-    }
-    if(window.openid){
-      params.openid = window.openid;
-    }
     return new Promise ((resolve, reject) => {
       openIndicator();
       axios.get(url, {

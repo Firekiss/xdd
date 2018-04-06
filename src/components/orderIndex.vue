@@ -100,7 +100,8 @@ export default {
       ],
       orderListUrl: httpServiceUrl.orderList,
       orderListParam: {
-        type: 0
+        type: 0,
+        user_id: window.wxUserData.user_id
       },
       orderList: [], //订单列表
       scannerOrderId: ''

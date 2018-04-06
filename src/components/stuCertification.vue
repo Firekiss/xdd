@@ -10,8 +10,8 @@
         <span class="span1">姓名</span>
         <span class="mustFlow">*</span>
         <span class="span2">
-                    <input type="text" placeholder="请输入姓名" class="input-row" v-model="stuParams.name">
-                </span>
+          <input type="text" placeholder="请输入姓名" class="input-row" v-model="stuParams.name">
+        </span>
       </div>
       <div class="commonLine border-bottom-1px">
         <span class="span1">所在地区</span>
@@ -171,6 +171,7 @@
     mounted: function () {
       console.log(window.user_image_url, '头像');
       console.log('邀请码 >>>', this.invite_code);
+      
       // 查询默认的省市区的数据
       this.queryAreaList(1).then(() => {
         this.areaIds[0] = this.areaList[0][0].id;
@@ -205,16 +206,19 @@
           this.slots[(type - 1) * 2].values = this.areaList[type - 1] = values
         })
       },
+
       // 修改省份之后， 重新请求省下面的市与区的数据
       changeProvince (provinceId) {
         return this.queryAreaList(2, provinceId).then(() => {
           return this.queryAreaList(3, this.areaList[1][0].id)
         })
       },
+
       // 修改城市之后， 重新请求该城市下面的区的数据
       changeCity (cityId) {
         return this.queryAreaList(3, cityId)
       },
+
       // 查询区域内的学校列表
       querySchoolList () {
         let params = {
@@ -227,6 +231,7 @@
           this.curSchoolValues = res.schoolItems[0];
         })
       },
+
       // 查询学校内的宿舍楼列表
       queryHouseList () {
         let params = {
@@ -236,17 +241,22 @@
           this.houseSlots[0].values = res.houseItems;
         })
       },
+
+      // 显示地区选择组件
       showAreaSheet () {
-        this.areaSheet.visible = true
+        this.areaSheet.visible = true;
       },
-      // 关闭地区选择
+      
+      // 隐藏地区选择组件
       closeAreaSheet () {
-        this.areaSheet.visible = false
+        this.areaSheet.visible = false;
       },
+
       // 点击地区选择的遮罩
       areaSheetMaskClick () {
-        this.areaSheet.visible = false
+        this.areaSheet.visible = false;
       },
+
       // 修改了地区的回调函数
       onValuesChange (picker, values) {
         // 当前地区信息赋值
@@ -266,6 +276,7 @@
           }
         }
       },
+
       // 确定选择区域
       areaSheetConfirm () {
         this.curCityValues.forEach(val => {
@@ -273,6 +284,7 @@
         });
         this.areaSheet.visible = false
       },
+
       // 点击显示区域内的学校
       showSchoolSheet () {
         if (this.stuParams.address) {

@@ -150,6 +150,8 @@
           type: 2
         }).then(res => {
           this.coupleList = res.userCoupleItems;
+        }).catch(err => {
+          Toast(err.msg || '获取用户优惠券列表失败');
         })
       },
       // 跳转到申请成为派单员页面
@@ -213,8 +215,8 @@
         if (info.is_deliver === 0) {
           return '申请中'
         }
-
-        switch (info.deliverType) {
+        
+        switch (info.deliver_type) {
           case 0:
             return '';
             break;

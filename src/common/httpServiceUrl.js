@@ -31,4 +31,6 @@ export default {
   walletList: '/CloseCenter/closeUser/walletList.action?', // 用户消费记录列表接口
   scanBundOrder: '/CloseCenter/closeUser/scanBundOrder.action', // 订单扫描绑定衣袋接口
   rubAllOrderList: '/CloseCenter/closeRubber/rubAllOrderList.action?', // 配送员订单列表接口
+  myTeamList: '/CloseCenter/closeUser/myTeamList.action?', // 营销人员列表接口
+  userAdvice: '/CloseCenter/closeUser/userAdvice.action', // 用户意见内容接口
 }
