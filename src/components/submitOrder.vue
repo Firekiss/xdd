@@ -268,6 +268,7 @@ export default {
         console.log("选择微信支付");
         var settle_accounts_url = httpServiceUrl.createWxOrder; //生成订单接口
         var pay_params = {
+          openid: window.openid,
           order_num: this.getOrderNum
         };
         httpService

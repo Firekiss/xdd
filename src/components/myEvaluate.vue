@@ -1,23 +1,16 @@
 <template>
-  <div class="my-evaluate">
-    <div class="evaluate-item box">
+  <div class="my-evaluate" :style="{'-webkit-overflow-scrolling': scrollMode}">
+    <div 
+      class="evaluate-item box"
+      v-for="(item, index) in rubCommentList"
+      :key="index">
       <div class="order-info flex-mid">
-        <span class="order-num">订单编号: 12398564</span>
-        <span class="order-time">2018-02-01</span>
+        <span class="order-num">订单编号: {{item.order_num}}</span>
+        <span class="order-time">{{item.create_time}}</span>
       </div>
-      <star-level cur-level="2" :only-show="onlyShow"></star-level>
+      <star-level :cur-level="item.score" :only-show="onlyShow"></star-level>
       <p class="evaluates">
-        小哥来的很快，服务周到，非常满意~五星好评，满分~小哥来的很快，服务周到，非常满意~五星好评，满分~
-      </p>
-    </div>
-    <div class="evaluate-item box">
-      <div class="order-info flex-mid">
-        <span class="order-num">订单编号: 12398564</span>
-        <span class="order-time">2018-02-01</span>
-      </div>
-      <star-level></star-level>
-      <p class="evaluates">
-        小哥来的很快，服务周到，非常满意~五星好评，满分
+        {{item.content}}
       </p>
     </div>
   </div>
@@ -26,6 +19,8 @@
 <script>
   import starLevel from '../components/widget/starLevel.vue';
   import '@/scss/myEvaluate.scss';
+import httpService from '../common/httpService';
+import httpServiceUrl from '../common/httpServiceUrl';
 
   export default {
     name: "my-evaluate",
@@ -34,7 +29,24 @@
     },
     data () {
       return {
-        onlyShow: true
+        onlyShow: true,
+        scrollMode: 'touch',
+        rubCommentList: []
+      }
+    },
+    mounted () {
+      this.getRubCommentList();
+    },
+    methods: {
+      getRubCommentList () {
+        httpService.get(httpServiceUrl.rubCommentList, {
+          rubber_id: window.rubberId
+        }).then(res => {
+          this.rubCommentList = res.commentItems;
+          this.$nextTick(() => {
+            this.scrollMode = 'touch';
+          })
+        })
       }
     }
   }

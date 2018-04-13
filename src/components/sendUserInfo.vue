@@ -7,8 +7,8 @@
       <div class="user-info-brief">
         <span class="user-name">{{personalInfo.user_name}}</span>
         <div>
-          <span class="user-detail-btn">评分：4.8</span>
-          <span class="user-detail-btn">总单数：120</span>
+          <span class="user-detail-btn">评分：{{robInfo.comment_score}}</span>
+          <span class="user-detail-btn">总单数：{{robInfo.rub_num}}</span>
         </div>
       </div>
     </div>
@@ -16,7 +16,7 @@
 
     <!-- 派单员操作列表 -->
     <div class="user-handle-list" style="margin-top: .5rem;">
-      <div class="list-item border-bottom-1px flex-mid" @click="goTeamManage">
+      <div class="list-item border-bottom-1px flex-mid" @click="goBalance">
         <div class="list-item-left flex">
           <span class="item-icon">
             <img src="../assets/userInfo/wallet_icon@2x.png">
@@ -32,7 +32,7 @@
           </span>
         </div>
       </div>
-      <div class="list-item border-bottom-1px flex-mid" @click="goFeedBack">
+      <div class="list-item border-bottom-1px flex-mid" @click="goMyEvaluate">
         <div class="list-item-left flex">
           <span class="item-icon">
             <img src="../assets/userInfo/appraise_icon@2x.png">
@@ -48,7 +48,7 @@
           </span>
         </div>
       </div>
-      <div class="list-item border-bottom-1px flex-mid">
+      <div class="list-item border-bottom-1px flex-mid" @click="goBeSender">
         <div class="list-item-left flex">
           <span class="item-icon">
             <img src="../assets/userInfo/lever_icon@2x.png">
@@ -58,13 +58,13 @@
           </span>
         </div>
         <div class="list-item-right flex-mid">
-          <span class="item-lever"></span>
+          <span class="item-lever">{{getDeliverLevel(personalInfo)}}</span>
           <span class="item-arrow">
             <img :src="arrow">
           </span>
         </div>
       </div>
-      <div class="list-item border-bottom-1px flex-mid" @click="goSettings">
+      <div class="list-item border-bottom-1px flex-mid" @click="goTeamManage">
         <div class="list-item-left flex">
           <span class="item-icon">
             <img src="../assets/userInfo/send_icon@2x.png">
@@ -110,28 +110,24 @@
     name: "user-info",
     data () {
       return {
-        icons: {
-          team: require('../assets/userInfo/team_icon@2x.png'),
-          member: require('../assets/userInfo/member_icon@2x.png'),
-          option: require('../assets/userInfo/opinion_icon@2x.png'),
-          set: require('../assets/userInfo/set_icon@2x.png')
-        },
+        // 箭头图片
         arrow: require('../assets/icon_arrow.png'),
-        wxUserData: window.wxUserData, // 用户个人信息
-        personalInfo: {}, // 用户信息
-        // 优惠券列表
-        coupleList: [],
+        // 用户个人信息
+        wxUserData: window.wxUserData,
+        // 用户信息
+        personalInfo: {},
         // 成为派单员信息
         rubberInfo: {
           id_num: '',
           id_name: '',
           rub_type: ''
-        }
+        },
+        robInfo: {}
       }
     },
     mounted () {
-      this.getUserCoupleList();
       this.getPersonalInfo();
+      this.getPersonalByRubId();
     },
     methods: {
       // 获取用户个人中心信息
@@ -142,15 +138,30 @@
           this.personalInfo = res
         })
       },
-      // 获取用户所有的优惠券列表
-      getUserCoupleList () {
-        httpService.get(httpServiceUrl.userCoupleList, {
-          user_id: this.wxUserData.user_id,
-          type: 2
+
+      getPersonalByRubId () {
+        httpService.get(httpServiceUrl.personalByRubId, {
+          rubber_id: window.rubberId
         }).then(res => {
-          this.coupleList = res.userCoupleItems;
+          this.robInfo = res;
+        }).catch(err => {
+          Toast(err.msg || '获取派单员信息失败');
         })
       },
+
+      // 跳转到我的钱包
+      goBalance () {
+        let goUrlParam = {
+          hashUrl: 'balance',
+          getThis: this,
+          params: {
+            userMoney: this.personalInfo.user_money,
+            type: 'deliver'
+          }
+        };
+        goUrl(goUrlParam);
+      },
+
       // 跳转到申请成为派单员页面
       goBeSender () {
         if (this.personalInfo.is_deliver === 0) {
@@ -159,18 +170,21 @@
         };
         let goUrlParam = {
           hashUrl: 'applySender',
-          getThis: this
+          getThis: this,
+          type: 'rob'
         };
-        goUrl(goUrlParam)
+        goUrl(goUrlParam);
       },
-      // 跳转到优惠券列表
-      goCoupleList () {
+
+      // 跳转到我的评价页面
+      goMyEvaluate () {
         let goUrlParam = {
-          hashUrl : 'coupon',
+          hashUrl: 'myEvaluate',
           getThis: this
         };
         goUrl(goUrlParam);
       },
+
       // 跳转到团队管理
       goTeamManage () {
         let goUrlParam = {
@@ -179,14 +193,7 @@
         };
         goUrl(goUrlParam);
       },
-      // 跳转到意见反馈
-      goFeedBack () {
-        let goUrlParam = {
-          "hashUrl": 'feedBack',
-          "getThis": this
-        };
-        goUrl(goUrlParam);
-      },
+
       // 跳转到设置
       goSettings () {
         let goUrlParam = {
@@ -195,12 +202,13 @@
         };
         goUrl(goUrlParam);
       },
+
       getDeliverLevel (info) {
         if (info.is_deliver === 0) {
           return '申请中'
         }
 
-        switch (info.deliverType) {
+        switch (info.deliver_type) {
           case 0:
             return '';
             break;

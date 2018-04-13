@@ -33,4 +33,7 @@ export default {
   rubAllOrderList: '/CloseCenter/closeRubber/rubAllOrderList.action?', // 配送员订单列表接口
   myTeamList: '/CloseCenter/closeUser/myTeamList.action?', // 营销人员列表接口
   userAdvice: '/CloseCenter/closeUser/userAdvice.action', // 用户意见内容接口
+  rubTiXian: '/CloseCenter/closeRubber/rubTiXian.action', // 配送员申请提现接口
+  rubCommentList: '/CloseCenter/closeRubber/rubCommentList.action?', // 配送员评价列表接口
+  personalByRubId: '/CloseCenter/closeRubber/personalByRubId.action',  // 派单员个人中心接口
 }

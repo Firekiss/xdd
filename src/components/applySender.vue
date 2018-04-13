@@ -52,6 +52,7 @@
             value: 4
           }
         ],
+        type: Request('type'),
         rub_type: '',
         id_num: '',
         id_name: ''
@@ -83,8 +84,9 @@
           // 申请成功给出管理员审核提示之后返回用户中心
           Toast("申请成功，请等待管理员审核");
           setTimeout(() => {
+            let url = this.type === 'rob' ? 'sendUserInfo' : 'userInfo'
             let goUrlParam = {
-              hashUrl: 'userInfo',
+              hashUrl: url,
               getThis: this
             };
             goUrl(goUrlParam);
