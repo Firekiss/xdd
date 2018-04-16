@@ -279,6 +279,8 @@
 
       // 确定选择区域
       areaSheetConfirm () {
+        // 清空原本的地区选择 防止重复添加
+        this.stuParams.address = '';
         this.curCityValues.forEach(val => {
           this.stuParams.address += val.name;
         });

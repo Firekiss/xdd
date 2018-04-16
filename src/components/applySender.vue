@@ -3,7 +3,7 @@
     <div class="user-info">
       <div class="list-item border-bottom-1px flex-mid">
         <span class="label">身份证号码<span class="must">*</span></span>
-        <input type="number" class="info-input" v-model="id_num" placeholder="请输入你的身份证号码">
+        <input type="text" class="info-input" v-model="id_num" placeholder="请输入你的身份证号码">
       </div>
       <div class="list-item flex-mid">
         <span class="label">名字<span class="must">*</span></span>

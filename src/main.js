@@ -36,6 +36,7 @@ const MyOrder = r => require.ensure([], () => r(require('./components/myOrder'))
 const MyEvaluate = r => require.ensure([], () => r(require('./components/myEvaluate')), 'myEvaluate');
 const Withdraw = r => require.ensure([], () => r(require('./components/withdraw')), 'withdraw');
 const SendUserInfo = r => require.ensure([], () => r(require('./components/sendUserInfo')), 'sendUserInfo');
+const SendScannerDeatil = r => require.ensure([], () => r(require('./components/sendScannerDeatil')), 'sendScannerDeatil');
 
 
 Vue.use(VueRouter);
@@ -76,6 +77,7 @@ const router = new VueRouter({
       {path: 'myEvaluate', component: MyEvaluate},// 我的评价
       {path: 'withdraw', component: Withdraw},// 提现
       {path: 'sendUserInfo', component: SendUserInfo},// 派单员我的信息
+      {path: 'sendScannerDeatil', component: SendScannerDeatil},// 派单员扫描洗衣袋获取的详细信息
     ]
   }]
 });

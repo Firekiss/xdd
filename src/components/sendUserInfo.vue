@@ -11,6 +11,9 @@
           <span class="user-detail-btn">总单数：{{robInfo.rub_num}}</span>
         </div>
       </div>
+      <div class="scanner" @click.stop="scanner">
+        <img src="../assets/scanner-icon.png">
+      </div>
     </div>
 
 
@@ -149,13 +152,25 @@
         })
       },
 
+      // 用户获取JSSDK注入权限验证数据对象
+      getErWeiCodeSign (jsapiTicket, url) {
+        return httpService.post(httpServiceUrl.getErWeiCodeSign, {
+          jsapi_ticket: jsapiTicket,
+          url: url
+        }).then(res => {
+          return res;
+        }).catch(err => {
+          Toast(err.msg || '获取JSSDK注入权限验证数据失败');
+        })
+      },
+
       // 跳转到我的钱包
       goBalance () {
         let goUrlParam = {
           hashUrl: 'balance',
           getThis: this,
           params: {
-            userMoney: this.personalInfo.user_money,
+            userMoney: this.robInfo.money,
             type: 'deliver'
           }
         };
@@ -188,8 +203,11 @@
       // 跳转到团队管理
       goTeamManage () {
         let goUrlParam = {
-          "hashUrl": 'teamManage',
-          "getThis": this
+          hashUrl: 'teamManage',
+          getThis: this,
+          params: {
+            type: 'order'
+          }
         };
         goUrl(goUrlParam);
       },
@@ -227,6 +245,65 @@
           default:
             break;
         }
+      },
+
+      // 派送员扫描袋子二维码
+      scanner () {
+        let self = this;
+        let jsapiTicket = window.jsapi_ticket;
+        let url = window.location.href.split('#')[0];
+
+        this.getErWeiCodeSign(jsapiTicket, url).then(res => {
+          wx.config({
+            debug: false,
+            appId: 'wx950fa5385b73d05b',
+            timestamp: res.timestamp,
+            nonceStr: res.nonceStr,
+            signature: res.signature,
+            jsApiList: ["scanQRCode"]
+          })
+        }).catch(err => {
+          Toast(err.msg || '获取微信sdk签名错误');
+        });
+        
+        wx.ready(function() {
+          wx.scanQRCode({
+            desc: 'scanQRCode desc',
+            needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+            scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+            success: function (res) {
+              httpService.post(httpServiceUrl.getOrderInfoByPackageCode, {
+                package_num: res.resultStr
+              }).then(res => {
+                let goUrlParam = {
+                  hashUrl: 'sendScannerDeatil',
+                  getThis: self,
+                  params: {
+                    userName: res.user_name,
+                    telephone: res.telephone,
+                    area: res.province + res.city + res.area,
+                    schoolName: res.school_name,
+                    houseNum: res.house_num,
+                    roomNum: res.room_num 
+                  }
+                };
+                goUrl(goUrlParam);
+              }).catch(err => {
+                Toast(err.msg || '扫描洗衣袋失败')
+              })
+            },
+            error: function(res){
+              if(res.errMsg.indexOf('function_not_exist') > 0){
+                alert('版本过低请升级')
+              }
+            }
+          });
+        });
+
+        wx.error(function(res){
+          // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+          console.log(res);
+        });
       }
     }
   }

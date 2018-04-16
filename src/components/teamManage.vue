@@ -51,7 +51,8 @@ import httpServiceUrl from '../common/httpServiceUrl';
           arrowRight: require('../assets/icon_arrow.png')
         },
         allNum: '',
-        teamList: []
+        teamList: [],
+        type: Request('type')
       }
     },
     mounted () {
@@ -65,9 +66,21 @@ import httpServiceUrl from '../common/httpServiceUrl';
       
       // 获取用户销售团队列表数据
       getMyTeamList () {
-        httpService.get(httpServiceUrl.myTeamList, {
-          user_id: window.wxUserData.user_id
-        }).then(res => {
+        var url, params;
+        
+        if (this.type === 'order') {
+          url = httpServiceUrl.rubNextList;
+          params = {
+            rubber_id: window.rubberId,
+          };
+        } else {
+          url = httpServiceUrl.myTeamList;
+          params = {
+            user_id: window.wxUserData.user_id
+          };
+        }
+
+        httpService.get(url, params).then(res => {
           this.teamList = this.addCoupleToggle(res.classItems);
           this.allNum = res.allNum;
         }).catch(err => {

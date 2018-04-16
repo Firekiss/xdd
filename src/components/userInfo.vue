@@ -6,7 +6,7 @@
       </div>
       <div class="user-info-brief">
         <span class="user-name">{{personalInfo.user_name}}</span>
-        <span class="user-detail-btn">个人信息 ></span>
+        <span class="user-detail-btn" @click.stop="goEditUserInfo">个人信息 ></span>
       </div>
     </div>
     <div class="user-asset">
@@ -187,6 +187,7 @@
         };
         goUrl(goUrlParam);
       },
+
       // 跳转到团队管理
       goTeamManage () {
         let goUrlParam = {
@@ -195,6 +196,7 @@
         };
         goUrl(goUrlParam);
       },
+
       // 跳转到意见反馈
       goFeedBack () {
         let goUrlParam = {
@@ -203,6 +205,7 @@
         };
         goUrl(goUrlParam);
       },
+
       // 跳转到设置
       goSettings () {
         let goUrlParam = {
@@ -211,6 +214,7 @@
         };
         goUrl(goUrlParam);
       },
+
       getDeliverLevel (info) {
         if (info.is_deliver === 0) {
           return '申请中'
@@ -237,6 +241,14 @@
         }
       },
 
+      // 点击个人信息 跳转到个人信息修改页面
+      goEditUserInfo () {
+        let goUrlParam = {
+          "hashUrl": 'personInfo',
+          "getThis": this
+        };
+        goUrl(goUrlParam);        
+      },
 
       // 用户获取JSSDK注入权限验证数据对象
       getErWeiCodeSign (jsapiTicket, url) {

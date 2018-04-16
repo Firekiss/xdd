@@ -26,6 +26,8 @@
                 <div class="vertical2">
                   <div class="time">下单时间：{{item.pay_time}}</div>
                   <div class="address">送至：{{item.school_name + item.room_num + '-' + item.house_num}}</div>
+                  <div class="address">用户：{{item.user_name}}</div>
+                  <div class="address">电话：{{item.telephone}}</div>
                 </div>
                 <div class="vertical3">
                   <span>x{{item.good_num}}</span>
@@ -55,7 +57,9 @@
                 <img class="vertical1" v-if="item.good_type === 3" src="../assets/order_wash_shoe@2x.png">
                 <div class="vertical2">
                   <div class="time">下单时间：{{item.pay_time}}</div>
-                  <div class="address">送至：{{item.school_name + item.room_num + '-' + item.house_num}}</div>
+                  <div class="address">送至：{{item.school_name + item.room_num + '-' + item.house_num + '23'}}</div>
+                  <div class="address">用户：{{item.user_name}}</div>
+                  <div class="address">电话：{{item.telephone}}</div>
                 </div>
                 <div class="vertical3">
                   <span>x{{item.good_num}}</span>

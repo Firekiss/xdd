@@ -36,4 +36,6 @@ export default {
   rubTiXian: '/CloseCenter/closeRubber/rubTiXian.action', // 配送员申请提现接口
   rubCommentList: '/CloseCenter/closeRubber/rubCommentList.action?', // 配送员评价列表接口
   personalByRubId: '/CloseCenter/closeRubber/personalByRubId.action',  // 派单员个人中心接口
+  getOrderInfoByPackageCode: '/CloseCenter/closeUser/getOrderInfoByPackageCode.action', // 扫描衣袋二维码显示信息接口
+  rubNextList: '/CloseCenter/closeRubber/rubNextList.action?', // 配送人员下级列表
 }

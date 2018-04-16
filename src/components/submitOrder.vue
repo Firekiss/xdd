@@ -36,7 +36,7 @@
       <div class="survey-line flex only-right border-bottom-1px">
         <div class="survey-line-right flex-mid">
           <span class="total">小计</span>
-          <span class="reduce-money">¥{{realityMoney || truePrice}}</span>
+          <span class="reduce-money">¥{{price}}</span>
         </div>
       </div>
     </div>
@@ -159,7 +159,7 @@ export default {
   },
   computed: {
     realityMoney() {
-      let money = this.washNumber * this.price - this.ticketMoney;
+      let money = this.washNumber * (this.price * 1000 ) / 1000  - this.ticketMoney;
       return money > 0 ? money : 0;
     }
   },

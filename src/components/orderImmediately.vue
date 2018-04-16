@@ -5,7 +5,8 @@
     </div>
     <div class="order-num">
       <div class="clothes-num-section flex">
-        <span class="title">衣服数量</span>
+        <span class="title" v-if="typeNum == 1">洗衣数量</span>
+        <span class="title" v-else>衣服数量</span>
         <div class="clothes-num-changer flex-mid">
           <span class="clothes-num-reduce flex-mid" @click="reduceWashNum">－</span>
           <span class="clothes-num-cur">{{washNumber}}</span>
@@ -28,7 +29,7 @@
     <div class="total-cart flex border-top-1px">
       <div class="total-bar flex-mid">
         <span class="title">合计</span>
-        <span class="money">¥{{totalMoney}}</span>
+        <span class="money">¥{{this.goodDetail.price}}</span>
       </div>
       <span
         class="order-btn flex-centers"
@@ -53,7 +54,7 @@
     },
     computed: {
       totalMoney () {
-        return this.goodDetail.price * this.washNumber
+        return (this.goodDetail.price * 1000 * this.washNumber) / 1000
       }
     },
     mounted () {
