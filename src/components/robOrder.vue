@@ -124,7 +124,6 @@
         };
 
         httpService.get(httpServiceUrl.robOrderList, params).then(res => {
-          window.rubberId = res.rubber_id;
           this.robOrderList = res.rubOrderItems;
           this.$refs.loadmore.onTopLoaded();
         }).catch(err => {
@@ -143,7 +142,7 @@
       rubOrder (orderId) {
         let params = {
           order_id: orderId,
-          rubber_id: window.rubberId
+          rubber_id: window.wxUserData.rubber_id 
         };
 
         httpService.post(httpServiceUrl.robOrder, params).then(res => {

@@ -19,7 +19,7 @@
         <span class="balance-name">卡券</span>
       </div>
       <div class="balance">
-        <span class="balance-val">36</span>
+        <span class="balance-val">{{personalInfo.credit}}</span>
         <span class="balance-name">积分</span>
       </div>
     </div>
@@ -173,7 +173,9 @@
           hashUrl: 'balance',
           getThis: this,
           params: {
-            userMoney: this.personalInfo.user_money
+            userMoney: this.personalInfo.user_money,
+            eMoney: this.personalInfo.e_bi_money,
+            userType: 'user'
           }
         };
         goUrl(goUrlParam);

@@ -48,6 +48,10 @@
 
       .clothes-num-cur{
         margin: 0 0.5rem;
+
+        &.shoe{
+          margin: 0;
+        }
       }
     }
   }

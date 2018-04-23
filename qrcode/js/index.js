@@ -52,7 +52,7 @@ $(function(){
         if (res.success === true) {
           els.body.mLoading("hide");
           // 生成二维码
-          createQRcode(config.inviteUrl + res.data.invite_code, width);
+          createQRcode("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html%23%2findex?invite_code=" + res.data.invite_code + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect", width);
         } else {
           alert(res.msg);
         }

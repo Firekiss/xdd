@@ -8,7 +8,9 @@
         <input type="number" class="money-val" v-model="money">
       </div>
     </div>
-    <div class="balance flex-mid box"><span>您的账户余额¥{{userMoney}}</span></div>
+    <div class="balance flex-mid box">
+      <span>您的账户余额¥{{userMoney}}</span>
+    </div>
     <div class="pay-section box">
       <div class="pay-item border-bottom-1px">
         <div class="name"><span>支付宝账号</span></div>
@@ -38,10 +40,11 @@
     name: "withdraw",
     data () {
       return {
-        userMoney: window.wxUserData.user_money,
+        userMoney: Request("userMoney"),
         money: '',
         account_num: '',
-        account_name: ''
+        account_name: '',
+        type: Request("type"),
       }
     },
     methods: {
@@ -61,16 +64,25 @@
           return;
         }
 
+        // 如果是派单员 就用rubber_id
+        // 普通用户就用user_id
+        var rubber_id = Number(this.type) === 0 
+        ? window.wxUserData.rubber_id 
+        : window.wxUserData.user_id;
+
         httpService.post(httpServiceUrl.rubTiXian, {
-          rubber_id: window.rubberId,
+          rubber_id: rubber_id,
           money: this.money,
           account_num: this.account_num,
-          account_name: this.account_name
+          account_name: this.account_name,
+          type: Number(this.type),
         }).then(res => {
           Toast('提现申请成功');
           setTimeout(() => {
+            var hashUrl = Number(this.type) === 0 ? 'sendUserInfo' : 'userInfo';
+
             let goUrlParam = {
-              hashUrl: 'sendUserInfo',
+              hashUrl: hashUrl,
               getThis: this
             };
             goUrl(goUrlParam);

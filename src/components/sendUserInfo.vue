@@ -144,7 +144,7 @@
 
       getPersonalByRubId () {
         httpService.get(httpServiceUrl.personalByRubId, {
-          rubber_id: window.rubberId
+          rubber_id: window.wxUserData.rubber_id 
         }).then(res => {
           this.robInfo = res;
         }).catch(err => {

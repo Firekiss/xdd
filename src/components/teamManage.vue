@@ -71,7 +71,7 @@ import httpServiceUrl from '../common/httpServiceUrl';
         if (this.type === 'order') {
           url = httpServiceUrl.rubNextList;
           params = {
-            rubber_id: window.rubberId,
+            rubber_id: window.wxUserData.rubber_id,
           };
         } else {
           url = httpServiceUrl.myTeamList;

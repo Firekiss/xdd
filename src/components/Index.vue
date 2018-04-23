@@ -89,7 +89,19 @@
       }
     },
     mounted: function () {
-      this.queryDoorImageList()
+      var me = this;
+
+      me.queryDoorImageList();
+
+      pushHistory();
+      window.addEventListener("popstate", me.closeWX, false);
+      function pushHistory() {
+        var state = {
+          title: "title",
+          url: "#/index"
+        };
+        window.history.pushState(state, "title", "#/index");
+      }
     },
     methods: {
       //下拉刷新
@@ -115,8 +127,14 @@
           }
         };
         goUrl(goUrlParam);
+      },
+      // 清除登录记录 关闭微信
+      closeWX () {
+        WeixinJSBridge.call('closeWindow');
       }
+    },
+    destroyed () {
+      window.removeEventListener("popstate", this.closeWX, false);
     }
-
   }
 </script>

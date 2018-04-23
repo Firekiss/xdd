@@ -46,10 +46,6 @@
           {
             label: '高级（区域）',
             value: 3
-          },
-          {
-            label: '市级（市）',
-            value: 4
           }
         ],
         type: Request('type'),

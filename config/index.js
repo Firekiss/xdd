@@ -8,7 +8,7 @@ module.exports = {
     assetsRoot: path.resolve(__dirname, '../stu_vue'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
-    serverDomain:'https://testc.duolunxc.com/mobileRest',
+    serverDomain:'',
     productionSourceMap: false,
     // Gzip off by default as many popular static hosts such as
     // Surge or Netlify already gzip all static assets for you.

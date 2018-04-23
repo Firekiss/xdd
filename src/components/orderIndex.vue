@@ -39,11 +39,13 @@
                 <span class="moneyCom moneyColor">￥{{item.true_price}}</span>
               </div>
               <div class="tabRight flex-mid">
-                <div class="butRight flex-mid" @click.stop="afterSale(item.order_id, item.create_time, item.order_num)" v-if="item.order_status === 1 || item.order_status === 2 || item.order_status === 3"><span>申请售后</span></div>
-                <div class="butRight flex-mid" @click.stop="goComment(item.order_id)" v-if="item.order_status === 2"><span>去评价</span></div>
-                <div class="butRight flex-mid red-btn" @click.stop="goToPay(item.order_id, item.order_num)" v-if="item.order_status === 0"><span>去付款</span></div>
-                <div class="butRight flex-mid red-btn" @click.stop="comfireOrder(item.order_id)" v-if="item.order_status === 1"><span>确认收货</span></div>
-                <div class="butRight flex-mid red-btn" @click.stop="scanner(item.order_id)" v-if="item.order_status === 1 && item.deliver_status  === 2"><span>扫一扫</span></div>
+                  <div class="butRight flex-mid" @click.stop="afterSale(item.order_id, item.create_time, item.order_num)" v-if="(item.order_status === 1 || item.order_status === 2 || item.order_status === 3) && item.deliver_status !== 10"><span>申请售后</span></div>
+                  <div class="butRight flex-mid" @click.stop="goComment(item.order_id)" v-if="item.order_status === 2 && item.deliver_status !== 10"><span>去评价</span></div>
+                  <div class="butRight flex-mid red-btn" @click.stop="goToPay(item.order_id, item.order_num)" v-if="item.order_status === 0 && item.deliver_status !== 10"><span>去付款</span></div>
+                  <div class="butRight flex-mid red-btn" @click.stop="comfireOrder(item.order_id)" v-if="item.order_status === 1"><span>确认收货</span></div>
+                  <div class="butRight flex-mid red-btn" @click.stop="scanner(item.order_id)" v-if="item.order_status === 1 && item.deliver_status  === 2"><span>扫一扫</span></div>
+                  <div class="butRight flex-mid red-btn" @click.stop="delayOrder(item.order_id)" v-if="item.deliver_status === 0 || item.deliver_status  === 1"><span>取消订单</span></div>
+                  <div class="butRight flex-mid red-btn" style="border: none;" v-if="item.deliver_status === 10"><span>已取消</span></div>
               </div>
             </div>
           </div>
@@ -61,6 +63,7 @@ import httpService from "../common/httpService";
 import tool from "../common/tools";
 import Loadmore from "mint-ui/lib/loadmore";
 import "../scss/orderIndex.scss";
+import { MessageBox } from 'mint-ui';
 
 Vue.component(Loadmore.name, Loadmore);
 
@@ -224,7 +227,7 @@ export default {
       let url = window.location.href.split('#')[0];
 
       this.scannerOrderId = orderId;
-      
+
       this.getErWeiCodeSign(jsapiTicket, url).then(res => {
         wx.config({
           debug: false,
@@ -268,6 +271,26 @@ export default {
         // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
         console.log(res);
       });
+    },
+
+    // 点击取消订单
+    delayOrder (orderId) {
+      MessageBox.confirm('确定要取消订单?').then(action => {
+        httpService.post(httpServiceUrl.delayOrder, {
+          user_id: window.wxUserData.user_id,
+          order_id: orderId
+        })
+        .then(res => {
+          Toast("取消订单成功");
+          // 重新刷新列表
+          setTimeout(() => {
+            this.initData();
+          }, 1000);
+        })
+        .catch(err => {
+          Toast(err.msg || "取消订单失败")
+        });
+      })
     }
   }
 };

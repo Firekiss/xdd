@@ -8,9 +8,9 @@
         <span class="title" v-if="typeNum == 1">洗衣数量</span>
         <span class="title" v-else>衣服数量</span>
         <div class="clothes-num-changer flex-mid">
-          <span class="clothes-num-reduce flex-mid" @click="reduceWashNum">－</span>
-          <span class="clothes-num-cur">{{washNumber}}</span>
-          <span class="clothes-num-add flex-mid" @click="addWashNum">＋</span>
+          <span class="clothes-num-reduce flex-mid" v-if="typeNum != 3" @click="reduceWashNum">－</span>
+          <span class="clothes-num-cur" :class="{'shoe': typeNum == 3}">{{washNumber}}</span>
+          <span class="clothes-num-add flex-mid" v-if="typeNum != 3" @click="addWashNum">＋</span>
         </div>
       </div>
       <div class="clothes-num-section flex">
@@ -58,6 +58,7 @@
       }
     },
     mounted () {
+      (this.typeNum == 3) && (this.washNumber = 1);
       this.getGoodDetail(this.typeNum)
     },
     methods: {

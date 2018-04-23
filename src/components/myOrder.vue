@@ -139,7 +139,7 @@
     methods: {
       initOrderList:function(){
         httpService.get(httpServiceUrl.rubAllOrderList, {
-          rubber_id: window.rubberId,
+          rubber_id: window.wxUserData.rubber_id ,
           type: this.selected
         }).then(res => {
           this.orderList = res.orderItems;

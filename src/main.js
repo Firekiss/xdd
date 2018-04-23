@@ -40,7 +40,7 @@ const SendScannerDeatil = r => require.ensure([], () => r(require('./components/
 
 
 Vue.use(VueRouter);
-new VConsole(); // 移动端日志打印工具
+// new VConsole(); // 移动端日志打印工具
 
 const router = new VueRouter({
   routes: [{
@@ -119,13 +119,12 @@ function getOpenid(code) {
 
     // 跳转到派单员的界面
     if (url.indexOf('/robOrder') > -1) {
-      window.location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html%23%2frobOrder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect';
+      window.location.replace('https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html%23%2frobOrder&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect');
     } else {
       // 跳转到首页
-      window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html?invite_code=" + invite_code + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";
+      window.location.replace("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html%23%2findex?invite_code=" + invite_code + "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect");
     }
   }
-
   if (!window.openid) {
     let params = {
       code
@@ -136,11 +135,25 @@ function getOpenid(code) {
       window.openid = res.openid;
       window.jsapi_ticket = res.jsapi_ticket;
       window.user_image_url = res.user_image_url;
-      console.info('接口获取的jsapi_ticket', window.jsapi_ticket);
+
+      window.localStorage.setItem("jsapi_ticket", jsapi_ticket);
+      window.localStorage.setItem("user_image_url", user_image_url);
+
       if (window.openid) {
-        console.info('当前用户openid >>>>', window.openid)
+        console.info('当前用户openid >>>>', window.openid);
       } else {
-        console.error('用户openid为空')
+
+        // var hash = window.location.href.match(/#\/([\w]*)(\?|$)/)[1];
+        var invite_code = Request('invite_code');
+        var hashUrl = window.location.hash.split('#/')[1];
+        var aaa = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fxdd%2findex.html%23%2f'+ hashUrl;
+        if(hashUrl.indexOf('?')>-1){
+            aaa = aaa +"&invite_code=" + invite_code+ "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";;
+        }else{
+           aaa = aaa +"?invite_code=" + invite_code+ "&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect";;
+        }
+
+        window.location.href = aaa;
       }
     }).catch(err => {
       Toast(err.msg)
@@ -151,26 +164,35 @@ function getOpenid(code) {
 
 
 router.beforeEach((to, from, next) => {
-
   // window.openid = 'o1SGg0pvxyEdkQriGMKdl8qm95Hk';
-  // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
+  
   // window.jsapi_ticket = 'HoagFKDcsGMVCIY2vOjf9nSMHu4NuvPgPA-CNdV_WcGK0WzK4EQCOZ3uJU6iilxbAAEcVUyn0luUYCsNqdGU1A';
   // window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok'; //jj
   // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
-  if (!window.openid) {
+
+  window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
+
+  if (!window.openid && !Request('openid')) {
     let code = getQueryString('code');
     console.log('CODE', code);
     getOpenid(code).then(() => {
       guard();
     })
   } else {
+    if(!window.openid){
+      window.openid = Request('openid');
+      window.jsapi_ticket = window.localStorage.getItem("jsapi_ticket");
+      window.user_image_url = window.localStorage.getItem("user_image_url");
+    }
     guard();
   }
 
   function guard() {
     if (!window.wxUserData && (to.path !== '/registerLogin' && to.path !== '/stuCertification')) {
       // 获取用户信息
+      var me = this;
+
       console.log('开始获取用户信息');
       tools.getUserData().then(function (data) {
         // 如果当前用户已经注册过了
@@ -181,14 +203,14 @@ router.beforeEach((to, from, next) => {
           next();
         });
       }, function () {
-        let invite_code = getQueryString('invite_code');
+        let invite_code = Request('invite_code');
         console.log('用户尚未注册，跳转注册页');
         console.log('邀请码 >>>', invite_code);
         // 如果用户尚未注册则跳转到注册页面
         next({
           path: '/registerLogin',
           replace: true,
-          params: {
+          query: {
             invite_code
           }
         })
@@ -204,6 +226,7 @@ router.afterEach(route => {
   document.body.scrollTop = 0;
 });
 
+
 //window.bus = new Vue();
 Vue.filter('formatName', function (name, subLength) {
   if (!subLength) {
@@ -216,7 +239,7 @@ Vue.filter('formatName', function (name, subLength) {
   }
 });
 
-new Vue({
+window.vm = new Vue({
   el: '#app',
   router,
   render: h => h(App)

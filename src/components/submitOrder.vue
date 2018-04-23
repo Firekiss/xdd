@@ -159,7 +159,7 @@ export default {
   },
   computed: {
     realityMoney() {
-      let money = this.washNumber * (this.price * 1000 ) / 1000  - this.ticketMoney;
+      let money = (this.price * 1000  - this.ticketMoney * 1000) / 1000;
       return money > 0 ? money : 0;
     }
   },
@@ -219,7 +219,9 @@ export default {
         // 用户提交订单成功后
         this.getOrderNum = res.order_num;
         this.showPaySheet();
-      });
+      }).catch(err => {
+        Toast(err.msg || "立即下单失败");
+      })
     },
     // 点击显示优惠券弹窗
     showTicketSheet() {

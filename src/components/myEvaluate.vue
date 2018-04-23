@@ -40,7 +40,7 @@ import httpServiceUrl from '../common/httpServiceUrl';
     methods: {
       getRubCommentList () {
         httpService.get(httpServiceUrl.rubCommentList, {
-          rubber_id: window.rubberId
+          rubber_id: window.wxUserData.rubber_id
         }).then(res => {
           this.rubCommentList = res.commentItems;
           this.$nextTick(() => {

@@ -35,39 +35,6 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
             '  Opening index.html over file:// won\'t work.\n'
         ))
 
-        // var url = config.build.serverDomain + '/common/getNewH5Version.do?appType=1';
-
-        // https.get(url, function(res) {
-        //     var datas = [];
-        //     var size = 0;
-        //     res.on('data', function(data) {
-        //         datas.push(data);
-        //         size += data.length;
-        //     });
-        //     res.on("end", function() {
-        //         var buff = Buffer.concat(datas, size);
-        //         var result = JSON.parse(buff.toString()); //转码//var result = buff.toString();//不需要转编码,直接tostring  
-
-        //         if (result && result.code == 1 && result.data && !isNaN(parseFloat(result.data.versionNo))) {
-
-        //             var version = ((parseFloat(result.data.versionNo) * 10 + 1) / 10).toFixed(1);
-        //             console.log('-----current_h5_version----' + version);
-        //             createAndZip(version);
-        //         } else {
-        //             console.log(chalk.red("---------------------htts failed-------------------------"));
-        //             createAndZip('1.0');
-        //         }
-        //     });
-        // }).on("error", function(err) {
-
-        //     createAndZip('1.0');
-        //     console.log(chalk.red("htts failed"));
-        //     Logger.error(err.stack);
-        //     callback.apply(null);
-        // });
-
-        // createAndZip('1.2');
-
         function createAndZip(version) {
             fs.writeFile(path.join(config.build.assetsRoot) + "/version.txt", version, function(err) {
                 if (err) {
