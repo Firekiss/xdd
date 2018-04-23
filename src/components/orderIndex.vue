@@ -42,7 +42,7 @@
                   <div class="butRight flex-mid" @click.stop="afterSale(item.order_id, item.create_time, item.order_num)" v-if="(item.order_status === 1 || item.order_status === 2 || item.order_status === 3) && item.deliver_status !== 10"><span>申请售后</span></div>
                   <div class="butRight flex-mid" @click.stop="goComment(item.order_id)" v-if="item.order_status === 2 && item.deliver_status !== 10"><span>去评价</span></div>
                   <div class="butRight flex-mid red-btn" @click.stop="goToPay(item.order_id, item.order_num)" v-if="item.order_status === 0 && item.deliver_status !== 10"><span>去付款</span></div>
-                  <div class="butRight flex-mid red-btn" @click.stop="comfireOrder(item.order_id)" v-if="item.order_status === 1"><span>确认收货</span></div>
+                  <div class="butRight flex-mid red-btn" @click.stop="comfireOrder(item.order_id)" v-if="item.order_status === 1 && item.deliver_status !== 10"><span>确认收货</span></div>
                   <div class="butRight flex-mid red-btn" @click.stop="scanner(item.order_id)" v-if="item.order_status === 1 && item.deliver_status  === 2"><span>扫一扫</span></div>
                   <div class="butRight flex-mid red-btn" @click.stop="delayOrder(item.order_id)" v-if="item.deliver_status === 0 || item.deliver_status  === 1"><span>取消订单</span></div>
                   <div class="butRight flex-mid red-btn" style="border: none;" v-if="item.deliver_status === 10"><span>已取消</span></div>

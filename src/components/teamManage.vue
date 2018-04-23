@@ -18,7 +18,7 @@
           </div>
         </div>
         <div class="team-list" v-if="item.toggle">
-          <div 
+          <div
             class="team-list-item flex-mid border-bottom-1px"
             v-for="(person, index) in item.classListItems"
             :key="index">
@@ -51,7 +51,18 @@ import httpServiceUrl from '../common/httpServiceUrl';
           arrowRight: require('../assets/icon_arrow.png')
         },
         allNum: '',
-        teamList: [],
+        teamList: [
+          {
+            classListItems: [],
+            className: "1级人脉",
+            classNum: 0
+          },
+          {
+            classListItems: [],
+            className: "2级人脉",
+            classNum: 0
+          }
+        ],
         type: Request('type')
       }
     },
@@ -63,11 +74,11 @@ import httpServiceUrl from '../common/httpServiceUrl';
       stateChange (item) {
         item.toggle = !item.toggle;
       },
-      
+
       // 获取用户销售团队列表数据
       getMyTeamList () {
         var url, params;
-        
+
         if (this.type === 'order') {
           url = httpServiceUrl.rubNextList;
           params = {
@@ -81,8 +92,11 @@ import httpServiceUrl from '../common/httpServiceUrl';
         }
 
         httpService.get(url, params).then(res => {
-          this.teamList = this.addCoupleToggle(res.classItems);
-          this.allNum = res.allNum;
+          if (res.classItems && res.classItems.length) {
+            this.teamList = this.addCoupleToggle(res.classItems);
+          }
+
+          this.allNum = res.allNum || 0;
         }).catch(err => {
           Toast(err.msg || '获取营销人员列表失败');
         })
