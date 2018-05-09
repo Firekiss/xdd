@@ -114,6 +114,16 @@
     },
     mounted () {
       this.queryRobOrderList();
+
+      pushHistory();
+      window.addEventListener("popstate", this.closeWX, false);
+      function pushHistory() {
+        var state = {
+          title: "title",
+          url: "#/robOrder"
+        };
+        window.history.pushState(state, "title", "#/robOrder");
+      }
     },
     methods: {
       // 查询抢单列表数据
@@ -142,7 +152,7 @@
       rubOrder (orderId) {
         let params = {
           order_id: orderId,
-          rubber_id: window.wxUserData.rubber_id 
+          rubber_id: window.wxUserData.rubber_id
         };
 
         httpService.post(httpServiceUrl.robOrder, params).then(res => {
@@ -151,7 +161,14 @@
         }).catch(err => {
           Toast(err.msg || '抢单失败');
         });
+      },
+      // 清除登录记录 关闭微信
+      closeWX () {
+        WeixinJSBridge.call('closeWindow');
       }
+    },
+    destroyed () {
+      window.removeEventListener("popstate", this.closeWX, false);
     }
   }
 </script>

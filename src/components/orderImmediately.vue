@@ -5,7 +5,8 @@
     </div>
     <div class="order-num">
       <div class="clothes-num-section flex">
-        <span class="title" v-if="typeNum == 1">洗衣数量</span>
+        <!-- typeNum == 3 时进入的是洗鞋的详细页面 -->
+        <span class="title" v-if=" typeNum == 3 ">洗鞋数量</span>
         <span class="title" v-else>衣服数量</span>
         <div class="clothes-num-changer flex-mid">
           <span class="clothes-num-reduce flex-mid" v-if="typeNum != 3" @click="reduceWashNum">－</span>
@@ -20,10 +21,8 @@
     </div>
     <div class="explain">
       <div class="explain-detail">
-        <h5 class="explain-title">洗衣说明</h5>
-        <p>
-          {{goodDetail.content}}
-        </p>
+        <h5 class="explain-title">{{ typeNum == 3 ? '洗鞋说明' : '洗衣说明' }}</h5>
+        <p v-html="goodDetail.content"></p>
       </div>
     </div>
     <div class="total-cart flex border-top-1px">
@@ -65,7 +64,8 @@
       // 获取商品详情
       getGoodDetail (typeNum) {
         httpService.get(httpServiceUrl.goodTypeDetail, {
-          type: typeNum
+          type: typeNum,
+          user_id: window.wxUserData.user_id,
         }).then(res => {
           this.goodDetail = res;
         }).catch(err => {})
@@ -78,7 +78,9 @@
       },
       // 增加一个衣服数量
       addWashNum () {
-        this.washNumber++;
+        if (++this.washNumber > 8) {
+          this.washNumber = 8;
+        }
       },
       // 点击下单
       goOrder () {

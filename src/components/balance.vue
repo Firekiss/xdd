@@ -25,8 +25,9 @@
       <span v-if=" type === 'deliver' ">提现</span>
       <span v-else>充值</span>
     </div>
-    <div class="next-btn flex-centers" style="margin-top: 1.0rem;" @click="goExpenseHistory">
-      <span>消费记录</span>
+    <div class="next-btn flex-centers" style="margin-top: 1.0rem;" @click.stop="goExpenseHistory">
+      <span v-if=" type === 'deliver' ">收支记录</span>
+      <span v-else>消费记录</span>
     </div>
   </div>
 </template>
@@ -69,7 +70,10 @@
       goExpenseHistory () {
         let goUrlParam = {
           hashUrl: 'expenseHistory',
-          getThis: this
+          getThis: this,
+          params: {
+            type: this.type === 'deliver' ? 'deliver' : '',
+          }
         };
         goUrl(goUrlParam);
       },

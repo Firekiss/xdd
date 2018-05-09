@@ -1,6 +1,6 @@
 <template>
   <div class="user-info">
-    <div class="user-base-info border-bottom-1px">
+    <div class="user-base-info">
       <div class="avatar-wrapper">
         <img :src="personalInfo.user_image_url" v-if="personalInfo.user_image_url" class="avatar">
       </div>
@@ -13,6 +13,12 @@
       </div>
       <div class="scanner" @click.stop="scanner">
         <img src="../assets/scanner-icon.png">
+      </div>
+    </div>
+    <div class="accounts flex border-bottom-1px" v-if="robInfo && robInfo.accountItems">
+      <div class="account-item flex" v-for="(item, $index) in robInfo.accountItems" :key="$index">
+        <div class="accountName">{{ item.accountName }}</div>
+        <div class="accountNum">{{ item.accountNum }}</div>
       </div>
     </div>
 

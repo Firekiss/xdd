@@ -1,7 +1,10 @@
 <template>
   <div class="expenseHistory" :style="{'-webkit-overflow-scrolling': scrollMode}">
     <mt-navbar v-model="selected">
-      <mt-tab-item id="0">我的消费记录</mt-tab-item>
+      <mt-tab-item id="0">
+        <span v-if=" type === 'deliver' ">我的收支记录</span>
+        <span v-else>我的消费记录</span>
+      </mt-tab-item>
       <mt-tab-item id="1">下级充值记录</mt-tab-item>
     </mt-navbar>
 
@@ -69,7 +72,8 @@
       return {
         selected: '0',
         walletList: [],
-        scrollMode: 'touch'
+        scrollMode: 'touch',
+        type: Request('type'),
       }
     },
     components: {
@@ -86,8 +90,9 @@
     methods: {
       getWalletList () {
         httpService.get(httpServiceUrl.walletList, {
-          user_id: window.wxUserData.user_id,
-          record_type: this.selected
+          user_id: this.type === 'deliver' ? window.wxUserData.rubber_id : window.wxUserData.user_id,
+          record_type: this.selected,
+          user_type: this.type === 'deliver' ? 0 : 1,
         }).then(res => {
           this.walletList = res.walletItems;
           this.$nextTick(() => {

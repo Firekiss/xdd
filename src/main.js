@@ -165,13 +165,14 @@ function getOpenid(code) {
 
 router.beforeEach((to, from, next) => {
   // window.openid = 'o1SGg0pvxyEdkQriGMKdl8qm95Hk';
-  
+
   // window.jsapi_ticket = 'HoagFKDcsGMVCIY2vOjf9nSMHu4NuvPgPA-CNdV_WcGK0WzK4EQCOZ3uJU6iilxbAAEcVUyn0luUYCsNqdGU1A';
   // window.openid = 'o1SGg0tcrZQ3zCBESPja6CY3-Fok'; //jj
   // let code = '001O0hXR1uQSK61tNe1S1KotXR1O0hXM';
 
 
   // window.openid = 'o1SGg0oogq7X27qURVtFWqZNsAS0';
+  // window.openid = 'o1SGg0jCIy_wauwr6Y0eH9qFvRMM';
 
   if (!window.openid && !Request('openid')) {
     let code = getQueryString('code');
@@ -203,6 +204,7 @@ router.beforeEach((to, from, next) => {
           next();
         });
       }, function () {
+        console.log('闪一下到注册页面');
         let invite_code = Request('invite_code');
         console.log('用户尚未注册，跳转注册页');
         console.log('邀请码 >>>', invite_code);

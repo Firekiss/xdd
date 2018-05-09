@@ -144,4 +144,30 @@
       }
     }
   }
+
+  .accounts{
+    background-color: $white;
+    padding-bottom: .5rem;
+
+    .account-item{
+      flex: 1;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-right: 1px solid #ccc;
+
+      &:last-child{
+        border-right: none;
+      }
+
+      .accountName{
+        padding: .4rem 0;
+        font-size: .8rem;
+      }
+
+      .accountNum{
+        font-size: 1.0rem;
+      }
+    }
+  }
 }

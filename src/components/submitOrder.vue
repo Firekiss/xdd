@@ -160,7 +160,7 @@ export default {
   computed: {
     realityMoney() {
       let money = (this.price * 1000  - this.ticketMoney * 1000) / 1000;
-      return money > 0 ? money : 0;
+      return money > 0 ? money : 0.01;
     }
   },
   mounted() {
@@ -202,6 +202,7 @@ export default {
         Toast(err.msg || '获取订单详情数据失败');
       })
     },
+
     // 点击立即下单
     createOrder() {
       let params = {
@@ -318,7 +319,7 @@ export default {
       } else {
         console.log("选择余额支付");
 
-        MessageBox.prompt('请输入支付密码', '', {
+        MessageBox.prompt(`¥${this.realityMoney}`, '请输入支付密码', {
           inputType: 'password'
         }).then(({ value, action }) => {
           if (action === 'confirm') {

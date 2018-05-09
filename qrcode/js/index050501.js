@@ -18,7 +18,7 @@ $(function(){
     }
   };
 
-  // 生成二维码的方法 
+  // 生成二维码的方法
   function createQRcode(url, width) {
     return new QRCode('qrcode', {
       text: url,
@@ -29,11 +29,25 @@ $(function(){
     })
   }
 
+  function pushHistory () {
+    var state = {
+      title: "",
+      url: "#"
+    };
+    window.history.pushState(state, "title", "#");
+  }
+
   // 主函数
   function main () {
     var openId = window.openId;
     var code = methods.getQueryString('code');
     var width = els.qrcode.css('width').replace('px', '');
+
+    pushHistory();
+
+    window.addEventListener("popstate", function(){
+      WeixinJSBridge.call('closeWindow');
+    }, false);
 
     if (!code) {
       window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx950fa5385b73d05b&redirect_uri=http%3a%2f%2fwww.njtyxxkj.com%2fqrcode%2findex.html&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
@@ -62,7 +76,7 @@ $(function(){
       });
     }
   }
-  
+
   // new VConsole();
   main();
 })
